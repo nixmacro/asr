@@ -14,3 +14,4 @@ access_log-indexes [access_log-table] 2015-09-22T06:11:08Z Carlos Ramos <carrago
 user_site_hourly-table 2015-09-22T05:57:59Z Carlos Ramos <carragom@gmail.com> # Create user_site_hourly table.
 user_site_hourly-indexes [user_site_hourly-table] 2015-09-22T06:15:36Z Carlos Ramos <carragom@gmail.com> # Create user_site_hourly indexes.
 materialize_user_site_hourly [user_site_hourly-table access_log-table] 2015-09-22T06:35:29Z Carlos Ramos <carragom@gmail.com> # Create materialize_user_site_hourly procedure.
+tag-table [setmodified user_site_hourly-table] 2016-07-31T16:10:27Z Carlos Ramos <cramos@albatros-tech.net> # Create tag table.
