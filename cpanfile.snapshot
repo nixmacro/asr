@@ -16,60 +16,60 @@ DISTRIBUTIONS
       Algorithm::Diff::_impl 1.1903
     requirements:
       ExtUtils::MakeMaker 0
-  App-Sqitch-0.9994
-    pathname: D/DW/DWHEELER/App-Sqitch-0.9994.tar.gz
+  App-Sqitch-0.9995
+    pathname: D/DW/DWHEELER/App-Sqitch-0.9995.tar.gz
     provides:
-      App::Sqitch 0.9994
-      App::Sqitch::Command 0.9994
-      App::Sqitch::Command::add 0.9994
-      App::Sqitch::Command::bundle 0.9994
-      App::Sqitch::Command::checkout 0.9994
-      App::Sqitch::Command::config 0.9994
-      App::Sqitch::Command::deploy 0.9994
-      App::Sqitch::Command::engine 0.9994
-      App::Sqitch::Command::help 0.9994
-      App::Sqitch::Command::init 0.9994
-      App::Sqitch::Command::log 0.9994
-      App::Sqitch::Command::plan 0.9994
-      App::Sqitch::Command::rebase 0.9994
-      App::Sqitch::Command::revert 0.9994
-      App::Sqitch::Command::rework 0.9994
-      App::Sqitch::Command::show 0.9994
-      App::Sqitch::Command::status 0.9994
-      App::Sqitch::Command::tag 0.9994
-      App::Sqitch::Command::target 0.9994
-      App::Sqitch::Command::upgrade 0.9994
-      App::Sqitch::Command::verify 0.9994
-      App::Sqitch::Config 0.9994
-      App::Sqitch::DateTime 0.9994
-      App::Sqitch::Engine 0.9994
-      App::Sqitch::Engine::firebird 0.9994
-      App::Sqitch::Engine::mysql 0.9994
-      App::Sqitch::Engine::oracle 0.9994
-      App::Sqitch::Engine::pg 0.9994
-      App::Sqitch::Engine::sqlite 0.9994
-      App::Sqitch::Engine::vertica 0.9994
-      App::Sqitch::ItemFormatter 0.9994
-      App::Sqitch::Plan 0.9994
-      App::Sqitch::Plan::Blank 0.9994
+      App::Sqitch 0.9995
+      App::Sqitch::Command 0.9995
+      App::Sqitch::Command::add 0.9995
+      App::Sqitch::Command::bundle 0.9995
+      App::Sqitch::Command::checkout 0.9995
+      App::Sqitch::Command::config 0.9995
+      App::Sqitch::Command::deploy 0.9995
+      App::Sqitch::Command::engine 0.9995
+      App::Sqitch::Command::help 0.9995
+      App::Sqitch::Command::init 0.9995
+      App::Sqitch::Command::log 0.9995
+      App::Sqitch::Command::plan 0.9995
+      App::Sqitch::Command::rebase 0.9995
+      App::Sqitch::Command::revert 0.9995
+      App::Sqitch::Command::rework 0.9995
+      App::Sqitch::Command::show 0.9995
+      App::Sqitch::Command::status 0.9995
+      App::Sqitch::Command::tag 0.9995
+      App::Sqitch::Command::target 0.9995
+      App::Sqitch::Command::upgrade 0.9995
+      App::Sqitch::Command::verify 0.9995
+      App::Sqitch::Config 0.9995
+      App::Sqitch::DateTime 0.9995
+      App::Sqitch::Engine 0.9995
+      App::Sqitch::Engine::firebird 0.9995
+      App::Sqitch::Engine::mysql 0.9995
+      App::Sqitch::Engine::oracle 0.9995
+      App::Sqitch::Engine::pg 0.9995
+      App::Sqitch::Engine::sqlite 0.9995
+      App::Sqitch::Engine::vertica 0.9995
+      App::Sqitch::ItemFormatter 0.9995
+      App::Sqitch::Plan 0.9995
+      App::Sqitch::Plan::Blank 0.9995
       App::Sqitch::Plan::Change 0.970
       App::Sqitch::Plan::ChangeList 0.970
-      App::Sqitch::Plan::Depend 0.9994
-      App::Sqitch::Plan::Line 0.9994
-      App::Sqitch::Plan::LineList 0.9994
-      App::Sqitch::Plan::Pragma 0.9994
-      App::Sqitch::Plan::Tag 0.9994
-      App::Sqitch::Role::DBIEngine 0.9994
-      App::Sqitch::Role::RevertDeployCommand 0.9994
+      App::Sqitch::Plan::Depend 0.9995
+      App::Sqitch::Plan::Line 0.9995
+      App::Sqitch::Plan::LineList 0.9995
+      App::Sqitch::Plan::Pragma 0.9995
+      App::Sqitch::Plan::Tag 0.9995
+      App::Sqitch::Role::DBIEngine 0.9995
+      App::Sqitch::Role::RevertDeployCommand 0.9995
       App::Sqitch::Role::TargetConfigCommand undef
       App::Sqitch::Target undef
       App::Sqitch::Types undef
-      App::Sqitch::X 0.9994
+      App::Sqitch::X 0.9995
     requirements:
       Clone 0
       Config::GitLike 1.11
       DBI 0
-      DateTime 0
+      DateTime 1.04
       DateTime::TimeZone 0
       Devel::StackTrace 1.30
       Digest::SHA 0
@@ -96,6 +96,7 @@ DISTRIBUTIONS
       POSIX 0
       Path::Class 0.33
       PerlIO::utf8_strict 0
+      Pod::Escapes 1.04
       Pod::Find 0
       Pod::Usage 0
       Scalar::Util 0
@@ -152,6 +153,19 @@ DISTRIBUTIONS
       Test::More 0
       parent 0
       perl 5.008001
+  B-Hooks-OP-PPAddr-0.05
+    pathname: E/ET/ETHER/B-Hooks-OP-PPAddr-0.05.tar.gz
+    provides:
+      B::Hooks::OP::PPAddr 0.05
+      B::Hooks::OP::PPAddr::Install::Files undef
+    requirements:
+      DynaLoader 0
+      ExtUtils::Depends 0.302
+      ExtUtils::MakeMaker 0
+      parent 0
+      perl 5.006
+      strict 0
+      warnings 0
   Bit-Vector-7.4
     pathname: S/ST/STBEY/Bit-Vector-7.4.tar.gz
     provides:
@@ -215,10 +229,10 @@ DISTRIBUTIONS
       strict 0
       version 0.88
       warnings 0
-  Capture-Tiny-0.42
-    pathname: D/DA/DAGOLDEN/Capture-Tiny-0.42.tar.gz
+  Capture-Tiny-0.44
+    pathname: D/DA/DAGOLDEN/Capture-Tiny-0.44.tar.gz
     provides:
-      Capture::Tiny 0.42
+      Capture::Tiny 0.44
     requirements:
       Carp 0
       Exporter 0
@@ -826,6 +840,26 @@ DISTRIBUTIONS
       DateTime::Format::SQLite 0
       ExtUtils::MakeMaker 6.42
       FormValidator::Simple 0.17
+  DBIx-Error-1.0.1
+    pathname: M/MC/MCB/DBIx-Error-1.0.1.tar.gz
+    provides:
+      DBIx::Error 1.000001
+    requirements:
+      DBD::SQLite 0
+      DBI 0
+      DBIx::Class 0
+      DBIx::Class::Schema 0
+      ExtUtils::MakeMaker 6.42
+      File::Spec::Functions 0
+      FindBin 0
+      Moose 0
+      MooseX::StrictConstructor 0
+      Test::Exception 0
+      Test::Moose 0
+      Test::More 0
+      Throwable::Error 0
+      namespace::autoclean 0
+      perl 5.010
   DBIx-Introspector-0.001005
     pathname: F/FR/FREW/DBIx-Introspector-0.001005.tar.gz
     provides:
@@ -984,18 +1018,18 @@ DISTRIBUTIONS
       Bit::Vector 7.4
       Carp::Clan 6.04
       ExtUtils::MakeMaker 0
-  DateTime-1.34
-    pathname: D/DR/DROLSKY/DateTime-1.34.tar.gz
+  DateTime-1.36
+    pathname: D/DR/DROLSKY/DateTime-1.36.tar.gz
     provides:
-      DateTime 1.34
-      DateTime::Duration 1.34
-      DateTime::Helpers 1.34
-      DateTime::Infinite 1.34
-      DateTime::Infinite::Future 1.34
-      DateTime::Infinite::Past 1.34
-      DateTime::LeapSecond 1.34
-      DateTime::PP 1.34
-      DateTime::PPExtra 1.34
+      DateTime 1.36
+      DateTime::Duration 1.36
+      DateTime::Helpers 1.36
+      DateTime::Infinite 1.36
+      DateTime::Infinite::Future 1.36
+      DateTime::Infinite::Past 1.36
+      DateTime::LeapSecond 1.36
+      DateTime::PP 1.36
+      DateTime::PPExtra 1.36
     requirements:
       Carp 0
       DateTime::Locale 1.05
@@ -1010,10 +1044,10 @@ DISTRIBUTIONS
       base 0
       constant 0
       integer 0
+      namespace::autoclean 0.19
       overload 0
       perl 5.008001
       strict 0
-      vars 0
       warnings 0
       warnings::register 0
   DateTime-Format-Builder-0.81
@@ -1482,6 +1516,21 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  Devel-Declare-0.006018
+    pathname: E/ET/ETHER/Devel-Declare-0.006018.tar.gz
+    provides:
+      Devel::Declare 0.006018
+      Devel::Declare::Context::Simple 0.006018
+      Devel::Declare::MethodInstaller::Simple 0.006018
+    requirements:
+      B::Hooks::EndOfScope 0.05
+      B::Hooks::OP::Check 0.19
+      ExtUtils::Depends 0.302
+      Scalar::Util 1.11
+      Sub::Name 0
+      Test::More 0.88
+      Test::Requires 0
+      perl 5.008001
   Devel-GlobalDestruction-0.13
     pathname: H/HA/HAARG/Devel-GlobalDestruction-0.13.tar.gz
     provides:
@@ -1504,6 +1553,20 @@ DISTRIBUTIONS
       Sub::Identify 0
       overload 0
       perl 5.006
+      strict 0
+      warnings 0
+  Devel-PartialDump-0.18
+    pathname: E/ET/ETHER/Devel-PartialDump-0.18.tar.gz
+    provides:
+      Devel::PartialDump 0.18
+    requirements:
+      Carp 0
+      Class::Tiny 0
+      ExtUtils::MakeMaker 0
+      Scalar::Util 0
+      Sub::Exporter 0
+      namespace::clean 0.19
+      perl 5.006001
       strict 0
       warnings 0
   Devel-StackTrace-2.01
@@ -1530,10 +1593,10 @@ DISTRIBUTIONS
       Digest::SHA 1
       ExtUtils::MakeMaker 0
       perl 5.004
-  Digest-SHA3-0.24
-    pathname: M/MS/MSHELOR/Digest-SHA3-0.24.tar.gz
+  Digest-SHA3-0.25
+    pathname: M/MS/MSHELOR/Digest-SHA3-0.25.tar.gz
     provides:
-      Digest::SHA3 0.24
+      Digest::SHA3 0.25
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.003
@@ -1704,14 +1767,19 @@ DISTRIBUTIONS
       File::Spec 0.80
       perl 5.008001
       warnings 0
-  File-ShareDir-Install-0.10
-    pathname: G/GW/GWYN/File-ShareDir-Install-0.10.tar.gz
+  File-ShareDir-Install-0.11
+    pathname: E/ET/ETHER/File-ShareDir-Install-0.11.tar.gz
     provides:
-      File::ShareDir::Install 0.10
+      File::ShareDir::Install 0.11
     requirements:
-      ExtUtils::MakeMaker 6.11
+      Carp 0
+      Exporter 0
       File::Spec 0
       IO::Dir 0
+      Module::Build::Tiny 0.034
+      perl 5.008
+      strict 0
+      warnings 0
   File-Slurp-9999.19
     pathname: U/UR/URI/File-Slurp-9999.19.tar.gz
     provides:
@@ -1835,6 +1903,19 @@ DISTRIBUTIONS
       Clone 0
       ExtUtils::MakeMaker 0
       perl 5.008001
+  Hook-LexWrap-0.25
+    pathname: E/ET/ETHER/Hook-LexWrap-0.25.tar.gz
+    provides:
+      Hook::LexWrap 0.25
+      Hook::LexWrap::Cleanup 0.25
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Module::Build::Tiny 0.039
+      overload 0
+      perl 5.006
+      strict 0
+      warnings 0
   IO-HTML-1.001
     pathname: C/CJ/CJM/IO-HTML-1.001.tar.gz
     provides:
@@ -1882,14 +1963,20 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  IO-Socket-IP-0.37
-    pathname: P/PE/PEVANS/IO-Socket-IP-0.37.tar.gz
+  IO-Socket-IP-0.38
+    pathname: P/PE/PEVANS/IO-Socket-IP-0.38.tar.gz
     provides:
-      IO::Socket::IP 0.37
+      IO::Socket::IP 0.38
     requirements:
       IO::Socket 0
       Socket 1.97
       Test::More 0.88
+  IO-String-1.08
+    pathname: G/GA/GAAS/IO-String-1.08.tar.gz
+    provides:
+      IO::String 1.08
+    requirements:
+      ExtUtils::MakeMaker 0
   IPC-Run3-0.048
     pathname: R/RJ/RJBS/IPC-Run3-0.048.tar.gz
     provides:
@@ -1954,6 +2041,15 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
+  JSON-PP-2.27400
+    pathname: M/MA/MAKAMAKA/JSON-PP-2.27400.tar.gz
+    provides:
+      JSON::PP 2.27400
+      JSON::PP::Boolean 2.27400
+      JSON::PP::IncrParser 2.27400
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   LWP-MediaTypes-6.02
     pathname: G/GA/GAAS/LWP-MediaTypes-6.02.tar.gz
     provides:
@@ -1971,10 +2067,10 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Lingua-EN-Inflect-1.899
-    pathname: D/DC/DCONWAY/Lingua-EN-Inflect-1.899.tar.gz
+  Lingua-EN-Inflect-1.900
+    pathname: D/DC/DCONWAY/Lingua-EN-Inflect-1.900.tar.gz
     provides:
-      Lingua::EN::Inflect 1.899
+      Lingua::EN::Inflect 1.900
     requirements:
       Test::More 0
   List-MoreUtils-0.416
@@ -2307,8 +2403,8 @@ DISTRIBUTIONS
       Text::ParseWords 0
       perl 5.008001
       version 0
-  Mojolicious-7.0
-    pathname: S/SR/SRI/Mojolicious-7.0.tar.gz
+  Mojolicious-7.01
+    pathname: S/SR/SRI/Mojolicious-7.01.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2371,7 +2467,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 7.0
+      Mojolicious 7.01
       Mojolicious::Command undef
       Mojolicious::Command::cgi undef
       Mojolicious::Command::cpanify undef
@@ -2835,6 +2931,93 @@ DISTRIBUTIONS
       parent 0.223
       strict 1.03
       warnings 1.03
+  MooseX-StrictConstructor-0.19
+    pathname: D/DR/DROLSKY/MooseX-StrictConstructor-0.19.tar.gz
+    provides:
+      MooseX::StrictConstructor 0.19
+      MooseX::StrictConstructor::Trait::Class 0.19
+      MooseX::StrictConstructor::Trait::Method::Constructor 0.19
+    requirements:
+      B 0
+      ExtUtils::MakeMaker 6.30
+      Moose 0.94
+      Moose::Exporter 0
+      Moose::Role 0
+      Moose::Util::MetaRole 0
+      Test::Fatal 0
+      Test::Moose 0
+      Test::More 0.88
+      namespace::autoclean 0
+      strict 0
+      warnings 0
+  MooseX-Traits-0.13
+    pathname: E/ET/ETHER/MooseX-Traits-0.13.tar.gz
+    provides:
+      MooseX::Traits 0.13
+      MooseX::Traits::Util 0.13
+    requirements:
+      Carp 0
+      Class::Load 0
+      Module::Build::Tiny 0.007
+      Moose::Role 0
+      Sub::Exporter 0
+      namespace::autoclean 0
+      perl 5.006
+      strict 0
+      warnings 0
+      warnings::register 0
+  MooseX-Types-0.46
+    pathname: E/ET/ETHER/MooseX-Types-0.46.tar.gz
+    provides:
+      MooseX::Types 0.46
+      MooseX::Types::Base 0.46
+      MooseX::Types::CheckedUtilExports 0.46
+      MooseX::Types::Combine 0.46
+      MooseX::Types::Moose 0.46
+      MooseX::Types::TypeDecorator 0.46
+      MooseX::Types::UndefinedType 0.46
+      MooseX::Types::Util 0.46
+      MooseX::Types::Wrapper 0.46
+    requirements:
+      Carp 0
+      Carp::Clan 6.00
+      Exporter 0
+      Module::Build::Tiny 0.007
+      Module::Runtime 0
+      Moose 1.06
+      Moose::Exporter 0
+      Moose::Meta::TypeConstraint::Union 0
+      Moose::Util::TypeConstraints 0
+      Scalar::Util 1.19
+      Sub::Exporter 0
+      Sub::Exporter::ForMethods 0.100052
+      Sub::Name 0
+      base 0
+      namespace::autoclean 0.16
+      overload 0
+      perl 5.008
+      strict 0
+      warnings 0
+  MooseX-Types-Structured-0.35
+    pathname: E/ET/ETHER/MooseX-Types-Structured-0.35.tar.gz
+    provides:
+      MooseX::Types::Structured 0.35
+    requirements:
+      Devel::PartialDump 0.13
+      JSON::PP 2.27300
+      Module::Build::Tiny 0.034
+      Moose 0
+      Moose::Meta::TypeCoercion 0
+      Moose::Meta::TypeConstraint 0
+      Moose::Meta::TypeConstraint::Parameterizable 0
+      Moose::Util::TypeConstraints 1.06
+      MooseX::Types 0.22
+      Scalar::Util 0
+      Sub::Exporter 0.982
+      if 0
+      namespace::clean 0.19
+      overload 0
+      perl 5.008
   Net-DNS-1.06
     pathname: N/NL/NLNETLABS/Net-DNS-1.06.tar.gz
     provides:
@@ -2952,6 +3135,121 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
+  PPI-1.220
+    pathname: M/MI/MITHALDU/PPI-1.220.tar.gz
+    provides:
+      PPI 1.220
+      PPI::Cache 1.220
+      PPI::Document 1.220
+      PPI::Document::File 1.220
+      PPI::Document::Fragment 1.220
+      PPI::Document::Normalized 1.220
+      PPI::Dumper 1.220
+      PPI::Element 1.220
+      PPI::Exception 1.220
+      PPI::Exception::ParserRejection 1.220
+      PPI::Exception::ParserTimeout 1.220
+      PPI::Find 1.220
+      PPI::Lexer 1.220
+      PPI::Node 1.220
+      PPI::Normal 1.220
+      PPI::Normal::Standard 1.220
+      PPI::Statement 1.220
+      PPI::Statement::Break 1.220
+      PPI::Statement::Compound 1.220
+      PPI::Statement::Data 1.220
+      PPI::Statement::End 1.220
+      PPI::Statement::Expression 1.220
+      PPI::Statement::Given 1.220
+      PPI::Statement::Include 1.220
+      PPI::Statement::Include::Perl6 1.220
+      PPI::Statement::Null 1.220
+      PPI::Statement::Package 1.220
+      PPI::Statement::Scheduled 1.220
+      PPI::Statement::Sub 1.220
+      PPI::Statement::Unknown 1.220
+      PPI::Statement::UnmatchedBrace 1.220
+      PPI::Statement::Variable 1.220
+      PPI::Statement::When 1.220
+      PPI::Structure 1.220
+      PPI::Structure::Block 1.220
+      PPI::Structure::Condition 1.220
+      PPI::Structure::Constructor 1.220
+      PPI::Structure::For 1.220
+      PPI::Structure::Given 1.220
+      PPI::Structure::List 1.220
+      PPI::Structure::Subscript 1.220
+      PPI::Structure::Unknown 1.220
+      PPI::Structure::When 1.220
+      PPI::Token 1.220
+      PPI::Token::ArrayIndex 1.220
+      PPI::Token::Attribute 1.220
+      PPI::Token::BOM 1.220
+      PPI::Token::Cast 1.220
+      PPI::Token::Comment 1.220
+      PPI::Token::DashedWord 1.220
+      PPI::Token::Data 1.220
+      PPI::Token::End 1.220
+      PPI::Token::HereDoc 1.220
+      PPI::Token::Label 1.220
+      PPI::Token::Magic 1.220
+      PPI::Token::Number 1.220
+      PPI::Token::Number::Binary 1.220
+      PPI::Token::Number::Exp 1.220
+      PPI::Token::Number::Float 1.220
+      PPI::Token::Number::Hex 1.220
+      PPI::Token::Number::Octal 1.220
+      PPI::Token::Number::Version 1.220
+      PPI::Token::Operator 1.220
+      PPI::Token::Pod 1.220
+      PPI::Token::Prototype 1.220
+      PPI::Token::Quote 1.220
+      PPI::Token::Quote::Double 1.220
+      PPI::Token::Quote::Interpolate 1.220
+      PPI::Token::Quote::Literal 1.220
+      PPI::Token::Quote::Single 1.220
+      PPI::Token::QuoteLike 1.220
+      PPI::Token::QuoteLike::Backtick 1.220
+      PPI::Token::QuoteLike::Command 1.220
+      PPI::Token::QuoteLike::Readline 1.220
+      PPI::Token::QuoteLike::Regexp 1.220
+      PPI::Token::QuoteLike::Words 1.220
+      PPI::Token::Regexp 1.220
+      PPI::Token::Regexp::Match 1.220
+      PPI::Token::Regexp::Substitute 1.220
+      PPI::Token::Regexp::Transliterate 1.220
+      PPI::Token::Separator 1.220
+      PPI::Token::Structure 1.220
+      PPI::Token::Symbol 1.220
+      PPI::Token::Unknown 1.220
+      PPI::Token::Whitespace 1.220
+      PPI::Token::Word 1.220
+      PPI::Token::_QuoteEngine 1.220
+      PPI::Token::_QuoteEngine::Full 1.220
+      PPI::Token::_QuoteEngine::Simple 1.220
+      PPI::Tokenizer 1.220
+      PPI::Transform 1.220
+      PPI::Transform::UpdateCopyright 1.220
+      PPI::Util 1.220
+      PPI::XSAccessor 1.220
+    requirements:
+      Class::Inspector 1.22
+      Clone 0.30
+      Digest::MD5 2.35
+      ExtUtils::MakeMaker 6.59
+      File::Remove 1.42
+      File::Spec 0.84
+      IO::String 1.07
+      List::MoreUtils 0.16
+      List::Util 1.20
+      Params::Util 1.00
+      Storable 2.17
+      Task::Weaken 0
+      Test::More 0.86
+      Test::NoWarnings 0.084
+      Test::Object 0.07
+      Test::SubCalls 1.07
+      perl 5.006
   Package-DeprecationManager-0.17
     pathname: D/DR/DROLSKY/Package-DeprecationManager-0.17.tar.gz
     provides:
@@ -3036,6 +3334,37 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  Parse-Method-Signatures-1.003017
+    pathname: K/KE/KENTNL/Parse-Method-Signatures-1.003017.tar.gz
+    provides:
+      Parse::Method::Signatures 1.003017
+      Parse::Method::Signatures::Param undef
+      Parse::Method::Signatures::Param::Bindable undef
+      Parse::Method::Signatures::Param::Named undef
+      Parse::Method::Signatures::Param::Placeholder undef
+      Parse::Method::Signatures::Param::Positional undef
+      Parse::Method::Signatures::Param::Unpacked undef
+      Parse::Method::Signatures::Param::Unpacked::Array undef
+      Parse::Method::Signatures::Param::Unpacked::Hash undef
+      Parse::Method::Signatures::ParamCollection undef
+      Parse::Method::Signatures::Sig undef
+      Parse::Method::Signatures::TypeConstraint undef
+      Parse::Method::Signatures::Types undef
+    requirements:
+      Class::Load 0.19
+      ExtUtils::MakeMaker 6.36
+      List::MoreUtils 0.20
+      Moose 0
+      MooseX::Traits 0.06
+      MooseX::Types 0.17
+      MooseX::Types::Moose 0
+      MooseX::Types::Structured 0
+      PPI 1.203
+      Test::Differences 0
+      Test::Exception 0
+      Test::More 0
+      aliased 0
+      namespace::clean 0.10
   Parse-RecDescent-1.967013
     pathname: J/JT/JTBRAUN/Parse-RecDescent-1.967013.tar.gz
     provides:
@@ -3371,6 +3700,19 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.006001
+  Scope-Upper-0.29
+    pathname: V/VP/VPIT/Scope-Upper-0.29.tar.gz
+    provides:
+      Scope::Upper 0.29
+    requirements:
+      Config 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      POSIX 0
+      Test::More 0
+      XSLoader 0
+      base 0
+      perl 5.006001
   Socket6-0.28
     pathname: U/UM/UMEMOTO/Socket6-0.28.tar.gz
     provides:
@@ -3414,6 +3756,17 @@ DISTRIBUTIONS
       Sub::Install 0.92
       strict 0
       warnings 0
+  Sub-Exporter-ForMethods-0.100052
+    pathname: R/RJ/RJBS/Sub-Exporter-ForMethods-0.100052.tar.gz
+    provides:
+      Sub::Exporter::ForMethods 0.100052
+    requirements:
+      ExtUtils::MakeMaker 0
+      Scalar::Util 0
+      Sub::Exporter 0.978
+      Sub::Name 0
+      strict 0
+      warnings 0
   Sub-Exporter-Progressive-0.001011
     pathname: F/FR/FREW/Sub-Exporter-Progressive-0.001011.tar.gz
     provides:
@@ -3450,10 +3803,10 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Sub-Uplevel-0.25
-    pathname: D/DA/DAGOLDEN/Sub-Uplevel-0.25.tar.gz
+  Sub-Uplevel-0.2600
+    pathname: D/DA/DAGOLDEN/Sub-Uplevel-0.2600.tar.gz
     provides:
-      Sub::Uplevel 0.25
+      Sub::Uplevel 0.2600
     requirements:
       Carp 0
       ExtUtils::MakeMaker 6.17
@@ -3575,6 +3928,32 @@ DISTRIBUTIONS
       Try::Tiny 0.07
       strict 0
       warnings 0
+  Test-NoWarnings-1.04
+    pathname: A/AD/ADAMK/Test-NoWarnings-1.04.tar.gz
+    provides:
+      Test::NoWarnings 1.04
+      Test::NoWarnings::Warning 1.04
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::Builder 0.86
+      Test::More 0.47
+      Test::Tester 0.107
+      perl 5.006
+  Test-Object-0.07
+    pathname: A/AD/ADAMK/Test-Object-0.07.tar.gz
+    provides:
+      Test::Object 0.07
+      Test::Object::Test 0.07
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      File::Spec 0.80
+      Scalar::Util 1.16
+      Test::Builder 0.33
+      Test::Builder::Tester 1.02
+      Test::More 0.42
+      overload 0
   Test-Requires-0.10
     pathname: T/TO/TOKUHIROM/Test-Requires-0.10.tar.gz
     provides:
@@ -3584,56 +3963,56 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.47
       perl 5.006
-  Test-Simple-1.302047
-    pathname: E/EX/EXODIST/Test-Simple-1.302047.tar.gz
+  Test-Simple-1.302049
+    pathname: E/EX/EXODIST/Test-Simple-1.302049.tar.gz
     provides:
-      Test2 1.302047
-      Test2::API 1.302047
-      Test2::API::Breakage 1.302047
-      Test2::API::Context 1.302047
-      Test2::API::Instance 1.302047
-      Test2::API::Stack 1.302047
-      Test2::Event 1.302047
-      Test2::Event::Bail 1.302047
-      Test2::Event::Diag 1.302047
-      Test2::Event::Exception 1.302047
-      Test2::Event::Generic 1.302047
-      Test2::Event::Info 1.302047
-      Test2::Event::Note 1.302047
-      Test2::Event::Ok 1.302047
-      Test2::Event::Plan 1.302047
-      Test2::Event::Skip 1.302047
-      Test2::Event::Subtest 1.302047
-      Test2::Event::Waiting 1.302047
-      Test2::Formatter 1.302047
-      Test2::Formatter::TAP 1.302047
-      Test2::Hub 1.302047
-      Test2::Hub::Interceptor 1.302047
-      Test2::Hub::Interceptor::Terminator 1.302047
-      Test2::Hub::Subtest 1.302047
-      Test2::IPC 1.302047
-      Test2::IPC::Driver 1.302047
-      Test2::IPC::Driver::Files 1.302047
-      Test2::Util 1.302047
-      Test2::Util::ExternalMeta 1.302047
-      Test2::Util::HashBase 1.302047
-      Test2::Util::Trace 1.302047
-      Test::Builder 1.302047
-      Test::Builder::Formatter 1.302047
+      Test2 1.302049
+      Test2::API 1.302049
+      Test2::API::Breakage 1.302049
+      Test2::API::Context 1.302049
+      Test2::API::Instance 1.302049
+      Test2::API::Stack 1.302049
+      Test2::Event 1.302049
+      Test2::Event::Bail 1.302049
+      Test2::Event::Diag 1.302049
+      Test2::Event::Exception 1.302049
+      Test2::Event::Generic 1.302049
+      Test2::Event::Info 1.302049
+      Test2::Event::Note 1.302049
+      Test2::Event::Ok 1.302049
+      Test2::Event::Plan 1.302049
+      Test2::Event::Skip 1.302049
+      Test2::Event::Subtest 1.302049
+      Test2::Event::Waiting 1.302049
+      Test2::Formatter 1.302049
+      Test2::Formatter::TAP 1.302049
+      Test2::Hub 1.302049
+      Test2::Hub::Interceptor 1.302049
+      Test2::Hub::Interceptor::Terminator 1.302049
+      Test2::Hub::Subtest 1.302049
+      Test2::IPC 1.302049
+      Test2::IPC::Driver 1.302049
+      Test2::IPC::Driver::Files 1.302049
+      Test2::Util 1.302049
+      Test2::Util::ExternalMeta 1.302049
+      Test2::Util::HashBase 1.302049
+      Test2::Util::Trace 1.302049
+      Test::Builder 1.302049
+      Test::Builder::Formatter 1.302049
       Test::Builder::IO::Scalar 2.113
-      Test::Builder::Module 1.302047
-      Test::Builder::Tester 1.302047
-      Test::Builder::Tester::Color 1.302047
-      Test::Builder::Tester::Tie 1.302047
-      Test::Builder::TodoDiag 1.302047
-      Test::More 1.302047
-      Test::Simple 1.302047
-      Test::Tester 1.302047
-      Test::Tester::Capture 1.302047
-      Test::Tester::CaptureRunner 1.302047
-      Test::Tester::Delegate 1.302047
-      Test::use::ok 1.302047
-      ok 1.302047
+      Test::Builder::Module 1.302049
+      Test::Builder::Tester 1.302049
+      Test::Builder::Tester::Color 1.302049
+      Test::Builder::Tester::Tie 1.302049
+      Test::Builder::TodoDiag 1.302049
+      Test::More 1.302049
+      Test::Simple 1.302049
+      Test::Tester 1.302049
+      Test::Tester::Capture 1.302049
+      Test::Tester::CaptureRunner 1.302049
+      Test::Tester::Delegate 1.302049
+      Test::use::ok 1.302049
+      ok 1.302049
     requirements:
       ExtUtils::MakeMaker 0
       File::Spec 0
@@ -3643,6 +4022,16 @@ DISTRIBUTIONS
       Storable 0
       perl 5.008001
       utf8 0
+  Test-SubCalls-1.09
+    pathname: A/AD/ADAMK/Test-SubCalls-1.09.tar.gz
+    provides:
+      Test::SubCalls 1.09
+    requirements:
+      ExtUtils::MakeMaker 6.42
+      File::Spec 0.80
+      Hook::LexWrap 0.20
+      Test::Builder::Tester 1.02
+      Test::More 0.42
   Test-Warn-0.30
     pathname: C/CH/CHORNY/Test-Warn-0.30.tar.gz
     provides:
@@ -3764,6 +4153,28 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  TryCatch-1.003002
+    pathname: A/AS/ASH/TryCatch-1.003002.tar.gz
+    provides:
+      TryCatch 1.003002
+    requirements:
+      B::Hooks::EndOfScope 0.12
+      B::Hooks::OP::Check 0.18
+      B::Hooks::OP::PPAddr 0.03
+      Devel::Declare 0.005007
+      ExtUtils::Depends 0.302
+      ExtUtils::MakeMaker 6.59
+      Moose 0
+      MooseX::Types 0
+      Parse::Method::Signatures 1.003012
+      Scope::Upper 0.06
+      Sub::Exporter 0.979
+      Test::Exception 0
+      Test::More 0.88
+      Variable::Magic 0.28
+      XSLoader 0
+      namespace::clean 0.20
+      perl 5.008001
   Type-Tiny-1.000005
     pathname: T/TO/TOBYINK/Type-Tiny-1.000005.tar.gz
     provides:
@@ -4109,6 +4520,17 @@ DISTRIBUTIONS
       Fcntl 0
       Scalar::Util 0
       perl 5.008001
+      strict 0
+      warnings 0
+  aliased-0.34
+    pathname: E/ET/ETHER/aliased-0.34.tar.gz
+    provides:
+      aliased 0.34
+    requirements:
+      Carp 0
+      Exporter 0
+      Module::Build::Tiny 0.039
+      perl 5.006
       strict 0
       warnings 0
   bareword-filehandles-0.004

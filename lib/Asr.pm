@@ -431,6 +431,7 @@ use Mojo::Base 'Mojolicious';
 use Mojolicious::Plugin::Database;
 use Mojolicious::Plugin::Authentication;
 
+use DBIx::Error;
 use Asr::Core::Auth;
 use Asr::Schema;
 
@@ -507,12 +508,12 @@ sub startup {
    #Authentication Routes
    my $auth_routes = $self->routes->under('/auth');
    $auth_routes->get('/logout')->to('auth#ajax_logout');
-   $auth_routes->get('/me')
-      ->over(authenticated => 1)
-      ->to('auth#me');
    $auth_routes->post('/login')
       ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
       ->to('auth#ajax_login');
+   $auth_routes->get('/me')
+      ->over(authenticated => 1)
+      ->to('auth#me');
    $auth_routes->post('/passwd')
       ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
       ->over(authenticated => 1)
@@ -524,35 +525,45 @@ sub startup {
 
    #Admin Routes
    my $admin_routes = $self->routes->under('/admin')->over(authenticated => 1);
-   $admin_routes->get('/')->to('admin#root')->name('root');
+   $admin_routes->get('/')->to('admin#root')->name('admin_root');
 
-   my $admin_users_routes = $admin_routes->get('/users')->name('users');
-   $admin_users_routes->get('/')->to('admin#users')->name('self');
-   $admin_users_routes->get(qr'/(\d+)')->to('admin#user')->name('user');
+   $admin_routes->get('/users')->to('admin#users');
+   $admin_routes->get('/users/:id' => [id => qr/\d+/])->to('admin#user');
+
+   #Admin Tag Routes
+   $admin_routes->get('/tags')
+      ->to('admin-tags#list')
+      ->name('admin-tags#list');
+   $admin_routes->post('/tags')
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-tags#create')
+      ->name('admin-tags#create');
+   $admin_routes->get('/tags/:id' => [id => qr/\d+/])
+      ->to('admin-tags#read')
+      ->name('admin-tags#read');
+   $admin_routes->delete('/tags/:id' => [id => qr/\d+/])
+      ->to('admin-tags#delete')
+      ->name('admin-tags#delete');
+   $admin_routes->put('/tags/:id' => [id => qr/\d+/])
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-tags#update')
+      ->name('admin-tags#update');
 
    #API Routes
    my $api_routes = $self->routes->under('/api')->over(authenticated => 1);
-   $api_routes->get('/')->to('api#root')->name('root');
+   $api_routes->get('/')->to('api#root')->name('api_root');
 
-   #API Admin Routes
-   my $api_admin_routes = $api_routes->get('/admin')->name('admin');
-   $api_admin_routes->get('/')->to('Admin#index')->name('self');
+   my $api_users_routes = $api_routes->get('/users');
+   $api_users_routes->get('/')->to('api#users')->name('api_users_root');
+   $api_users_routes->get('/search')->to('api#users_search')->name('users_search');
+   $api_users_routes->get('/search/findBySite')->to('api#find_by_site')->name('users_findBySite');
+   $api_users_routes->get('/search/findUser')->to('api#find_user')->name('users_findUser');
 
-   my $api_admin_users_routes = $api_admin_routes->get('/users')->name('users');
-   $api_admin_users_routes->get('/')->to('Admin::Users#list')->name('api_admin_users_get');
-   $api_admin_users_routes->get(qr'/users/(\d+)')->to('Admin::Users#read')->name('api_admin_user_get');
-
-   my $api_users_routes = $api_routes->get('/users')->name('users');
-   $api_users_routes->get('/')->to('api#users')->name('self');
-   $api_users_routes->get('/search')->to('api#users_search')->name('search');
-   $api_users_routes->get('/search/findBySite')->to('api#find_by_site')->name('findBySite');
-   $api_users_routes->get('/search/findUser')->to('api#find_user')->name('findUser');
-
-   my $api_sites_routes = $api_routes->get('/sites')->name('sites');
-   $api_sites_routes->get('/')->to('api#sites')->name('self');
-   $api_sites_routes->get('/search')->to('api#sites_search')->name('search');
-   $api_sites_routes->get('/search/findByUser')->to('api#find_by_user')->name('findByUser');
-   $api_sites_routes->get('/search/findSite')->to('api#find_site')->name('findSite');
+   my $api_sites_routes = $api_routes->get('/sites');
+   $api_sites_routes->get('/')->to('api#sites')->name('api_sites_root');
+   $api_sites_routes->get('/search')->to('api#sites_search')->name('sites_search');
+   $api_sites_routes->get('/search/findByUser')->to('api#find_by_user')->name('sites_findByUser');
+   $api_sites_routes->get('/search/findSite')->to('api#find_site')->name('sites_findSite');
 }
 
 sub _get_connection_options {
@@ -582,6 +593,8 @@ sub _get_connection_options {
 
    $options{name_sep} = '.';
    $options{RaiseError} = 1;
+   $options{HandleError} = DBIx::Error->HandleError;
+   $options{unsafe} = 1;
    $result{username} = $conf->{db}{username};
    $result{password} = $conf->{db}{password};
    $result{options} = \%options;

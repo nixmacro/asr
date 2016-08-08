@@ -2,7 +2,7 @@ use Mojo::Base;
 use Test::More;
 use Test::Mojo;
 
-plan tests => 122;
+plan tests => 124;
 
 my $t = Test::Mojo->new('Asr');
 my $schema = $t->app->schema;
@@ -54,7 +54,9 @@ $t->get_ok('/admin')
    ->json_has('/_links/roles/href')
    ->json_is('/_links/roles/templated' => Mojo::JSON::true)
    ->json_has('/_links/users/href')
-   ->json_is('/_links/users/templated' => Mojo::JSON::true);
+   ->json_is('/_links/users/templated' => Mojo::JSON::true)
+   ->json_has('/_links/tags/href')
+   ->json_is('/_links/tags/templated' => Mojo::JSON::true);
 
 $t->get_ok('/admin/users')
    ->status_is(200, 'got correct status code')
