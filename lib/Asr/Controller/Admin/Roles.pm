@@ -1,4 +1,4 @@
-package Asr::Controller::Admin::Users;
+package Asr::Controller::Admin::Roles;
 
 use Modern::Perl;
 use Mojo::Base 'Mojolicious::Controller';
@@ -12,10 +12,10 @@ sub list {
    my ($page_size, $page_index, $rs, $order);
    my $result = Data::HAL->new();
    my $links = [
-      {relation => 'self', templated => 1, href => '/admin/users', params => '{?size,index,sort}'}
+      {relation => 'self', templated => 1, href => '/admin/roles', params => '{?size,index,sort}'}
    ];
 
-   &validate_paging_params($self, keys %{$self->schema->source('User')->columns_info});
+   &validate_paging_params($self, keys %{$self->schema->source('Role')->columns_info});
 
    #The failed validation method requires Mojolicious 6.0
    if ($self->validation->has_error) {
@@ -29,7 +29,7 @@ sub list {
    $page_index = $self->validation->param('index') // $self->config->{page_index};
    $order = &parse_sort_params($self);
 
-   $rs = $self->schema->resultset('User')->search(undef, {
+   $rs = $self->schema->resultset('Role')->search(undef, {
       rows => $page_size,
       page => $page_index,
       order_by => $order,
@@ -48,12 +48,12 @@ sub list {
    my @embedded = map {
       my $links = [{
          relation => 'self',
-         href => "/admin/users/${\$_->id}",
+         href => "/admin/roles/${\$_->id}",
          templated => 0,
       }];
       Data::HAL->new(
          resource => $_->TO_JSON,
-         relation => 'users',
+         relation => 'roles',
          links => &generate_hal_links($self, $links)
       );
    } $rs->all;
@@ -69,7 +69,7 @@ sub read {
    my $row;
 
    try {
-      $row = $self->schema->resultset('User')->find($self->param('id'));
+      $row = $self->schema->resultset('Role')->find($self->param('id'));
 
       if (!$row) {
          return $self->reply->not_found;
@@ -79,18 +79,18 @@ sub read {
       return $self->reply->exception;
    }
 
-   # my $pattern = Mojolicious::Routes::Pattern->new('/admin/users/:id');
+   # my $pattern = Mojolicious::Routes::Pattern->new('/admin/roles/:id');
    # say $pattern->render({id => $self->param('id')});
 
    $result->embedded([
       Data::HAL->new({
          resource => $row->TO_JSON,
-         relation => 'users',
+         relation => 'roles',
          links => [
             Data::HAL::Link->new({
                relation => 'self',
                template => 0,
-               href => "/admin/users/${\$row->id}"
+               href => "/admin/roles/${\$row->id}"
             })
          ]
       })
@@ -103,7 +103,7 @@ sub create {
    my $self = shift;
    my $row;
    my $result = Data::HAL->new();
-   my $rs = $self->schema->resultset('User');
+   my $rs = $self->schema->resultset('Role');
 
    try {
       $row = $rs->create($self->req->json);
@@ -126,12 +126,12 @@ sub create {
    $result->embedded([
       Data::HAL->new({
          resource => $row->TO_JSON,
-         relation => 'users',
+         relation => 'roles',
          links => [
             Data::HAL::Link->new({
                relation => 'self',
-               template => 0,
-               href => "/admin/users/${\$row->id}"
+               templated => 0,
+               href => "/admin/roles/${\$row->id}"
             })
          ]
       })
@@ -144,7 +144,7 @@ sub update {
    my $self = shift;
    my $row;
    my $result = Data::HAL->new();
-   my $rs = $self->schema->resultset('User');
+   my $rs = $self->schema->resultset('Role');
 
    try {
       $row = $rs->find($self->param('id'));
@@ -174,24 +174,24 @@ sub update {
    $result->embedded([
       Data::HAL->new({
          resource => $row->TO_JSON,
-         relation => 'users',
+         relation => 'roles',
          links => [
             Data::HAL::Link->new({
                relation => 'self',
                template => 0,
-               href => "/admin/users/${\$row->id}"
+               href => "/admin/roles/${\$row->id}"
             })
          ]
       })
    ]);
 
-   $self->render(text => $result->as_json, format => 'haljson', status => 204);
+   $self->render(text => $result->as_json, format => 'haljson', 204);
 }
 
 sub delete {
    my $self = shift;
    my $row;
-   my $rs = $self->schema->resultset('User');
+   my $rs = $self->schema->resultset('Role');
 
    try {
       $row = $rs->find($self->param('id'));

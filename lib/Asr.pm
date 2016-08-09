@@ -527,8 +527,43 @@ sub startup {
    my $admin_routes = $self->routes->under('/admin')->over(authenticated => 1);
    $admin_routes->get('/')->to('admin#root')->name('admin_root');
 
-   $admin_routes->get('/users')->to('admin#users');
-   $admin_routes->get('/users/:id' => [id => qr/\d+/])->to('admin#user');
+   #Admin User Routes
+   $admin_routes->get('/users')
+      ->to('admin-users#list')
+      ->name('admin-users#list');
+   $admin_routes->post('/users')
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-users#create')
+      ->name('admin-users#create');
+   $admin_routes->get('/users/:id' => [id => qr/\d+/])
+      ->to('admin-users#read')
+      ->name('admin-users#read');
+   $admin_routes->delete('/users/:id' => [id => qr/\d+/])
+      ->to('admin-users#delete')
+      ->name('admin-users#delete');
+   $admin_routes->put('/users/:id' => [id => qr/\d+/])
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-users#update')
+      ->name('admin-users#update');
+
+   #Admin Role Routes
+   $admin_routes->get('/roles')
+      ->to('admin-roles#list')
+      ->name('admin-roles#list');
+   $admin_routes->post('/roles')
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-roles#create')
+      ->name('admin-roles#create');
+   $admin_routes->get('/roles/:id' => [id => qr/\d+/])
+      ->to('admin-roles#read')
+      ->name('admin-roles#read');
+   $admin_routes->delete('/roles/:id' => [id => qr/\d+/])
+      ->to('admin-roles#delete')
+      ->name('admin-roles#delete');
+   $admin_routes->put('/roles/:id' => [id => qr/\d+/])
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-roles#update')
+      ->name('admin-roles#update');
 
    #Admin Tag Routes
    $admin_routes->get('/tags')

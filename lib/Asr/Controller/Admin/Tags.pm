@@ -112,9 +112,15 @@ sub create {
       return $self
          ->stash(message => 'Duplicated value.')
          ->render(template => 'client_error', status => 409);
-   } catch (DBIx::Error $err) {
-      $self->app->log->error($err->message);
-      return $self->reply->exception;
+   } catch (DBIx::Class::Exception $err) {
+      if ($err =~ /No such column '(.+)'/) {
+         $self->app->log->warn($err);
+         return $self
+            ->stash(message => "Invalid field '$1'.")
+            ->render(template => 'client_error', status => 400);
+      } else {
+         return $self->reply->exception($err);
+      }
    }
 
    $result->embedded([
@@ -131,7 +137,7 @@ sub create {
       })
    ]);
 
-   $self->render(text => $result->as_json, format => 'haljson');
+   $self->render(text => $result->as_json, format => 'haljson', status => 201);
 }
 
 sub update {
@@ -173,7 +179,7 @@ sub update {
       })
    ]);
 
-   $self->render(text => $result->as_json, format => 'haljson');
+   $self->render(text => $result->as_json, format => 'haljson', 204);
 }
 
 sub delete {

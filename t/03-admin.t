@@ -2,7 +2,7 @@ use Mojo::Base;
 use Test::More;
 use Test::Mojo;
 
-plan tests => 124;
+plan tests => 23;
 
 my $t = Test::Mojo->new('Asr');
 my $schema = $t->app->schema;
@@ -27,15 +27,6 @@ ok $dadmin->id eq 0, 'default admin has uid 0';
 is $dadmin->login, 'admin', 'got a login';
 isnt $dadmin->password, undef, 'got a password';
 
-ok my $tadmin = $schema->resultset('User')->find(
-   {login => $test_login},
-   {key => 'user_login_key'}
-), 'test admin user exists';
-isnt $tadmin, undef, 'found created test user';
-ok $tadmin->id gt 0, 'got a positive id';
-is $tadmin->login, $test_login, 'got a login';
-is $tadmin->password, $test_password, 'got a login';
-
 $t->get_ok('/admin')
    ->status_is(401, 'got correct status code')
    ->json_has('/timestamp', 'got timestamp value')
@@ -57,110 +48,5 @@ $t->get_ok('/admin')
    ->json_is('/_links/users/templated' => Mojo::JSON::true)
    ->json_has('/_links/tags/href')
    ->json_is('/_links/tags/templated' => Mojo::JSON::true);
-
-$t->get_ok('/admin/users')
-   ->status_is(200, 'got correct status code')
-   ->json_has('/_links/self/href')
-   ->json_is('/_links/self/templated' => Mojo::JSON::true)
-   ->json_has('/_links/search/href')
-   ->json_is('/_links/search/templated' => Mojo::JSON::false)
-   ->json_has('/_embedded/users')
-   ->json_has('/page/index')
-   ->json_like('/page/index', qr/^\d+$/)
-   ->json_has('/page/size')
-   ->json_like('/page/size', qr/^\d+$/)
-   ->json_has('/page/totalItems')
-   ->json_like('/page/totalItems', qr/^\d+$/);
-
-$t->get_ok('/admin/users?sort=id.desc')
-   ->status_is(200, 'got correct status code')
-   ->json_has('/_links/self/href')
-   ->json_is('/_links/self/templated' => Mojo::JSON::true)
-   ->json_has('/_links/search/href')
-   ->json_is('/_links/search/templated' => Mojo::JSON::false)
-   ->json_has('/_embedded/users/0')
-   ->json_is('/_embedded/users/0/id' => $tadmin->id)
-   ->json_is('/_embedded/users/0/login' => $tadmin->login)
-   ->json_has('/_embedded/users/1')
-   ->json_is('/_embedded/users/1/id' => $dadmin->id)
-   ->json_is('/_embedded/users/1/login' => $dadmin->login)
-   ->json_has('/page/index')
-   ->json_like('/page/index', qr/^\d+$/)
-   ->json_has('/page/size')
-   ->json_like('/page/size', qr/^\d+$/)
-   ->json_has('/page/totalItems')
-   ->json_like('/page/totalItems', qr/^\d+$/);
-
-$t->get_ok('/admin/users?sort=login.desc')
-   ->status_is(200, 'got correct status code')
-   ->json_has('/_links/self/href')
-   ->json_is('/_links/self/templated' => Mojo::JSON::true)
-   ->json_has('/_links/search/href')
-   ->json_is('/_links/search/templated' => Mojo::JSON::false)
-   ->json_has('/_embedded/users/0')
-   ->json_is('/_embedded/users/0/id' => $tadmin->id)
-   ->json_is('/_embedded/users/0/login' => $tadmin->login)
-   ->json_has('/_embedded/users/1')
-   ->json_is('/_embedded/users/1/id' => $dadmin->id)
-   ->json_is('/_embedded/users/1/login' => $dadmin->login)
-   ->json_has('/page/index')
-   ->json_like('/page/index', qr/^\d+$/)
-   ->json_has('/page/size')
-   ->json_like('/page/size', qr/^\d+$/)
-   ->json_has('/page/totalItems')
-   ->json_like('/page/totalItems', qr/^\d+$/);
-
-$t->get_ok('/admin/users?sort=invalid.desc')
-   ->status_is(400, 'should get invalid request due to invalid column')
-   ->json_has('/status')
-   ->json_has('/message')
-   ->json_has('/timestamp');
-
-$t->get_ok('/admin/users?sort=login.desc&size=1&index=1')
-   ->status_is(200, 'got correct status code')
-   ->json_has('/_links/self/href')
-   ->json_is('/_links/self/templated' => Mojo::JSON::true)
-   ->json_has('/_links/search/href')
-   ->json_is('/_links/search/templated' => Mojo::JSON::false)
-   ->json_has('/_embedded/users')
-   ->json_is('/_embedded/users/id' => $tadmin->id)
-   ->json_is('/_embedded/users/login' => $tadmin->login)
-   ->json_has('/page/index')
-   ->json_is('/page/index' => 1)
-   ->json_has('/page/size')
-   ->json_is('/page/size' => 1)
-   ->json_has('/page/totalItems')
-   ->json_is('/page/totalItems' => 2);
-
-$t->get_ok('/admin/users?sort=login.desc&size=1&index=2')
-   ->status_is(200, 'got correct status code')
-   ->json_has('/_links/self/href')
-   ->json_is('/_links/self/templated' => Mojo::JSON::true)
-   ->json_has('/_links/search/href')
-   ->json_is('/_links/search/templated' => Mojo::JSON::false)
-   ->json_has('/_embedded/users')
-   ->json_is('/_embedded/users/id' => $dadmin->id)
-   ->json_is('/_embedded/users/login' => $dadmin->login)
-   ->json_has('/page/index')
-   ->json_is('/page/index' => 2)
-   ->json_has('/page/size')
-   ->json_is('/page/size' => 1)
-   ->json_has('/page/totalItems')
-   ->json_is('/page/totalItems' => 2);
-
-$t->get_ok('/admin/users?size=invalid')
-   ->status_is(400, 'should get invalid request due to invalid column')
-   ->json_has('/status')
-   ->json_has('/message')
-   ->json_has('/timestamp');
-
-$t->get_ok('/admin/users?index=invalid')
-   ->status_is(400, 'should get invalid request due to invalid column')
-   ->json_has('/status')
-   ->json_has('/message')
-   ->json_has('/timestamp');
-
-$t->get_ok('/api/roles')
-   ->status_is(404, 'got correct status code');
 
 done_testing;
