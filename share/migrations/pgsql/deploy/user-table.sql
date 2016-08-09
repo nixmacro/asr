@@ -1,5 +1,5 @@
 -- Deploy asr:user-table to pg
--- requires: setmodified
+-- requires: set_modified-procedure
 
 BEGIN;
 
@@ -12,6 +12,6 @@ CREATE TABLE "user" (
    modified TIMESTAMP without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TRIGGER setmodified BEFORE INSERT OR UPDATE ON "user" FOR EACH ROW EXECUTE PROCEDURE setmodified();
+CREATE TRIGGER set_modified BEFORE INSERT OR UPDATE ON "user" FOR EACH ROW EXECUTE PROCEDURE set_modified();
 
 COMMIT;

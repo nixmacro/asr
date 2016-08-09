@@ -1,7 +1,7 @@
--- Verify asr:setmodified on pg
+-- Verify asr:set_modified on pg
 
 BEGIN;
 
-SELECT has_function_privilege('setmodified()', 'execute');
+SELECT has_function_privilege('set_modified()', 'execute');
 
 ROLLBACK;

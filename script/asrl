@@ -50,27 +50,51 @@ my @fields;
 my @data;
 
 my %opts = (
-    'version' => 0,
-    'progress' => 0,
-    'dry-run' => 0,
+    'version'     => 0,
+    'progress'    => 0,
+    'dry-run'     => 0,
     'materialize' => 1,
     'keep-detail' => 0,
-    'safe' => 1,
-    'help' => 0,
-    'resume' => 0,
+    'safe'        => 1,
+    'help'        => 0,
+    'resume'      => 0,
+    'tag'         => 'default',
     'config-file' => '/etc/asr.conf'
 );
 
+my $insert = <<'EOF';
+   INSERT INTO access_log(
+      ltime,
+      elapsed,
+      ip,
+      code,
+      status,
+      bytes,
+      method,
+      protocol,
+      host,
+      site,
+      port,
+      url,
+      ruser,
+      peerstatus,
+      peerhost,
+      mime_type,
+      tag_name)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+EOF
+
 GetOptions(
-#   'version|v!' => \$opts{'version'},
-#   'progress|p!' => \$opts{'progress'},
-    'dry-run|n!' => \$opts{'dry-run'},
-    'resume|r!' => \$opts{'resume'},
-    'materialize|m!' => \$opts{'materialize'},
-    'keep-detail|k!' => \$opts{'keep-detail'},
-#   'safe!' => \$opts{'safe'},
-    'help|h!' => \$opts{'help'},
-    'config-file|f=s' => \$opts{'config-file'},
+#   'version|v!'        => \$opts{'version'},
+#   'progress|p!'       => \$opts{'progress'},
+    'dry-run|n!'        => \$opts{'dry-run'},
+    'resume|r!'         => \$opts{'resume'},
+    'materialize|m!'    => \$opts{'materialize'},
+    'keep-detail|k!'    => \$opts{'keep-detail'},
+#   'safe!'             => \$opts{'safe'},
+    'help|h!'           => \$opts{'help'},
+    'tag|t=s'           => \$opts{'tag'},
+    'config-file|f=s'   => \$opts{'config-file'},
 ) or pod2usage(2);
 
 pod2usage(1) if $opts{'help'};
@@ -97,7 +121,7 @@ if (!$opts{'dry-run'}) {
         my $tmp = $dbh->selectcol_arrayref('SELECT MAX(ltime) FROM access_log');
         $max_date = DateTime::Format::Pg->parse_timestamp($$tmp[0]);
     }
-    $sth = $dbh->prepare('INSERT INTO access_log VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+    $sth = $dbh->prepare($insert);
 }
 
 #if ($opts{'progress'}) {
@@ -119,6 +143,7 @@ while ($line = <>) {
     my $result = eval {
 
         @fields = process_data(@data);
+        push(@fields, $opts{'tag'});
 
         $sth->execute(@fields) if (!$opts{'dry-run'});
     };
@@ -322,7 +347,7 @@ Excute database sumarizing procedures.
 
 =item B<--keep-detail|-k>
 
-Keed the detail data in the access_log table.
+Keep the detail data in the access_log table.
 
 =back
 

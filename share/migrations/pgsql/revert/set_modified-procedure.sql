@@ -1,7 +1,7 @@
--- Revert asr:setmodified from pg
+-- Revert asr:set_modified from pg
 
 BEGIN;
 
-DROP FUNCTION setmodified();
+DROP FUNCTION set_modified();
 
 COMMIT;

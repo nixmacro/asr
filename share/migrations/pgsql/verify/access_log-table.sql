@@ -3,6 +3,8 @@
 BEGIN;
 
 SELECT
+   ush_id,
+   tag_name,
    ltime,
    elapsed,
    ip,
@@ -18,8 +20,7 @@ SELECT
    ruser,
    peerstatus,
    peerhost,
-   mime_type,
-   ush_id
+   mime_type
    FROM
       access_log
    WHERE

@@ -41,11 +41,13 @@ __PACKAGE__->add_columns(
    },
    'created' => {
       data_type => 'timestamp',
-      is_nullable => 0
+      is_nullable => 0,
+      retrieve_on_insert => 1
    },
    'modified' => {
       data_type => 'timestamp',
-      is_nullable => 0
+      is_nullable => 0,
+      retrieve_on_insert => 1
    }
 );
 __PACKAGE__->set_primary_key('id');

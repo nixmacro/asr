@@ -2,7 +2,7 @@
 
 BEGIN;
 
-DROP TRIGGER setmodified ON "user";
+DROP TRIGGER set_modified ON "user";
 DROP TABLE "user";
 
 COMMIT;

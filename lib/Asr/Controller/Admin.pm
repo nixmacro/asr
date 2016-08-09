@@ -12,9 +12,10 @@ sub root {
    my $self = shift;
    my $result = Data::HAL->new();
    my $links = [
-      {relation => 'self', templated => 0, href => '/api/admin'},
-      {relation => 'users', templated => 1, href => '/api/admin/users', params => '{?size,index,sort}'},
-      {relation => 'roles', templated => 1, href => '/api/admin/roles', params => '{?size,index,sort}'}
+      {relation => 'self', templated => 0, href => '/admin'},
+      {relation => 'users', templated => 1, href => '/admin/users', params => '{?size,index,sort}'},
+      {relation => 'roles', templated => 1, href => '/admin/roles', params => '{?size,index,sort}'},
+      {relation => 'tags', templated => 1, href => '/admin/tags', params => '{?size,index,sort}'}
    ];
 
    $result->links(&generate_hal_links($self, $links));
@@ -28,8 +29,8 @@ sub users {
    my ($page_size, $page_index, $rs, $order);
    my $result = Data::HAL->new;
    my $links = [
-      {relation => 'self', templated => 1, href => '/api/admin/users', params => '{?size,index,sort}'},
-      {relation => 'search', templated => 0, href => '/api/admin/users/search'}
+      {relation => 'self', templated => 1, href => '/admin/users', params => '{?size,index,sort}'},
+      {relation => 'search', templated => 0, href => '/admin/users/search'}
    ];
 
    &validate_paging_params($self, keys %{$self->schema->source('User')->columns_info});
@@ -46,8 +47,7 @@ sub users {
    $page_index = $self->validation->param('index') // $self->config->{page_index};
    $order = &parse_sort_params($self);
 
-   $rs = $self->schema->resultset('User')->search(
-      undef, {
+   $rs = $self->schema->resultset('User')->search(undef, {
          rows => $page_size,
          page => $page_index,
          order_by => $order,
@@ -67,7 +67,7 @@ sub users {
    my @embedded = map {
       my $links = [{
          relation => 'self',
-         href => "/api/admin/users/${\$_->id}",
+         href => "/admin/users/${\$_->id}",
          templated => 0,
       }];
       Data::HAL->new(
@@ -85,7 +85,7 @@ sub users {
 sub user {
    my $self = shift;
    my $links = [
-      {relation => 'self', templated => 1, href => '/api/admin/users/:id'},
+      {relation => 'self', templated => 1, href => '/admin/users/:id'},
    ];
    my $result;
    &_sanitize_params($self);

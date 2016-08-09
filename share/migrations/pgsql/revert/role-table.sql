@@ -2,7 +2,7 @@
 
 BEGIN;
 
-DROP TRIGGER setmodified ON role;
+DROP TRIGGER set_modified ON role;
 DROP TABLE role;
 
 COMMIT;
