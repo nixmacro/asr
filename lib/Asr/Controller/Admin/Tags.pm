@@ -111,7 +111,7 @@ sub create {
       $self->app->log->warn($err->message);
       return $self
          ->stash(message => 'Duplicated value.')
-         ->render(template => 'client_error', status => 400);
+         ->render(template => 'client_error', status => 409);
    } catch (DBIx::Error $err) {
       $self->app->log->error($err->message);
       return $self->reply->exception;
@@ -153,7 +153,7 @@ sub update {
       $self->app->log->warn($err->message);
       return $self
          ->stash(message => 'Duplicated value.')
-         ->render(template => 'client_error', status => 400);
+         ->render(template => 'client_error', status => 409);
    } catch (DBIx::Error $err) {
       $self->app->log->error($err->message);
       return $self->reply->exception;
