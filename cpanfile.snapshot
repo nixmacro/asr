@@ -4473,8 +4473,8 @@ DISTRIBUTIONS
       XML::Writer::_String 0.625
     requirements:
       ExtUtils::MakeMaker 0
-  XSLoader-0.22
-    pathname: S/SA/SAPER/XSLoader-0.22.tar.gz
+  XSLoader-0.24
+    pathname: S/SA/SAPER/XSLoader-0.24.tar.gz
     provides:
       XSLoader undef
     requirements:

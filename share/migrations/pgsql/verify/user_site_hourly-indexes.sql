@@ -3,6 +3,6 @@
 BEGIN;
 
 SELECT 'user_site_hourly-date_trunc-day-local_time'::regclass;
-SELECT 'user_site_hourly-local_time-remote_user-site'::regclass;
+SELECT 'user_site_hourly-tag_id-local_time-remote_user-site'::regclass;
 
 ROLLBACK;

@@ -4,7 +4,7 @@ BEGIN;
 
 CREATE TABLE access_log (
     ush_id BIGINT,
-    tag_name VARCHAR(32),
+    tag_name VARCHAR(32) NOT NULL DEFAULT 'default',
     ltime TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     elapsed BIGINT NOT NULL,
     ip INET NOT NULL,
