@@ -5,7 +5,10 @@ use base 'DBIx::Class::Core';
 
 use Data::FormValidator;
 
-__PACKAGE__->load_components(qw'Helper::Row::ToJSON');
+__PACKAGE__->load_components(qw/
+   Helper::Row::ToJSON
+   InflateColumn::DateTime
+/);
 
 __PACKAGE__->table('user_site_hourly');
 __PACKAGE__->add_columns(

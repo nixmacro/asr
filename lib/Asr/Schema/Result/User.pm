@@ -5,7 +5,11 @@ use base 'DBIx::Class::Core';
 
 use Data::FormValidator;
 
-__PACKAGE__->load_components(qw'Helper::Row::ToJSON Validation');
+__PACKAGE__->load_components(qw/
+   Helper::Row::ToJSON
+   InflateColumn::DateTime
+   Validation
+/);
 
 __PACKAGE__->table('user');
 __PACKAGE__->validation(
@@ -13,7 +17,11 @@ __PACKAGE__->validation(
    auto => 0,
    filter => 0,
    profile => {
-      required => [qw/login name password/]
+      required => [qw/
+         login
+         name
+         password
+      /]
    }
 );
 __PACKAGE__->add_columns(
@@ -52,7 +60,7 @@ __PACKAGE__->add_columns(
 );
 __PACKAGE__->set_primary_key('id');
 __PACKAGE__->add_unique_constraints(
-   user_login_key => [qw<login>]
+   user_login_key => [qw/login/]
 );
 __PACKAGE__->has_many(user_roles => 'Asr::Schema::Result::UserRole',{'foreign.user_id' => 'self.id'});
 __PACKAGE__->many_to_many(roles => 'user_roles', 'role');

@@ -5,7 +5,11 @@ use base 'DBIx::Class::Core';
 
 use Data::FormValidator;
 
-__PACKAGE__->load_components(qw'Helper::Row::ToJSON Validation');
+__PACKAGE__->load_components(qw/
+   Helper::Row::ToJSON
+   InflateColumn::DateTime
+   Validation
+/);
 
 __PACKAGE__->table('tag');
 __PACKAGE__->validation(
@@ -13,7 +17,9 @@ __PACKAGE__->validation(
    auto => 0,
    filter => 0,
    profile => {
-      required => [qw/name/]
+      required => [qw/
+         name
+      /]
    }
 );
 __PACKAGE__->add_columns(
