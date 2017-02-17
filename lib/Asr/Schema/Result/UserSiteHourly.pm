@@ -1,13 +1,10 @@
 package Asr::Schema::Result::UserSiteHourly;
 
 use Modern::Perl;
-use base 'DBIx::Class::Core';
-
-use Data::FormValidator;
+use base 'Asr::Schema::Result';
 
 __PACKAGE__->load_components(qw/
    Helper::Row::ToJSON
-   InflateColumn::DateTime
 /);
 
 __PACKAGE__->table('user_site_hourly');
@@ -15,7 +12,8 @@ __PACKAGE__->add_columns(
    'id' => {
       data_type => 'bigint',
       is_auto_increment => 1,
-      is_nullable => 0
+      is_nullable => 0,
+      is_serializable => 0
    },
    'local_time' => {
       data_type => 'timestamp',

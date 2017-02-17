@@ -343,7 +343,7 @@ directory.
 We can now run the development server which will also expose the content of the
 I<public> directory as static resources
 
-        carton exec -- morbo scripts/asr
+        carton exec -- morbo script/asr
 
 Now the application should be accessible at L<http://localhost:3000/>
 
@@ -525,7 +525,7 @@ sub startup {
 
    #Admin Routes
    my $admin_routes = $self->routes->under('/admin')->over(authenticated => 1);
-   $admin_routes->get('/')->to('admin#root')->name('admin_root');
+   $admin_routes->get('/')->to('admin#root')->name('admin#root');
 
    #Admin User Routes
    $admin_routes->get('/users')
@@ -586,19 +586,35 @@ sub startup {
 
    #API Routes
    my $api_routes = $self->routes->under('/api')->over(authenticated => 1);
-   $api_routes->get('/')->to('api#root')->name('api_root');
+   $api_routes->get('/')->to('api#root')->name('api#root');
 
-   my $api_users_routes = $api_routes->get('/users');
-   $api_users_routes->get('/')->to('api#users')->name('api_users_root');
-   $api_users_routes->get('/search')->to('api#users_search')->name('users_search');
-   $api_users_routes->get('/search/findBySite')->to('api#find_by_site')->name('users_findBySite');
-   $api_users_routes->get('/search/findUser')->to('api#find_user')->name('users_findUser');
+   #API User Routes
+   $api_routes->get('/users')
+      ->to('api-users#list')
+      ->name('api-users#list');
+   $api_routes->get('/users/search')
+      ->to('api-users-search#root')
+      ->name('api-users-search#root');
 
-   my $api_sites_routes = $api_routes->get('/sites');
-   $api_sites_routes->get('/')->to('api#sites')->name('api_sites_root');
-   $api_sites_routes->get('/search')->to('api#sites_search')->name('sites_search');
-   $api_sites_routes->get('/search/findByUser')->to('api#find_by_user')->name('sites_findByUser');
-   $api_sites_routes->get('/search/findSite')->to('api#find_site')->name('sites_findSite');
+   #API Site Routes
+   $api_routes->get('/sites')
+      ->to('api-sites#list')
+      ->name('api-sites#list');
+   $api_routes->get('/sites/search')
+      ->to('api-sites-search#root')
+      ->name('api-sites-search#root');
+
+   # my $api_users_routes = $api_routes->get('/users');
+   # $api_users_routes->get('/')->to('api#users')->name('api_users_root');
+   # $api_users_routes->get('/search')->to('api#users_search')->name('users_search');
+   # $api_users_routes->get('/search/findBySite')->to('api#find_by_site')->name('users_findBySite');
+   # $api_users_routes->get('/search/findUser')->to('api#find_user')->name('users_findUser');
+
+   # my $api_sites_routes = $api_routes->get('/sites');
+   # $api_sites_routes->get('/')->to('api#sites')->name('api_sites_root');
+   # $api_sites_routes->get('/search')->to('api#sites_search')->name('sites_search');
+   # $api_sites_routes->get('/search/findByUser')->to('api#find_by_user')->name('sites_findByUser');
+   # $api_sites_routes->get('/search/findSite')->to('api#find_site')->name('sites_findSite');
 }
 
 sub _get_connection_options {

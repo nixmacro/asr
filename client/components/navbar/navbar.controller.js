@@ -1,7 +1,11 @@
 'use strict';
 
 angular.module('asrApp')
-.controller('NavbarCtrl', function ($scope, $location, Auth, $state, $stateParams, $moment) {
+.controller('NavbarCtrl', function ($scope, $location, Auth, $state, $stateParams, $moment, RestService) {
+   $scope.sites = [{
+      name: 'default'
+   }];
+
    $scope.menu = [{
       'title': 'Users',
       'link': 'users'
@@ -10,10 +14,13 @@ angular.module('asrApp')
       'link': 'sites'
    }];
 
+   $scope.site = undefined;
    $scope.isCollapsed = true;
    $scope.isLoggedIn = Auth.isLoggedIn;
    $scope.isAdmin = Auth.isAdmin;
    $scope.getCurrentUser = Auth.getCurrentUser;
+
+   // RestService.fetch(tag)
 
    $scope.logout = function() {
       Auth.logout();

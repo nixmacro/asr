@@ -33,7 +33,7 @@ sub passwd {
       $self->render(status => 204, data => '');
    }
    else {
-      #For invalid credentials respond with a 401 and error message
+      #For invalid credentials respond with a 400 and error message
       return $self->stash(
          message => 'Invalid login'
       )->render(

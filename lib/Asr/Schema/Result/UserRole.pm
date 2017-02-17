@@ -1,7 +1,7 @@
 package Asr::Schema::Result::UserRole;
 
 use Modern::Perl;
-use base 'DBIx::Class::Core';
+use base 'Asr::Schema::Result';
 
 __PACKAGE__->table('user_role');
 __PACKAGE__->add_columns(

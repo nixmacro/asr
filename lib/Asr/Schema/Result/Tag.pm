@@ -1,13 +1,12 @@
 package Asr::Schema::Result::Tag;
 
 use Modern::Perl;
-use base 'DBIx::Class::Core';
+use base 'Asr::Schema::Result';
 
 use Data::FormValidator;
 
 __PACKAGE__->load_components(qw/
    Helper::Row::ToJSON
-   InflateColumn::DateTime
    Validation
 /);
 

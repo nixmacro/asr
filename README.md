@@ -23,7 +23,7 @@ OS.
 The following software packages are required to install and run **ASR**,
 preferably they should be from your distribution package repository.
 
-        sudo apt-get install build-essential perl perl-doc carton postgresql postgresql-server-dev-all supervisor
+        sudo apt-get install build-essential perl perl-doc libmodule-install-perl carton postgresql postgresql-server-dev-all supervisor
 
 ### What's all that
 
@@ -317,7 +317,7 @@ Keep in mind these commands can be run un parallel.
 
         bower install
         npm install
-        carton install
+        carton
 
 ## Build Front-end
 
@@ -331,7 +331,7 @@ directory.
 We can now run the development server which will also expose the content of the
 _public_ directory as static resources
 
-        carton exec -- morbo scripts/asr
+        carton exec -- morbo script/asr
 
 Now the application should be accessible at [http://localhost:3000/](http://localhost:3000/)
 
@@ -365,7 +365,7 @@ To run the backend-tests use the following command:
 
 - Bundle Carton
 
-    Explore the possibility of bundling carton with the distribution  so it's not
+    Explore the possibility of bundling carton with the distribution so it's not
     required to have it on the OS.
 
 - Support other RDBMS
@@ -374,25 +374,26 @@ To run the backend-tests use the following command:
 
 - Atomic Data Loading
 
-    The loader could provide an option \`-s|--safe\` to run the data insertion inside
-    a transaction to have all or nothing loading.
+    The loader could provide an option \`-s|--safe\` to run the data insertion
+    inside a transaction to have all or nothing loading.
 
 - Convert Loader to a Mojolicious Command
 
     Investigate pro/cons of moving the loader script to a mojo command.
 
-- Add support for DENIED lines
+- Add support for DENIED requests
 
     A new field should be added to the `user_site_hourly` table to hold the
-    [SquidCode](http://wiki.squid-cache.org/SquidFaq/SquidLogs#Squid_result_codes). This code should be taken into account when generating statistics.
-    Specifically, DENIED should not count towards the user or site stats. Instead
-    it should have its own section. Also other codes should probably not be
-    accounted and might deserve their own section as well.
+    [SquidCode](http://wiki.squid-cache.org/SquidFaq/SquidLogs#Squid_result_codes).
+    This code should be taken into account when generating statistics.
+    Specifically, DENIED should not count towards the user or site stats.
+    Instead it should have its own section. Also other codes should probably not
+    be accounted and might deserve their own section as well.
 
 # AUTHORS
 
-- Carlos Ramos Gómez
-- Carlos Jiménez Bendaña
+- Carlos Ramos GÃ³mez
+- Carlos JimÃ©nez BendaÃ±a
 
 # COPYRIGHT AND LICENSE
 
