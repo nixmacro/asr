@@ -93,7 +93,7 @@ angular.module('asrApp')
          label: 'Bytes',
          format: Format.formatBytes,
          order: 1,
-         remoteColumn: 'total_bytes',
+         remoteColumn: 'bytes',
          sortDir: null
       },
       'bytes_percent': {
@@ -107,7 +107,7 @@ angular.module('asrApp')
          label: 'Time',
          format: Format.formatDurationInSeconds,
          order: 3,
-         remoteColumn: 'total_time',
+         remoteColumn: 'seconds',
          sortDir: null
       },
       'seconds_percent': {

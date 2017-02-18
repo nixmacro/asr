@@ -10,7 +10,7 @@ angular.module('asrApp')
       params: {
          size: '10',
          index: '1',
-         sort: 'total_bytes.desc'
+         sort: 'bytes.desc'
       },
       resolve: {
          sitesResource: function($stateParams, RestService) {
@@ -39,7 +39,7 @@ angular.module('asrApp')
                return RestService.search('sites', {
                   user: $stateParams.user,
                   size: 3,
-                  sort: 'total_bytes.desc',
+                sort: 'bytes.desc',
                   start: $stateParams.start,
                   end: $stateParams.end
                },
@@ -47,7 +47,7 @@ angular.module('asrApp')
             } else {
                return RestService.fetch('sites', {
                   size: 3,
-                  sort: 'total_bytes.desc',
+                  sort: 'bytes.desc',
                   start: $stateParams.start,
                   end: $stateParams.end
                });
@@ -58,7 +58,7 @@ angular.module('asrApp')
                return RestService.search('sites', {
                   user: $stateParams.user,
                   size: 3,
-                  sort: 'total_time.desc',
+                  sort: 'seconds.desc',
                   start: $stateParams.start,
                   end: $stateParams.end
                },
@@ -66,7 +66,7 @@ angular.module('asrApp')
             } else {
                return RestService.fetch('sites', {
                   size: 3,
-                  sort: 'total_time.desc',
+                  sort: 'seconds.desc',
                   start: $stateParams.start,
                   end: $stateParams.end
                });
