@@ -17,7 +17,7 @@ sub list {
    ];
    my $dtf = $self->schema->storage->datetime_parser;
 
-   &validate_paging_params($self, qw/site bytes seconds bytes_percent time_percent/);
+   &validate_paging_params($self, qw/site bytes time bytes_percent time_percent/);
 
    #The failed validation method requires Mojolicious 6.0
    if ($self->validation->has_error) {
@@ -35,7 +35,7 @@ sub list {
    $order      = &parse_sort_params($self);
 
    $rs = $self->schema->resultset('UserSiteHourly')->sum_by_site(
-      $start, $end, $tag, $page_size, $page_index, $order);
+      undef, $start, $end, $tag, $page_size, $page_index, $order);
 
    $result->resource({
       page => {
@@ -59,7 +59,7 @@ sub list {
          'site' => $_->site,
          'bytes' => $_->get_column('bytes'),
          'bytes_percent' => $_->get_column('bytes_percent'),
-         'seconds' => $_->get_column('seconds'),
+         'time' => $_->get_column('time'),
          'time_percent' => $_->get_column('time_percent'),
       },
       relation => 'sites',

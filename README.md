@@ -23,7 +23,7 @@ OS.
 The following software packages are required to install and run **ASR**,
 preferably they should be from your distribution package repository.
 
-        sudo apt-get install build-essential perl perl-doc libmodule-install-perl carton postgresql postgresql-server-dev-all supervisor
+        sudo apt-get install build-essential perl perl-doc carton postgresql postgresql-server-dev-all supervisor
 
 ### What's all that
 
@@ -317,7 +317,7 @@ Keep in mind these commands can be run un parallel.
 
         bower install
         npm install
-        carton
+        carton install
 
 ## Build Front-end
 
@@ -359,10 +359,6 @@ To run the backend-tests use the following command:
     Write _Front-End_ tests.
 
 - Setup Travis CI
-- Use DBIx::Class
-
-    Move to DBIx::Class from SQL-Abstract-More.
-
 - Bundle Carton
 
     Explore the possibility of bundling carton with the distribution so it's not
@@ -386,9 +382,9 @@ To run the backend-tests use the following command:
     A new field should be added to the `user_site_hourly` table to hold the
     [SquidCode](http://wiki.squid-cache.org/SquidFaq/SquidLogs#Squid_result_codes).
     This code should be taken into account when generating statistics.
-    Specifically, DENIED should not count towards the user or site stats.
-    Instead it should have its own section. Also other codes should probably not
-    be accounted and might deserve their own section as well.
+    Specifically, DENIED should not count towards the user or site stats. Instead
+    it should have its own section. Also other codes should probably not be
+    accounted and might deserve their own section as well.
 
 # AUTHORS
 

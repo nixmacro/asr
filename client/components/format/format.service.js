@@ -7,15 +7,19 @@ angular.module('asrApp')
 
    // Public API here
    return {
-      formatBytes: function (bytes) {
-         if(bytes === 0) { return '0 Byte'; }
+      formatBytes: function (value, size) {
+         var k = size || 1024;
+         var bytes = parseInt(value);
+         if(bytes === 0) { return '0 ' + sizes[0]; }
          var i = Math.floor(Math.log(bytes) / Math.log(k));
-         return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+         return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
       },
       formatPercent: function (value, digits) {
-         return value.toFixed(digits || 2) + '%';
+         var percent = parseFloat(value);
+         return percent.toFixed(digits || 2) + '%';
       },
-      formatDurationInSeconds: function (milis) {
+      formatDurationInSeconds: function (value) {
+         var milis = parseInt(value);
          return $moment.duration(milis / 1000, 'seconds').humanize();
       },
       floor: function (value) {

@@ -10,27 +10,35 @@ use Asr::Controller::Utils qw/generate_hal_links validate_paging_params parse_so
 sub root {
    my $c = shift;
    my $result = Data::HAL->new();
-   my $links = [
-      {relation => 'self', templated => 0, href => '/api/sites/search'},
-      {relation => 'findByUser', templated => 1, href => '/api/sites/search/findByUser', params => '{?size,index,sort,start,end,user}'}
-   ];
+   my $links = [{
+      relation => 'self',
+      templated => 0,
+      href => '/api/sites/search'
+   },{
+      relation => 'findByUser',
+      templated => 1,
+      href => '/api/sites/search/findByUser',
+      params => '{?size,index,sort,start,end,user}'
+   }];
 
    $result->links(&generate_hal_links($c, $links));
 
    $c->render(text => $result->as_json, format => 'haljson');
 }
 
-sub list {
+sub find_by_user {
    my $self = shift;
-   my ($start, $end, $tag, $page_size, $page_index, $order, $rs);
+   my ($user, $start, $end, $tag, $page_size, $page_index, $order, $rs);
    my $result = Data::HAL->new();
-   my $links = [
-      {relation => 'self', templated => 1, href => '/api/sites', params => '{?size,index,sort,start,end}'},
-      {relation => 'search', templated => 0, href => '/api/sites/search'}
-   ];
+   my $links = [{
+      relation => 'self',
+      templated => 1,
+      href => '/api/sites/search/findByUser',
+      params => '{?size,index,sort,start,end,user}'
+   }];
    my $dtf = $self->schema->storage->datetime_parser;
 
-   &validate_paging_params($self, qw/site bytes seconds bytes_percent time_percent/);
+   &validate_paging_params($self, qw/user bytes time bytes_percent time_percent/);
 
    #The failed validation method requires Mojolicious 6.0
    if ($self->validation->has_error) {
@@ -40,6 +48,7 @@ sub list {
       return $self->render(template => 'client_error', status => 400)
    }
 
+   $user       = $self->param('user');
    $start      = $self->param('start') // $dtf->format_datetime(DateTime->now->subtract(days => 15)),
    $end        = $self->param('end') // $dtf->format_datetime(DateTime->now),
    $tag        = $self->param('tag') // 'default';
@@ -48,7 +57,7 @@ sub list {
    $order      = &parse_sort_params($self);
 
    $rs = $self->schema->resultset('UserSiteHourly')->sum_by_site(
-      $start, $end, $tag, $page_size, $page_index, $order);
+      $user, $start, $end, $tag, $page_size, $page_index, $order);
 
    $result->resource({
       page => {
@@ -69,10 +78,10 @@ sub list {
       # }];
       Data::HAL->new(
       resource => {
-         'site' => $_->site,
+         'site' => $_->get_column('site'),
          'bytes' => $_->get_column('bytes'),
          'bytes_percent' => $_->get_column('bytes_percent'),
-         'seconds' => $_->get_column('seconds'),
+         'time' => $_->get_column('time'),
          'time_percent' => $_->get_column('time_percent'),
       },
       relation => 'sites',

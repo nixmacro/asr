@@ -6,7 +6,7 @@ angular.module('asrApp')
    .state('sites', {
       url: '/sites?size&index&start&end&sort&user',
       templateUrl: 'app/sites/sites.html',
-      controller: 'SitesCtrl as list',
+      controller: 'SitesCtrl as ctrl',
       params: {
          size: '10',
          index: '1',
@@ -58,7 +58,7 @@ angular.module('asrApp')
                return RestService.search('sites', {
                   user: $stateParams.user,
                   size: 3,
-                  sort: 'seconds.desc',
+                  sort: 'time.desc',
                   start: $stateParams.start,
                   end: $stateParams.end
                },
@@ -66,7 +66,7 @@ angular.module('asrApp')
             } else {
                return RestService.fetch('sites', {
                   size: 3,
-                  sort: 'seconds.desc',
+                  sort: 'time.desc',
                   start: $stateParams.start,
                   end: $stateParams.end
                });

@@ -156,7 +156,6 @@ DISTRIBUTIONS
     pathname: E/ET/ETHER/B-Hooks-OP-PPAddr-0.05.tar.gz
     provides:
       B::Hooks::OP::PPAddr 0.05
-      B::Hooks::OP::PPAddr::Install::Files undef
     requirements:
       DynaLoader 0
       ExtUtils::Depends 0.302
@@ -204,29 +203,6 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       utf8 0
-      warnings 0
-  CPAN-Meta-2.150005
-    pathname: D/DA/DAGOLDEN/CPAN-Meta-2.150005.tar.gz
-    provides:
-      CPAN::Meta 2.150005
-      CPAN::Meta::Converter 2.150005
-      CPAN::Meta::Feature 2.150005
-      CPAN::Meta::History 2.150005
-      CPAN::Meta::Merge 2.150005
-      CPAN::Meta::Prereqs 2.150005
-      CPAN::Meta::Spec 2.150005
-      CPAN::Meta::Validator 2.150005
-    requirements:
-      CPAN::Meta::Requirements 2.121
-      CPAN::Meta::YAML 0.008
-      Carp 0
-      ExtUtils::MakeMaker 6.17
-      JSON::PP 2.27200
-      Parse::CPAN::Meta 1.4414
-      Scalar::Util 0
-      perl 5.008
-      strict 0
-      version 0.88
       warnings 0
   Capture-Tiny-0.42
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.42.tar.gz
@@ -310,7 +286,7 @@ DISTRIBUTIONS
       Class::Data::Accessor 0.04004
     requirements:
       Carp 0
-      ExtUtils::MakeMaker 6.98
+      ExtUtils::MakeMaker 7.1002
   Class-Data-Inheritable-0.08
     pathname: T/TM/TMTM/Class-Data-Inheritable-0.08.tar.gz
     provides:
@@ -477,12 +453,8 @@ DISTRIBUTIONS
   DBD-Pg-3.5.3
     pathname: T/TU/TURNSTEP/DBD-Pg-3.5.3.tar.gz
     provides:
-      Bundle::DBD::Pg 3.005003
-      DBD::Pg 3.005003
-      DBD::Pg::DefaultValue 3.005003
-      DBD::Pg::db 3.005003
-      DBD::Pg::dr 3.005003
-      DBD::Pg::st 3.005003
+      Bundle::DBD::Pg v3.5.3
+      DBD::Pg v3.5.3
     requirements:
       DBI 1.614
       ExtUtils::MakeMaker 6.11
@@ -882,6 +854,7 @@ DISTRIBUTIONS
       Data::FormValidator 4.81
       Data::FormValidator::Constraints 4.81
       Data::FormValidator::Constraints::Dates 4.81
+      Data::FormValidator::Constraints::RegexpCommon 0
       Data::FormValidator::Constraints::Upload 4.81
       Data::FormValidator::ConstraintsFactory 4.81
       Data::FormValidator::Filters 4.81
@@ -906,6 +879,7 @@ DISTRIBUTIONS
       Data::HAL 1.000
       Data::HAL::Link 1.000
       Data::HAL::URI 1.000
+      Data::HAL::URI::NamespaceMap 1.000
     requirements:
       Clone 0
       Data::Visitor::Callback 0
@@ -1092,6 +1066,7 @@ DISTRIBUTIONS
       DateTime 0.1
       DateTime::Format::Builder 0.6
       ExtUtils::MakeMaker 0
+      perl 5.003
   DateTime-Format-Strptime-1.68
     pathname: D/DR/DROLSKY/DateTime-Format-Strptime-1.68.tar.gz
     provides:
@@ -1784,6 +1759,7 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Fcntl 0
       POSIX 0
+      perl 5.004
   File-Which-1.21
     pathname: P/PL/PLICEASE/File-Which-1.21.tar.gz
     provides:
@@ -1940,14 +1916,6 @@ DISTRIBUTIONS
       Test::More 0.88
       Tie::Handle 0
       base 0
-  IO-Socket-IP-0.37
-    pathname: P/PE/PEVANS/IO-Socket-IP-0.37.tar.gz
-    provides:
-      IO::Socket::IP 0.37
-    requirements:
-      IO::Socket 0
-      Socket 1.97
-      Test::More 0.88
   IO-String-1.08
     pathname: G/GA/GAAS/IO-String-1.08.tar.gz
     provides:
@@ -2015,15 +1983,6 @@ DISTRIBUTIONS
       JSON 2.90
       JSON::Backend::PP 2.90
       JSON::Boolean 2.90
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
-  JSON-PP-2.27400
-    pathname: M/MA/MAKAMAKA/JSON-PP-2.27400.tar.gz
-    provides:
-      JSON::PP 2.27400
-      JSON::PP::Boolean 2.27400
-      JSON::PP::IncrParser 2.27400
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
@@ -2272,62 +2231,6 @@ DISTRIBUTIONS
       Try::Tiny 0
       strict 0
       warnings 0
-  Module-Install-1.16
-    pathname: E/ET/ETHER/Module-Install-1.16.tar.gz
-    provides:
-      Module::AutoInstall 1.16
-      Module::Install 1.16
-      Module::Install::Admin 1.16
-      Module::Install::Admin::Bundle 1.16
-      Module::Install::Admin::Compiler 1.16
-      Module::Install::Admin::Find 1.16
-      Module::Install::Admin::Include 1.16
-      Module::Install::Admin::Makefile 1.16
-      Module::Install::Admin::Manifest 1.16
-      Module::Install::Admin::Metadata 1.16
-      Module::Install::Admin::ScanDeps 1.16
-      Module::Install::Admin::WriteAll 1.16
-      Module::Install::AutoInstall 1.16
-      Module::Install::Base 1.16
-      Module::Install::Base::FakeAdmin 1.16
-      Module::Install::Bundle 1.16
-      Module::Install::Can 1.16
-      Module::Install::Compiler 1.16
-      Module::Install::DSL 1.16
-      Module::Install::Deprecated 1.16
-      Module::Install::External 1.16
-      Module::Install::Fetch 1.16
-      Module::Install::Include 1.16
-      Module::Install::Inline 1.16
-      Module::Install::MakeMaker 1.16
-      Module::Install::Makefile 1.16
-      Module::Install::Metadata 1.16
-      Module::Install::PAR 1.16
-      Module::Install::Run 1.16
-      Module::Install::Scripts 1.16
-      Module::Install::Share 1.16
-      Module::Install::Win32 1.16
-      Module::Install::With 1.16
-      Module::Install::WriteAll 1.16
-      inc::Module::Install 1.16
-      inc::Module::Install::DSL 1.16
-    requirements:
-      Devel::PPPort 3.16
-      ExtUtils::Install 1.52
-      ExtUtils::MakeMaker 6.59
-      ExtUtils::ParseXS 2.19
-      File::Path 0
-      File::Remove 1.42
-      File::Spec 3.28
-      Module::Build 0.29
-      Module::CoreList 2.17
-      Module::ScanDeps 1.09
-      Parse::CPAN::Meta 1.4413
-      Test::Harness 3.13
-      Test::More 0.86
-      YAML::Tiny 1.38
-      autodie 0
-      perl 5.006
   Module-Pluggable-5.2
     pathname: S/SI/SIMONW/Module-Pluggable-5.2.tar.gz
     provides:
@@ -2365,21 +2268,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Module-ScanDeps-1.21
-    pathname: R/RS/RSCHUPP/Module-ScanDeps-1.21.tar.gz
-    provides:
-      Module::ScanDeps 1.21
-    requirements:
-      ExtUtils::MakeMaker 6.59
-      File::Spec 0
-      File::Temp 0
-      Getopt::Long 0
-      Module::Metadata 0
-      Test::More 0
-      Test::Requires 0
-      Text::ParseWords 0
-      perl 5.008001
-      version 0
   Mojolicious-7.0
     pathname: S/SR/SRI/Mojolicious-7.0.tar.gz
     provides:
@@ -2495,6 +2383,7 @@ DISTRIBUTIONS
       JSON::PP 2.27103
       Pod::Simple 3.09
       Time::Local 1.2
+      perl 5.010001
   Mojolicious-Plugin-Authentication-1.29
     pathname: M/MA/MADCAT/Mojolicious-Plugin-Authentication-1.29.tar.gz
     provides:
@@ -2601,6 +2490,35 @@ DISTRIBUTIONS
       Class::MOP::Overload 2.1804
       Class::MOP::Package 2.1804
       Moose 2.1804
+      Moose::Cookbook 2.1804
+      Moose::Cookbook::Basics::BankAccount_MethodModifiersAndSubclassing 2.1804
+      Moose::Cookbook::Basics::BinaryTree_AttributeFeatures 2.1804
+      Moose::Cookbook::Basics::BinaryTree_BuilderAndLazyBuild 2.1804
+      Moose::Cookbook::Basics::Company_Subtypes 2.1804
+      Moose::Cookbook::Basics::DateTime_ExtendingNonMooseParent 2.1804
+      Moose::Cookbook::Basics::Document_AugmentAndInner 2.1804
+      Moose::Cookbook::Basics::Genome_OverloadingSubtypesAndCoercion 2.1804
+      Moose::Cookbook::Basics::HTTP_SubtypesAndCoercion 2.1804
+      Moose::Cookbook::Basics::Immutable 2.1804
+      Moose::Cookbook::Basics::Person_BUILDARGSAndBUILD 2.1804
+      Moose::Cookbook::Basics::Point_AttributesAndSubclassing 2.1804
+      Moose::Cookbook::Extending::Debugging_BaseClassRole 2.1804
+      Moose::Cookbook::Extending::ExtensionOverview 2.1804
+      Moose::Cookbook::Extending::Mooseish_MooseSugar 2.1804
+      Moose::Cookbook::Legacy::Debugging_BaseClassReplacement 2.1804
+      Moose::Cookbook::Legacy::Labeled_AttributeMetaclass 2.1804
+      Moose::Cookbook::Legacy::Table_ClassMetaclass 2.1804
+      Moose::Cookbook::Meta::GlobRef_InstanceMetaclass 2.1804
+      Moose::Cookbook::Meta::Labeled_AttributeTrait 2.1804
+      Moose::Cookbook::Meta::PrivateOrPublic_MethodMetaclass 2.1804
+      Moose::Cookbook::Meta::Table_MetaclassTrait 2.1804
+      Moose::Cookbook::Meta::WhyMeta 2.1804
+      Moose::Cookbook::Roles::ApplicationToInstance 2.1804
+      Moose::Cookbook::Roles::Comparable_CodeReuse 2.1804
+      Moose::Cookbook::Roles::Restartable_AdvancedComposition 2.1804
+      Moose::Cookbook::Snack::Keywords 2.1804
+      Moose::Cookbook::Snack::Types 2.1804
+      Moose::Cookbook::Style 2.1804
       Moose::Exception 2.1804
       Moose::Exception::AccessorMustReadWrite 2.1804
       Moose::Exception::AddParameterizableTypeTakesParameterizableType 2.1804
@@ -2831,6 +2749,27 @@ DISTRIBUTIONS
       Moose::Exception::WrapTakesACodeRefToBless 2.1804
       Moose::Exception::WrongTypeConstraintGiven 2.1804
       Moose::Exporter 2.1804
+      Moose::Intro 2.1804
+      Moose::Manual 2.1804
+      Moose::Manual::Attributes 2.1804
+      Moose::Manual::BestPractices 2.1804
+      Moose::Manual::Classes 2.1804
+      Moose::Manual::Concepts 2.1804
+      Moose::Manual::Construction 2.1804
+      Moose::Manual::Contributing 2.1804
+      Moose::Manual::Delegation 2.1804
+      Moose::Manual::Delta 2.1804
+      Moose::Manual::Exceptions 2.1804
+      Moose::Manual::Exceptions::Manifest 2.1804
+      Moose::Manual::FAQ 2.1804
+      Moose::Manual::MOP 2.1804
+      Moose::Manual::MethodModifiers 2.1804
+      Moose::Manual::MooseX 2.1804
+      Moose::Manual::Resources 2.1804
+      Moose::Manual::Roles 2.1804
+      Moose::Manual::Support 2.1804
+      Moose::Manual::Types 2.1804
+      Moose::Manual::Unsweetened 2.1804
       Moose::Meta::Attribute 2.1804
       Moose::Meta::Attribute::Custom::Moose 2.1804
       Moose::Meta::Attribute::Native 2.1804
@@ -2875,6 +2814,8 @@ DISTRIBUTIONS
       Moose::Meta::TypeConstraint::Union 2.1804
       Moose::Object 2.1804
       Moose::Role 2.1804
+      Moose::Spec::Role 2.1804
+      Moose::Unsweetened 2.1804
       Moose::Util 2.1804
       Moose::Util::MetaRole 2.1804
       Moose::Util::TypeConstraints 2.1804
@@ -3388,6 +3329,7 @@ DISTRIBUTIONS
       Regexp::Common::zip 2016060801
     requirements:
       Config 0
+      ExtUtils::MakeMaker 0
       perl 5.01
       strict 0
       vars 0
@@ -3421,23 +3363,6 @@ DISTRIBUTIONS
       Test::Warn 0
       Text::Balanced 2.00
       perl 5.006
-  SQL-Abstract-More-1.28
-    pathname: D/DA/DAMI/SQL-Abstract-More-1.28.tar.gz
-    provides:
-      SQL::Abstract::More 1.28
-    requirements:
-      ExtUtils::MakeMaker 6.59
-      List::MoreUtils 0
-      MRO::Compat 0
-      Module::Install 0
-      Params::Validate 0
-      SQL::Abstract 1.73
-      SQL::Abstract::Test 0
-      Test::Exception 0
-      Test::More 0
-      namespace::clean 0
-      parent 0
-      perl 5.008
   SQL-Translator-0.11021
     pathname: I/IL/ILMARI/SQL-Translator-0.11021.tar.gz
     provides:
@@ -3828,65 +3753,6 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.47
       perl 5.006
-  Test-Simple-1.302047
-    pathname: E/EX/EXODIST/Test-Simple-1.302047.tar.gz
-    provides:
-      Test2 1.302047
-      Test2::API 1.302047
-      Test2::API::Breakage 1.302047
-      Test2::API::Context 1.302047
-      Test2::API::Instance 1.302047
-      Test2::API::Stack 1.302047
-      Test2::Event 1.302047
-      Test2::Event::Bail 1.302047
-      Test2::Event::Diag 1.302047
-      Test2::Event::Exception 1.302047
-      Test2::Event::Generic 1.302047
-      Test2::Event::Info 1.302047
-      Test2::Event::Note 1.302047
-      Test2::Event::Ok 1.302047
-      Test2::Event::Plan 1.302047
-      Test2::Event::Skip 1.302047
-      Test2::Event::Subtest 1.302047
-      Test2::Event::Waiting 1.302047
-      Test2::Formatter 1.302047
-      Test2::Formatter::TAP 1.302047
-      Test2::Hub 1.302047
-      Test2::Hub::Interceptor 1.302047
-      Test2::Hub::Interceptor::Terminator 1.302047
-      Test2::Hub::Subtest 1.302047
-      Test2::IPC 1.302047
-      Test2::IPC::Driver 1.302047
-      Test2::IPC::Driver::Files 1.302047
-      Test2::Util 1.302047
-      Test2::Util::ExternalMeta 1.302047
-      Test2::Util::HashBase 1.302047
-      Test2::Util::Trace 1.302047
-      Test::Builder 1.302047
-      Test::Builder::Formatter 1.302047
-      Test::Builder::IO::Scalar 2.113
-      Test::Builder::Module 1.302047
-      Test::Builder::Tester 1.302047
-      Test::Builder::Tester::Color 1.302047
-      Test::Builder::Tester::Tie 1.302047
-      Test::Builder::TodoDiag 1.302047
-      Test::More 1.302047
-      Test::Simple 1.302047
-      Test::Tester 1.302047
-      Test::Tester::Capture 1.302047
-      Test::Tester::CaptureRunner 1.302047
-      Test::Tester::Delegate 1.302047
-      Test::use::ok 1.302047
-      ok 1.302047
-    requirements:
-      ExtUtils::MakeMaker 0
-      File::Spec 0
-      File::Temp 0
-      PerlIO 0
-      Scalar::Util 1.13
-      Storable 0
-      perl 5.008001
-      utf8 0
   Test-SubCalls-1.09
     pathname: A/AD/ADAMK/Test-SubCalls-1.09.tar.gz
     provides:
@@ -4066,7 +3932,6 @@ DISTRIBUTIONS
       Type::Tiny::Intersection 1.000005
       Type::Tiny::Role 1.000005
       Type::Tiny::Union 1.000005
-      Type::Tiny::_HalfOp undef
       Type::Utils 1.000005
       Types::Common::Numeric 1.000005
       Types::Common::String 1.000005
@@ -4245,9 +4110,6 @@ DISTRIBUTIONS
   URI-db-0.17
     pathname: D/DW/DWHEELER/URI-db-0.17.tar.gz
     provides:
-      URI::_ado undef
-      URI::_db undef
-      URI::_odbc undef
       URI::cassandra 0.17
       URI::couch 0.17
       URI::couchdb 0.17
@@ -4338,13 +4200,6 @@ DISTRIBUTIONS
       XML::Writer::_String 0.625
     requirements:
       ExtUtils::MakeMaker 0
-  XSLoader-0.24
-    pathname: S/SA/SAPER/XSLoader-0.24.tar.gz
-    provides:
-      XSLoader undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0.47
   YAML-1.18
     pathname: T/TI/TINITA/YAML-1.18.tar.gz
     provides:
@@ -4373,20 +4228,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
-  YAML-Tiny-1.69
-    pathname: E/ET/ETHER/YAML-Tiny-1.69.tar.gz
-    provides:
-      YAML::Tiny 1.69
-    requirements:
-      B 0
-      Carp 0
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      Fcntl 0
-      Scalar::Util 0
-      perl 5.008001
-      strict 0
-      warnings 0
   aliased-0.34
     pathname: E/ET/ETHER/aliased-0.34.tar.gz
     provides:

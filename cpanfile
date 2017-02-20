@@ -18,7 +18,6 @@ requires 'Mojolicious', '7.0';
 requires 'Mojolicious::Plugin::Authentication', '1.29';
 requires 'Mojolicious::Plugin::Authorization', '1.04';
 requires 'Mojolicious::Plugin::Database', '1.10';
-requires 'SQL::Abstract::More', '1.28';
 
 test_requires 'Test::More', '0.88';
 

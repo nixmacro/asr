@@ -374,13 +374,9 @@ Write I<Front-End> tests.
 
 =item * Setup Travis CI
 
-=item * Use DBIx::Class
-
-Move to DBIx::Class from SQL-Abstract-More.
-
 =item * Bundle Carton
 
-Explore the possibility of bundling carton with the distribution  so it's not
+Explore the possibility of bundling carton with the distribution so it's not
 required to have it on the OS.
 
 =item * Support other RDBMS
@@ -389,17 +385,18 @@ Add support for B<MySQL> and B<SQLite>
 
 =item * Atomic Data Loading
 
-The loader could provide an option `-s|--safe` to run the data insertion inside
-a transaction to have all or nothing loading.
+The loader could provide an option `-s|--safe` to run the data insertion
+inside a transaction to have all or nothing loading.
 
 =item * Convert Loader to a Mojolicious Command
 
 Investigate pro/cons of moving the loader script to a mojo command.
 
-=item * Add support for DENIED lines
+=item * Add support for DENIED requests
 
 A new field should be added to the C<user_site_hourly> table to hold the
-L<SquidCode|http://wiki.squid-cache.org/SquidFaq/SquidLogs#Squid_result_codes>. This code should be taken into account when generating statistics.
+L<SquidCode|http://wiki.squid-cache.org/SquidFaq/SquidLogs#Squid_result_codes>.
+This code should be taken into account when generating statistics.
 Specifically, DENIED should not count towards the user or site stats. Instead
 it should have its own section. Also other codes should probably not be
 accounted and might deserve their own section as well.
@@ -595,6 +592,9 @@ sub startup {
    $api_routes->get('/users/search')
       ->to('api-users-search#root')
       ->name('api-users-search#root');
+   $api_routes->get('/users/search/findBySite')
+      ->to('api-users-search#find_by_site')
+      ->name('api-users-search#find_by_site');
 
    #API Site Routes
    $api_routes->get('/sites')
@@ -603,6 +603,9 @@ sub startup {
    $api_routes->get('/sites/search')
       ->to('api-sites-search#root')
       ->name('api-sites-search#root');
+   $api_routes->get('/sites/search/findByUser')
+      ->to('api-sites-search#find_by_user')
+      ->name('api-sites-search#find_by_user');
 
    # my $api_users_routes = $api_routes->get('/users');
    # $api_users_routes->get('/')->to('api#users')->name('api_users_root');
