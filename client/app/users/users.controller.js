@@ -140,7 +140,7 @@ angular.module('asrApp')
                var promises = [];
 
                resources.forEach(function (resource) {
-                  var promise = resource.$get('users')
+                  var promise = resource.$subs('users').$promise
                      .then(function (users) {
                         return users;
                      });

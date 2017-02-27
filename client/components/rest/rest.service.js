@@ -25,7 +25,8 @@ angular.module('asrApp')
 
             for (var i = 1; i <= totalPages; i++) {
                params.index = i;
-               var promise = pagedHalResource.$get('self', params)
+               var promise = pagedHalResource
+               .$followOne('self', { data: params }).$promise
                   .then(function (resource) {
                      return resource;
                   });
