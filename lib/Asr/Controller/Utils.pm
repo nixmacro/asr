@@ -54,9 +54,11 @@ sub parse_sort_params {
    my ($column, $dir);
    my %result = ();
    my $params = $c->validation->every_param('sort');
+   my $self_link_params_text = ',';
 
    for(@{$params}) {
       ($column, $dir) = split('\.');
+      $self_link_params_text = $self_link_params_text . $_ . ',';
 
       $column = lc($column);
 
@@ -69,7 +71,11 @@ sub parse_sort_params {
       }
    }
 
-   return \%result;
+   if (!%result) {
+       $self_link_params_text = ',default_order,';
+   }
+
+   return (\%result, $self_link_params_text);
 }
 
 1;
