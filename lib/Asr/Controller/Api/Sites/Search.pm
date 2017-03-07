@@ -18,7 +18,7 @@ sub root {
       relation => 'findByUser',
       templated => 1,
       href => '/api/sites/search/findByUser',
-      params => '{?size,index,sort,start,end,user}'
+      params => '{?size,index,sort,start,end,user,tag}'
    }];
 
    $result->links(&generate_hal_links($c, $links));
@@ -28,17 +28,11 @@ sub root {
 
 sub find_by_user {
    my $self = shift;
-   my ($user, $start, $end, $tag, $page_size, $page_index, $order, $rs);
+   my ($user, $start, $end, $tag, $page_size, $page_index, $order, $rs, $self_order_text);
    my $result = Data::HAL->new();
-   my $links = [{
-      relation => 'self',
-      templated => 1,
-      href => '/api/sites/search/findByUser',
-      params => '{?size,index,sort,start,end,user}'
-   }];
    my $dtf = $self->schema->storage->datetime_parser;
 
-   &validate_paging_params($self, qw/user bytes time bytes_percent time_percent/);
+   &validate_paging_params($self, qw/user bytes time bytes_percent time_percent site/);
 
    #The failed validation method requires Mojolicious 6.0
    if ($self->validation->has_error) {
@@ -54,7 +48,14 @@ sub find_by_user {
    $tag        = $self->param('tag') // 'default';
    $page_size  = $self->validation->param('size') // $self->config->{page_size};
    $page_index = $self->validation->param('index') // $self->config->{page_index};
-   $order      = &parse_sort_params($self);
+   ($order, $self_order_text) = &parse_sort_params($self);
+
+   my $links = [{
+      relation => 'self',
+      templated => 1,
+      href => '/api/sites/search/findByUser',
+      params => "{?$page_size,$page_index"."$self_order_text"."$start,$end,$user,$tag}"
+   }];
 
    $rs = $self->schema->resultset('UserSiteHourly')->sum_by_site(
       $user, $start, $end, $tag, $page_size, $page_index, $order);

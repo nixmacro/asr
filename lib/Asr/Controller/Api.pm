@@ -16,12 +16,12 @@ sub root {
       relation => 'users',
       templated => 1,
       href => '/api/users',
-      params => '{?size,index,sort,start,end}'
+      params => '{?size,index,sort,start,end,tag}'
    },{
       relation => 'sites',
       templated => 1,
       href => '/api/sites',
-      params => '{?size,index,sort,start,end}'
+      params => '{?size,index,sort,start,end,tag}'
    }];
 
    $result->links(&generate_hal_links($c, $links));

@@ -9,12 +9,8 @@ use Asr::Controller::Utils qw/generate_hal_links validate_paging_params parse_so
 
 sub list {
    my $self = shift;
-   my ($start, $end, $tag, $page_size, $page_index, $order, $rs);
+   my ($start, $end, $tag, $page_size, $page_index, $order, $rs, $self_order_text);
    my $result = Data::HAL->new();
-   my $links = [
-      {relation => 'self', templated => 1, href => '/api/users', params => '{?size,index,sort,start,end}'},
-      {relation => 'search', templated => 0, href => '/api/users/search'}
-   ];
    my $dtf = $self->schema->storage->datetime_parser;
 
    &validate_paging_params($self, qw/remote_user bytes time bytes_percent time_percent/);
@@ -32,7 +28,12 @@ sub list {
    $tag        = $self->param('tag') // 'default';
    $page_size  = $self->validation->param('size') // $self->config->{page_size};
    $page_index = $self->validation->param('index') // $self->config->{page_index};
-   $order      = &parse_sort_params($self);
+   ($order, $self_order_text) = &parse_sort_params($self);
+
+   my $links = [
+      {relation => 'self', templated => 1, href => '/api/users', params => "{?$page_size,$page_index"."$self_order_text"."$start,$end,$tag}"},
+      {relation => 'search', templated => 0, href => '/api/users/search'}
+   ];
 
    $rs = $self->schema->resultset('UserSiteHourly')->sum_by_user(
       undef, $start, $end, $tag, $page_size, $page_index, $order);
