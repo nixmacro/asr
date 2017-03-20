@@ -29,7 +29,7 @@ sub sum_by {
    );
 
    $where{$filter_col} = $filter_val if defined($filter_val);
-   $where{'tag.name'} = $tag if defined($tag);
+   $where{'tag.id'} = $tag if defined($tag);
 
    my ($tt_sql, @tt_args) = @{${$self->search(\%where, {
       columns => [

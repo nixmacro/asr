@@ -9,9 +9,13 @@ use Asr::Controller::Utils qw/generate_hal_links validate_paging_params parse_so
 
 sub list {
    my $self = shift;
-   my ($start, $end, $tag, $page_size, $page_index, $order, $rs, $self_order_text);
+   my ($start, $end, $tag, $page_size, $page_index, $order, $rs);
    my $result = Data::HAL->new();
    my $dtf = $self->schema->storage->datetime_parser;
+   my $links = [
+      {relation => 'self', templated => 1, href => '/api/users', params => '{?size,index,sort,start,end,tag}'},
+      {relation => 'search', templated => 0, href => '/api/users/search'}
+   ];
 
    &validate_paging_params($self, qw/remote_user bytes time bytes_percent time_percent/);
 
@@ -25,15 +29,10 @@ sub list {
 
    $start      = $self->param('start') // $dtf->format_datetime(DateTime->now->subtract(days => 15)),
    $end        = $self->param('end') // $dtf->format_datetime(DateTime->now),
-   $tag        = $self->param('tag') // 'default';
+   $tag        = $self->param('tag') // 0;
    $page_size  = $self->validation->param('size') // $self->config->{page_size};
    $page_index = $self->validation->param('index') // $self->config->{page_index};
-   ($order, $self_order_text) = &parse_sort_params($self);
-
-   my $links = [
-      {relation => 'self', templated => 1, href => '/api/users', params => "{?$page_size,$page_index"."$self_order_text"."$start,$end,$tag}"},
-      {relation => 'search', templated => 0, href => '/api/users/search'}
-   ];
+   $order      = &parse_sort_params($self);
 
    $rs = $self->schema->resultset('UserSiteHourly')->sum_by_user(
       undef, $start, $end, $tag, $page_size, $page_index, $order);

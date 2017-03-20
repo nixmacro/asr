@@ -28,9 +28,15 @@ sub root {
 
 sub find_by_user {
    my $self = shift;
-   my ($user, $start, $end, $tag, $page_size, $page_index, $order, $rs, $self_order_text);
+   my ($user, $start, $end, $tag, $page_size, $page_index, $order, $rs);
    my $result = Data::HAL->new();
    my $dtf = $self->schema->storage->datetime_parser;
+   my $links = [{
+      relation => 'self',
+      templated => 1,
+      href => '/api/sites/search/findByUser',
+      params => '{?size,index,sort,start,end,user,tag}'
+   }];
 
    &validate_paging_params($self, qw/user bytes time bytes_percent time_percent site/);
 
@@ -45,17 +51,10 @@ sub find_by_user {
    $user       = $self->param('user');
    $start      = $self->param('start') // $dtf->format_datetime(DateTime->now->subtract(days => 15)),
    $end        = $self->param('end') // $dtf->format_datetime(DateTime->now),
-   $tag        = $self->param('tag') // 'default';
+   $tag        = $self->param('tag') // 0;
    $page_size  = $self->validation->param('size') // $self->config->{page_size};
    $page_index = $self->validation->param('index') // $self->config->{page_index};
-   ($order, $self_order_text) = &parse_sort_params($self);
-
-   my $links = [{
-      relation => 'self',
-      templated => 1,
-      href => '/api/sites/search/findByUser',
-      params => "{?$page_size,$page_index"."$self_order_text"."$start,$end,$user,$tag}"
-   }];
+   $order      = &parse_sort_params($self);
 
    $rs = $self->schema->resultset('UserSiteHourly')->sum_by_site(
       $user, $start, $end, $tag, $page_size, $page_index, $order);

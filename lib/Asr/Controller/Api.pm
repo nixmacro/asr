@@ -22,6 +22,11 @@ sub root {
       templated => 1,
       href => '/api/sites',
       params => '{?size,index,sort,start,end,tag}'
+   },{
+      relation => 'tags',
+      templated => 1,
+      href => '/api/tags',
+      params => '{?size,index,sort}'
    }];
 
    $result->links(&generate_hal_links($c, $links));
