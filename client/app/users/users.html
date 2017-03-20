@@ -12,6 +12,11 @@
       </div>
    </div>
    <div class="row">
+      <div class="col-md-8">
+         <date-pickers></date-pickers>
+      </div>
+   </div>
+   <div class="row">
       <div class="col-md-7">
          <table class="table table-striped table-bordered table-hover">
             <thead>
@@ -34,7 +39,7 @@
                   <td data-ng-repeat="column in ctrl.columnNames">
                      <span data-ng-if="column === 'remote_user'">
                         <a data-ui-sref="sites({user: user[column], start: ctrl.startDate, end: ctrl.endDate})"
-                           tooltip-placement="top" tooltip="View user detail" tooltip-trigger>
+                           tooltip-placement="top" uib-tooltip="View user detail" tooltip-trigger>
                            <span class="fa fa-info-circle"></span>
                         </a>
                      </span>
