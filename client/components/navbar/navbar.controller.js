@@ -2,10 +2,6 @@
 
 angular.module('asrApp')
 .controller('NavbarCtrl', function ($scope, $location, Auth, $state, $stateParams, $moment, RestService) {
-   $scope.sites = [{
-      name: 'default'
-   }];
-
    $scope.menu = [{
       'title': 'Users',
       'link': 'users'
@@ -13,14 +9,15 @@ angular.module('asrApp')
       'title': 'Sites',
       'link': 'sites'
    }];
+   
+   $scope.endDate = $stateParams.end;
+   $scope.startDate = $stateParams.start;
+   $scope.tag = $stateParams.tag;
 
-   $scope.site = undefined;
    $scope.isCollapsed = true;
    $scope.isLoggedIn = Auth.isLoggedIn;
    $scope.isAdmin = Auth.isAdmin;
    $scope.getCurrentUser = Auth.getCurrentUser;
-
-   // RestService.fetch(tag)
 
    $scope.logout = function() {
       Auth.logout();
@@ -29,41 +26,5 @@ angular.module('asrApp')
 
    $scope.isActive = function(route) {
       return route === $location.path();
-   };
-
-   $scope.showPickers = function() {
-      return $state.includes('users') || $state.includes('sites');
-   };
-
-   // Datepicker
-   $scope.endDate = $stateParams.end ? $moment($stateParams.end).toDate() :
-      $moment().toDate();
-   $scope.startDate = $stateParams.start ? $moment($stateParams.start).toDate() :
-      $moment().subtract(15, 'days').toDate();
-
-   $scope.maxDate = new Date();
-
-   $scope.$watch('startDate', function () {
-      $scope.applyDate();
-   });
-   $scope.$watch('endDate', function () {
-      $scope.applyDate();
-   });
-
-   $scope.tooglePicker = function(picker) {
-      $scope[picker] = !$scope[picker];
-   };
-
-   $scope.getDateParams = function() {
-      var params = {};
-
-      params.start = $scope.startDate.toISOString().split('T')[0];
-      params.end = $scope.endDate.toISOString().split('T')[0];
-
-      return params;
-   };
-
-   $scope.applyDate = function() {
-      $state.go($state.current, $scope.getDateParams());
-   };
+   };   
 });
