@@ -607,6 +607,11 @@ sub startup {
       ->to('api-sites-search#find_by_user')
       ->name('api-sites-search#find_by_user');
 
+   #API Tag Route
+   $api_routes->get('/tags')
+      ->to('api-tags#list')
+      ->name('api-tags#list');
+
    # my $api_users_routes = $api_routes->get('/users');
    # $api_users_routes->get('/')->to('api#users')->name('api_users_root');
    # $api_users_routes->get('/search')->to('api#users_search')->name('users_search');
