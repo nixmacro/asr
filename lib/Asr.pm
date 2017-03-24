@@ -520,8 +520,40 @@ sub startup {
 #         ->over(headers => {'Content-type' => qr'^application/x-www-form-urlencoded$'i})
 #         ->to('auth#form_login');
 
+
+   #API Routes
+   my $api_routes = $self->routes->under('/api')->over(authenticated => 1);
+   $api_routes->get('/')->to('api#root')->name('api#root');
+
+   #API User Routes
+   $api_routes->get('/users')
+      ->to('api-users#list')
+      ->name('api-users#list');
+   $api_routes->get('/users/search')
+      ->to('api-users-search#root')
+      ->name('api-users-search#root');
+   $api_routes->get('/users/search/findBySite')
+      ->to('api-users-search#find_by_site')
+      ->name('api-users-search#find_by_site');
+
+   #API Site Routes
+   $api_routes->get('/sites')
+      ->to('api-sites#list')
+      ->name('api-sites#list');
+   $api_routes->get('/sites/search')
+      ->to('api-sites-search#root')
+      ->name('api-sites-search#root');
+   $api_routes->get('/sites/search/findByUser')
+      ->to('api-sites-search#find_by_user')
+      ->name('api-sites-search#find_by_user');
+
+   #API Tag Route
+   $api_routes->get('/tags')
+      ->to('api-tags#list')
+      ->name('api-tags#list');
+
    #Admin Routes
-   my $admin_routes = $self->routes->under('/admin')->over(authenticated => 1);
+   my $admin_routes = $api_routes->under('/admin');
    $admin_routes->get('/')->to('admin#root')->name('admin#root');
 
    #Admin User Routes
@@ -581,36 +613,6 @@ sub startup {
       ->to('admin-tags#update')
       ->name('admin-tags#update');
 
-   #API Routes
-   my $api_routes = $self->routes->under('/api')->over(authenticated => 1);
-   $api_routes->get('/')->to('api#root')->name('api#root');
-
-   #API User Routes
-   $api_routes->get('/users')
-      ->to('api-users#list')
-      ->name('api-users#list');
-   $api_routes->get('/users/search')
-      ->to('api-users-search#root')
-      ->name('api-users-search#root');
-   $api_routes->get('/users/search/findBySite')
-      ->to('api-users-search#find_by_site')
-      ->name('api-users-search#find_by_site');
-
-   #API Site Routes
-   $api_routes->get('/sites')
-      ->to('api-sites#list')
-      ->name('api-sites#list');
-   $api_routes->get('/sites/search')
-      ->to('api-sites-search#root')
-      ->name('api-sites-search#root');
-   $api_routes->get('/sites/search/findByUser')
-      ->to('api-sites-search#find_by_user')
-      ->name('api-sites-search#find_by_user');
-
-   #API Tag Route
-   $api_routes->get('/tags')
-      ->to('api-tags#list')
-      ->name('api-tags#list');
 
    # my $api_users_routes = $api_routes->get('/users');
    # $api_users_routes->get('/')->to('api#users')->name('api_users_root');
