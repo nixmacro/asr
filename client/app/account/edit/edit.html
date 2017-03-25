@@ -1,0 +1,334 @@
+<div class="row">
+    <span class="h1 col-sm-8">Account {{$ctrl.currentAction}}</span>
+    <span class="h1 col-sm-2 col-sm-offset-2">
+        <button class="btn btn-lg btn-primary"
+            type="button"
+            ng-disabled="$ctrl.accountForm.$invalid || $ctrl.accountForm.$pending || $ctrl.saving "
+            ng-click="$ctrl.save()" aria-label="Save">
+            <span class="fa" aria-hidden="true"
+                ng-class="{
+                    'fa-save': !$ctrl.saving,
+                    'fa-spinner fa-spin': $ctrl.saving
+                }">
+            </span>
+            Save
+        </button>
+    </span>
+</div>
+<div class="row">
+    <form name="$ctrl.accountForm" ng-submit="$ctrl.accountForm.$valid && $ctrl.save()">
+        <fieldset>
+            <legend>
+                    <span class="clickable-text fieldset-header" ng-click="$ctrl.toggleFieldsetVisibility('accountInfo')">Account</span>
+                    <span class="fa" ng-class="{'fa-caret-up': $ctrl.fieldSets.accountInfo.visible, 'fa-caret-down': !$ctrl.fieldSets.accountInfo.visible}"></span>
+            </legend>
+            <section class="animate-show-hide" ng-show="$ctrl.fieldSets.accountInfo.visible">
+                <div class="row">
+                    <div class="form-group has-feedback col-sm-12"
+                        ng-class="{
+                            'has-error': $ctrl.accountForm.user.$touched && $ctrl.accountForm.user.$invalid,
+                            'has-success': $ctrl.accountForm.user.$touched && $ctrl.accountForm.user.$valid}">
+                        <label class="control-label" for="user">User</label>
+                        <input class="form-control" name="user" id="user"
+                            server-error
+                            type="text"
+                            select-on-click
+                            placeholder="Search by Name or Id"
+                            uib-typeahead="user as user.name for user in $ctrl.getUsers($viewValue)"
+                            typeahead-editable="false"
+                            typeahead-input-formatter="$ctrl.userFormatter($model)"
+                            typeahead-template-url="app/account/edit/userTypeahead.html"
+                            typeahead-loading="$ctrl.loadingUsers"
+                            ng-model="$ctrl.account.name"
+                            ng-model-options="{debounce: 500}">
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.user.$touched && $ctrl.accountForm.user.$invalid,
+                                'fa-check': $ctrl.accountForm.user.$touched && $ctrl.accountForm.user.$valid, 'fa-spinner fa-spin': $ctrl.loadingUsers}">
+                        </span>
+                    </div>
+                </div>
+<!--                <div class="row">
+                    <div class="form-group has-feedback col-sm-6"
+                        ng-class="{
+                            'has-error': $ctrl.accountForm.firstName.$touched && $ctrl.accountForm.firstName.$invalid,
+                            'has-success': $ctrl.accountForm.firstName.$touched && $ctrl.accountForm.firstName.$valid}">
+                        <label class="control-label" for="firstName">First Name</label>
+                        <input class="form-control" name="firstName" id="firstName"
+                            server-error
+                            type="text"
+                            required
+                            ng-model-options="{updateOn: 'blur'}"
+                            ng-model="$ctrl.account.firstName">
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.firstName.$touched && $ctrl.accountForm.firstName.$invalid,
+                                'fa-check': $ctrl.accountForm.firstName.$touched && $ctrl.accountForm.firstName.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.firstName.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.firstName}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback col-sm-6"
+                        ng-class="{
+                            'has-error': $ctrl.accountForm.lastName.$touched && $ctrl.accountForm.lastName.$invalid,
+                            'has-success': $ctrl.accountForm.lastName.$touched && $ctrl.accountForm.lastName.$valid}">
+                        <label class="control-label" for="lastName">Last Name</label>
+                        <input class="form-control" name="lastName" id="lastName"
+                            server-error
+                            type="text"
+                            required
+                            ng-model-options="{updateOn: 'blur'}"
+                            ng-model="$ctrl.account.lastName">
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.lastName.$touched && $ctrl.accountForm.lastName.$invalid,
+                                'fa-check': $ctrl.accountForm.lastName.$touched && $ctrl.accountForm.lastName.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.lastName.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.lastName}}</div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="row">
+                    <div class="form-group has-feedback col-sm-6"
+                         ng-class="{
+                            'has-error': $ctrl.accountForm.login.$touched && $ctrl.accountForm.login.$invalid,
+                            'has-success': $ctrl.accountForm.login.$touched && $ctrl.accountForm.login.$valid}">
+                        <label class="control-label" for="login">Login</label>
+                        <input class="form-control" name="login" id="login"
+                            server-error
+                            validate-login="{{$ctrl.accountResource.login}}"
+                            type="email" required
+                            ng-model="$ctrl.account.login"
+                            ng-model-options="{updateOn: 'blur'}"
+                            ng-change="$ctrl.account.email = $ctrl.account.login; $ctrl.accountForm.email.$setDirty()">
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-spinner fa-spin': $ctrl.accountForm.login.$pending.validateLogin,
+                                'fa-times': $ctrl.accountForm.login.$touched && $ctrl.accountForm.login.$invalid,
+                                'fa-check': $ctrl.accountForm.login.$touched && $ctrl.accountForm.login.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.login.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="validateLogin">Login name already exists.</div>
+                            <div ng-message="match">Login must match email.</div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.login}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback col-sm-6"
+                         ng-class="{
+                            'has-error': $ctrl.accountForm.email.$touched && $ctrl.accountForm.email.$invalid,
+                            'has-success': $ctrl.accountForm.email.$touched && $ctrl.accountForm.email.$valid}">
+                        <label class="control-label" for="email">Email</label>
+                        <input class="form-control" name="email" id="email"
+                            server-error
+                            type="email" required
+                            ng-model="$ctrl.account.email"
+                            ng-model-options="{updateOn: 'blur'}"
+                            ng-change="$ctrl.account.login = $ctrl.account.email; $ctrl.accountForm.login.$setDirty()">
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.email.$touched && $ctrl.accountForm.email.$invalid,
+                                'fa-check': $ctrl.accountForm.email.$touched && $ctrl.accountForm.email.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.email.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.email}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group has-feedback col-sm-6"
+                        ng-class="{
+                          'has-error': $ctrl.accountForm.password.$touched && $ctrl.accountForm.password.$invalid,
+                          'has-success': $ctrl.accountForm.password.$touched && $ctrl.accountForm.password.$valid}">
+                        <label class="control-label" for="password">Password</label>
+                        <input class="form-control" name="password" id="password"
+                            server-error
+                            type="password"
+                            ng-minlength="8"
+                            ng-model="$ctrl.account.password"
+                            ng-model-options="{updateOn: 'blur'}">
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.password.$touched && $ctrl.accountForm.password.$invalid,
+                                'fa-check': $ctrl.accountForm.password.$touched && $ctrl.accountForm.password.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.password.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.password}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback col-sm-6 select-container"
+                        ng-class="{
+                            'has-error': $ctrl.accountForm.roles.$touched && $ctrl.accountForm.roles.$invalid,
+                            'has-success': $ctrl.accountForm.roles.$touched && $ctrl.accountForm.roles.$valid}">
+                        <label class="control-label" for="roles">Roles</label>
+                        <select class="form-control" name="roles" id="roles"
+                            required
+                            ng-model="$ctrl.account.roles"
+                            ng-options="value as label for (value, label) in $ctrl.rolesEnum">
+                        </select>
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.roles.$touched && $ctrl.accountForm.roles.$invalid,
+                                'fa-check': $ctrl.accountForm.roles.$touched && $ctrl.accountForm.roles.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.status.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.status}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </fieldset>
+<!--        <fieldset>
+            <legend>
+                <span class="clickable-text fieldset-header"
+                    ng-click="$ctrl.toggleFieldsetVisibility('personalInfo')">Personal
+                </span>
+                <span class="fa"
+                    ng-class="{
+                    'fa-caret-up': $ctrl.fieldSets.personalInfo.visible,
+                    'fa-caret-down': !$ctrl.fieldSets.personalInfo.visible}">
+                </span>
+            </legend>
+            <section class="animate-show-hide" ng-show="$ctrl.fieldSets.personalInfo.visible">
+                <div class="row">
+                    <div class="form-group has-feedback col-sm-6"
+                        ng-class="{
+                          'has-error': $ctrl.accountForm.country.$touched && $ctrl.accountForm.country.$invalid,
+                          'has-success': $ctrl.accountForm.country.$touched && $ctrl.accountForm.country.$valid}">
+                        <label class="control-label" for="country">Country</label>
+                        <input class="form-control" name="country" id="country"
+                            server-error
+                            type="text"
+                            ng-model-options="{updateOn: 'blur'}"
+                            ng-model="$ctrl.account.country">
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.country.$touched && $ctrl.accountForm.country.$invalid,
+                                'fa-check': $ctrl.accountForm.country.$touched && $ctrl.accountForm.country.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.country.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.country}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback col-sm-6"
+                        ng-class="{
+                            'has-error': $ctrl.accountForm.legalId.$touched && $ctrl.accountForm.legalId.$invalid,
+                            'has-success': $ctrl.accountForm.legalId.$touched && $ctrl.accountForm.legalId.$valid}">
+                        <label class="control-label" for="legalId">Legal ID</label>
+                        <input class="form-control" name="legalId" id="legalId"
+                            server-error
+                            type="text"
+                            ng-model-options="{updateOn: 'blur'}"
+                            ng-model="$ctrl.account.legalId">
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.legalId.$touched && $ctrl.accountForm.legalId.$invalid,
+                                'fa-check': $ctrl.accountForm.legalId.$touched && $ctrl.accountForm.legalId.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.legalId.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.legalId}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group has-feedback col-sm-6"
+                        ng-class="{
+                            'has-error': $ctrl.accountForm.birthDate.$touched && $ctrl.accountForm.birthDate.$invalid,
+                            'has-success': $ctrl.accountForm.birthDate.$touched && $ctrl.accountForm.birthDate.$valid}">
+                        <label class="control-label" for="birthDate">Birthday</label>
+                        <input class="form-control" name="birthDate" id="birthDate"
+                            server-error
+                            string-to-date
+                            type="date"
+                            ng-model-options="{updateOn: 'blur'}"
+                            ng-model="$ctrl.account.birthDate">
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.birthDate.$touched && $ctrl.accountForm.birthDate.$invalid,
+                                'fa-check': $ctrl.accountForm.birthDate.$touched && $ctrl.accountForm.birthDate.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.birthDate.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.birthDate}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback col-sm-6 select-container"
+                        ng-class="{
+                            'has-error': $ctrl.accountForm.gender.$touched && $ctrl.accountForm.gender.$invalid,
+                            'has-success': $ctrl.accountForm.gender.$touched && $ctrl.accountForm.gender.$valid}">
+                        <label class="control-label" for="gender">Gender</label>
+                        <select class="form-control" name="gender" id="gender"
+                            ng-model="$ctrl.account.gender"
+                            ng-options="value as label for (value, label) in $ctrl.genderEnum">
+                        </select>
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': $ctrl.accountForm.gender.$touched && $ctrl.accountForm.gender.$invalid,
+                                'fa-check': $ctrl.accountForm.gender.$touched && $ctrl.accountForm.gender.$valid}">
+                        </span>
+                        <div class="help-block" ng-messages="$ctrl.accountForm.gender.$error">
+                            <div ng-messages-include="app/account/edit/validation-messages.html"></div>
+                            <div ng-message="server">{{$ctrl.errorMessages.server.gender}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </fieldset>
+        <fieldset>
+            <legend>
+                <span class="clickable-text fieldset-header"
+                    ng-click="$ctrl.toggleFieldsetVisibility('extraInfo')">Extra
+                </span>
+                <span class="fa"
+                    ng-class="{
+                        'fa-caret-up': $ctrl.fieldSets.extraInfo.visible,
+                        'fa-caret-down': !editVM.fieldSets.extraInfo.visible}">
+                </span>
+            </legend>
+            <section class="animate-show-hide" ng-show="editVM.fieldSets.extraInfo.visible">
+                <div class="row">
+                    <div class="form-group has-feedback col-sm-12"
+                        ng-class="{
+                            'has-error': editVM.accountForm.address.$touched && editVM.accountForm.address.$invalid,
+                            'has-success': editVM.accountForm.address.$touched && editVM.accountForm.address.$valid}">
+                        <label class="control-label" for="address">Address</label>
+                        <textarea class="form-control" name="address" id="address"
+                            server-error
+                            rows="3"
+                            ng-model-options="{updateOn: 'blur'}"
+                            ng-model="editVM.account.address"></textarea>
+                        <span class="form-control-feedback fa"
+                            ng-class="{
+                                'fa-times': editVM.accountForm.address.$touched && editVM.accountForm.address.$invalid,
+                                'fa-check': editVM.accountForm.address.$touched && editVM.accountForm.address.$valid}">
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group has-feedback col-sm-12"
+                        ng-class="{'has-error': editVM.accountForm.apartment.$touched && editVM.accountForm.apartment.$invalid,
+                        'has-success': editVM.accountForm.apartment.$touched && editVM.accountForm.apartment.$valid}">
+                        <label class="control-label" for="apartment">Apartment</label>
+                        <input class="form-control" name="apartment" id="apartment"
+                            server-error
+                            type="text"
+                            ng-model-options="{updateOn: 'blur'}"
+                            ng-model="editVM.account.apartment">
+                        <span class="form-control-feedback fa"
+                            ng-class="{'fa-times': editVM.accountForm.apartment.$touched && editVM.accountForm.apartment.$invalid,
+                            'fa-check': editVM.accountForm.apartment.$touched && editVM.accountForm.apartment.$valid}"></span>
+                    </div>
+                </div>
+            </section>
+        </fieldset>-->
+    </form>
+</div>

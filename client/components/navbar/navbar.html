@@ -14,6 +14,9 @@
             <li data-ui-sref-active="active" ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
                <a data-ui-sref="{{item.link}}({start: startDate, end: endDate, tag: tag})">{{item.title}}</a>
             </li>
+            <li ng-show="isAdmin()" data-ui-sref-active="active" ng-repeat="item in adminMenu" ng-class="{active:$state.includes('{{item.parent}}')}">
+               <a data-ui-sref="{{item.target}}">{{item.title}}</a>
+            </li>
             <li ng-show="isAdmin()" data-ui-sref-active="active"><a data-ui-sref="admin">Admin</a></li>
          </ul>
          <ul class="nav navbar-nav navbar-right">

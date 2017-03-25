@@ -6,6 +6,7 @@ angular.module('asrApp', [
    'ngSanitize',
    'ui.router',
    'ui.bootstrap',
+   'ui-notification',
    'angular-momentjs',
    'hrCore',
    'hrHal',
