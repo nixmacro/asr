@@ -1,0 +1,56 @@
+<div class="row">
+    <span class="h1 col-sm-6">Account List</span>
+    <span class="h1 col-sm-2 col-sm-offset-4">
+        <a class="btn btn-lg btn-primary hint--rounded hint--right"
+        data-hint="Create Account"
+            ui-sref="account.create">Create
+            <span class="fa fa-plus-circle"></span>
+        </a>
+    </span>
+</div>
+<div class="row">
+    <div class="input-group input-group-lg">
+        <span class="input-group-addon" aria-hidden="true">
+            <span class="fa fa-search"></span>
+        </span>
+        <input class="form-control"
+            type="text"
+            placeholder="Search by Account Name, Email or Login"
+            data-ng-model="$ctrl.filter"
+            data-ng-model-options="{debounce: 500}"
+            data-ng-change="$ctrl.filterChanged()">
+        <span class="input-group-btn">
+            <button class="btn btn-default hint--rounded hint--right" data-hint="Clear Search Filter" type="button" data-ng-click="$ctrl.clearSearchFilter()">
+                <span class="fa fa-times-circle" aria-hidden="true"></span>
+            </button>
+        </span>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <ul class="list-group">
+        <li class="list-group-item identified-list-item" data-ng-repeat="account in $ctrl.accounts">
+            <strong>{{"%(name)s &lt;%(login)s&gt;" | fmt:account }}</strong>
+            <div class="btn-group pull-right" role="group">
+                <button class="btn btn-danger hint--rounded hint--left" data-hint="Unlink Customer" type="button" data-ng-disabled="!account.$hasCustomer" data-ng-click="$ctrl.unlink(account)" aria-label="delete">
+                    <span class="fa fa-chain-broken" aria-hidden="true"
+                        data-ng-class="{
+                            'fa-chain-broken': !$ctrl.working,
+                            'fa-spinner fa-pulse': $ctrl.working
+                        }">
+                    </span>
+                </button>
+                <button class="btn btn-primary hint--rounded hint--right" data-hint="Edit Account" type="button" data-ng-click="$ctrl.edit(account)" aria-label="edit">
+                    <span class="fa fa-pencil" aria-hidden="true"></span>
+                </button>
+            </div>
+            <br/>
+            <span>{{account.login}}</span>
+        </li>
+    </ul>
+</div>
+<pager
+    total-items="$ctrl.totalItems"
+    items-per-page="$ctrl.pageSize"
+    data-ng-model="$ctrl.pageNumber"
+    data-ng-change="$ctrl.pageChanged()"></pager>
