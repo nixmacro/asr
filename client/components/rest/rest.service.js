@@ -36,6 +36,24 @@ angular.module('asrApp')
 
             return $q.all(promises);
          },
+         fetchAllPages: function fetchAllPages(pagedResource, params, pageSize) {
+            var totalPages = Math.ceil(pagedResource.page.totalItems / pageSize);
+            var promises = [];
+            params.size = pageSize;
+
+            for (var i = 1; i <= totalPages; i++) {
+               params.index = i;
+               var promise = pagedResource
+               .$followOne('self', { data: params }).$promise
+                  .then(function (resource) {
+                     return resource;
+                  });
+
+               promises.push(promise);
+            }
+
+            return $q.all(promises);
+         },
          search: function (rel, params, searchRel) {
             return hrRoot(restApiRoot).follow().$promise
                .then(function (rootResource) {

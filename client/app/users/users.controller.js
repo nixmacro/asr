@@ -135,7 +135,7 @@ angular.module('asrApp')
 
       // TODO: Abstract this functionality into a service
       self.makePDF = function () {
-         RestService.fetchPages(usersResource, $stateParams)
+         RestService.fetchAllPages(usersResource, $stateParams, 1000)
             .then(function (resources) {
                var promises = [];
 
