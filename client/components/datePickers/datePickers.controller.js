@@ -1,46 +1,46 @@
 'use strict';
 
 angular.module('asrApp')
-.controller('datePickersCtrl', function (
-    $state,
-    $stateParams,
-    RestService,
-    $moment) {
+   .controller('datePickersCtrl', function (
+      $state,
+      $stateParams,
+      RestService,
+      $moment) {
 
-    var self = this;
+      var self = this;
 
-    RestService.fetch('tags', {size: '10', index: '1'})
-       .then(function (resource) {
-          self.tags = resource.$subs('tags');
-          self.tag = $stateParams.tag ? self.tags[$stateParams.tag] : self.tags[0];
-       });
-    
-    self.endDate = $stateParams.end ? $moment($stateParams.end).toDate() :
-        $moment().toDate();
-    self.startDate = $stateParams.start ? $moment($stateParams.start).toDate() :
-        $moment().subtract(15, 'days').toDate();
+      RestService.fetch('tags', { size: '10', index: '1' })
+         .then(function (resource) {
+            self.tags = resource.$subs('tags');
+            self.tag = $stateParams.tag ? self.tags[$stateParams.tag] : self.tags[0];
+         });
 
-    self.maxDate = new Date();
+      self.endDate = $stateParams.end ? $moment($stateParams.end).toDate() :
+         $moment().toDate();
+      self.startDate = $stateParams.start ? $moment($stateParams.start).toDate() :
+         $moment().subtract(15, 'days').toDate();
 
-    self.tooglePicker = function (picker) {
-        self[picker] = !self[picker];
-    };
+      self.maxDate = new Date();
 
-    self.getDateParams = function () {
-        var params = {};
+      self.tooglePicker = function (picker) {
+         self[picker] = !self[picker];
+      };
 
-        params.start = self.startDate.toISOString().split('T')[0];
-        params.end = self.endDate.toISOString().split('T')[0];
+      self.getDateParams = function () {
+         var params = {};
 
-        return params;
-    };
+         params.start = self.startDate.toISOString().split('T')[0];
+         params.end = self.endDate.toISOString().split('T')[0];
 
-    self.applyDate = function () {
-        $state.go($state.current, self.getDateParams());
-    };
+         return params;
+      };
 
-    self.applyTag = function () {
-        $state.go($state.current, { tag: self.tag });
-    };
+      self.applyDate = function () {
+         $state.go($state.current, self.getDateParams());
+      };
 
-});
+      self.applyTag = function () {
+         $state.go($state.current, { tag: self.tag.id });
+      };
+
+   });
