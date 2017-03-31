@@ -3,31 +3,16 @@ package Asr::Controller::Admin::Users;
 use Modern::Perl;
 use Mojo::Base 'Mojolicious::Controller';
 
+use Mojolicious::Routes::Pattern;
+use TryCatch;
 use Asr::Controller::Utils qw(generate_hal_links validate_paging_params parse_sort_params);
-use Asr::Schema::Result::User;
-use Mojo::JSON qw(encode_json);
-
-sub index {
-   my $self = shift;
-   my $result = Data::HAL->new();
-   my $links = [
-      {relation => 'self', templated => 0, href => '/api/admin'},
-      {relation => 'users', templated => 1, href => '/api/admin/users', params => '{?size,index,sort}'},
-      {relation => 'roles', templated => 1, href => '/api/admin/roles', params => '{?size,index,sort}'}
-   ];
-
-   $result->links(&generate_hal_links($self, $links));
-
-   $self->render(text => $result->as_json, format => 'haljson');
-}
 
 sub list {
    my $self = shift;
    my ($page_size, $page_index, $rs, $order);
-   my $result = Data::HAL->new;
+   my $result = Data::HAL->new();
    my $links = [
-      {relation => 'self', templated => 1, href => '/api/admin/users', params => '{?size,index,sort}'},
-      {relation => 'search', templated => 0, href => '/api/admin/users/search'}
+      {relation => 'self', templated => 1, href => '/admin/users', params => '{?size,index,sort}'}
    ];
 
    &validate_paging_params($self, keys %{$self->schema->source('User')->columns_info});
@@ -44,13 +29,11 @@ sub list {
    $page_index = $self->validation->param('index') // $self->config->{page_index};
    $order = &parse_sort_params($self);
 
-   $rs = $self->schema->resultset('User')->search(
-      undef, {
-         rows => $page_size,
-         page => $page_index,
-         order_by => $order,
-      },
-   );
+   $rs = $self->schema->resultset('User')->search(undef, {
+      rows => $page_size,
+      page => $page_index,
+      order_by => $order,
+   });
 
    $result->resource({
       page => {
@@ -65,7 +48,7 @@ sub list {
    my @embedded = map {
       my $links = [{
          relation => 'self',
-         href => "/api/admin/users/${\$_->id}",
+         href => "/admin/users/${\$_->id}",
          templated => 0,
       }];
       Data::HAL->new(
@@ -80,76 +63,149 @@ sub list {
    $self->render(text => $result->as_json, format => 'haljson');
 }
 
-sub user {
+sub read {
    my $self = shift;
-   my $links = [
-      {relation => 'self', templated => 1, href => '/api/admin/users/:id'},
-   ];
-   my $result;
-   &_sanitize_params($self);
+   my $result = Data::HAL->new();
+   my $row;
 
-   #The failed validation method requires Mojolicious 6.0
-   $self->stash(message => "The following parameters failed validation: @{$self->validation->failed}");
+   try {
+      $row = $self->schema->resultset('User')->find($self->param('id'));
 
-   return $self->render(template => 'client_error', status => 400)
-      if $self->validation->has_error;
+      if (!$row) {
+         return $self->reply->not_found;
+      }
+   } catch (DBIx::Error $err) {
+      $self->app->log->error($err->message);
+      return $self->reply->exception;
+   }
 
-   $result = &_get_data($self, 'remote_user', 'users');
+   # my $pattern = Mojolicious::Routes::Pattern->new('/admin/users/:id');
+   # say $pattern->render({id => $self->param('id')});
 
-   $result->links(&generate_hal_links($self, $links));
+   $result->embedded([
+      Data::HAL->new({
+         resource => $row->TO_JSON,
+         relation => 'users',
+         links => [
+            Data::HAL::Link->new({
+               relation => 'self',
+               template => 0,
+               href => "/admin/users/${\$row->id}"
+            })
+         ]
+      })
+   ]);
 
    $self->render(text => $result->as_json, format => 'haljson');
 }
 
-sub me {
+sub create {
    my $self = shift;
-   my $result;
+   my $row;
+   my $result = Data::HAL->new();
+   my $rs = $self->schema->resultset('User');
 
-   $result = $self->current_user->TO_JSON;
-
-   @{$${result}{roles}} = map { $_->name } $self->current_user->roles;
-
-   $self->render(json => $result);
-}
-
-sub ajax_logout {
-   my $self = shift;
-
-   if ($self->is_user_authenticated) {
-      $self->logout;
+   try {
+      $row = $rs->create($self->req->json);
+   } catch (DBIx::Error::UniqueViolation $err) {
+      $self->app->log->warn($err->message);
+      return $self
+         ->stash(message => 'Duplicated value.')
+         ->render(template => 'client_error', status => 409);
+   } catch (DBIx::Class::Exception $err) {
+      if ($err =~ /No such column '(.+)'/) {
+         $self->app->log->warn($err);
+         return $self
+            ->stash(message => "Invalid field '$1'.")
+            ->render(template => 'client_error', status => 400);
+      } else {
+         return $self->reply->exception($err);
+      }
    }
 
-   $self->render(data => '', status => 204);
+   $result->embedded([
+      Data::HAL->new({
+         resource => $row->TO_JSON,
+         relation => 'users',
+         links => [
+            Data::HAL::Link->new({
+               relation => 'self',
+               template => 0,
+               href => "/admin/users/${\$row->id}"
+            })
+         ]
+      })
+   ]);
+
+   $self->render(text => $result->as_json, format => 'haljson', status => 201);
 }
 
-sub ajax_login {
-	my $self = shift;
-	my $val = Mojolicious::Validator->new->validation;
-	my $json = $self->req->json // {};
+sub update {
+   my $self = shift;
+   my $row;
+   my $result = Data::HAL->new();
+   my $rs = $self->schema->resultset('User');
 
-	$val->input($json);
-	$val->required('username');
-	$val->required('password');
+   try {
+      $row = $rs->find($self->param('id'));
 
-	if ($val->has_error) {
-		#Respond 400 for invalid parameters
-		$self->stash(message => "The following parameters failed validation: @{$val->failed}");
-		return $self->render(template => 'client_error', status => 400);
-	}
+      if ($row) {
+         $row->set_columns($self->req->json);
+         $row->update;
+      } else {
+         return $self->reply->not_found;
+      }
+   } catch (DBIx::Error::UniqueViolation $err) {
+      $self->app->log->warn($err->message);
+      return $self
+         ->stash(message => 'Duplicated value.')
+         ->render(template => 'client_error', status => 409);
+   } catch (DBIx::Class::Exception $err) {
+      if ($err =~ /No such column '(.+)'/) {
+         $self->app->log->warn($err);
+         return $self
+            ->stash(message => "Invalid field '$1'.")
+            ->render(template => 'client_error', status => 400);
+      } else {
+         return $self->reply->exception($err);
+      }
+   }
 
+   $result->embedded([
+      Data::HAL->new({
+         resource => $row->TO_JSON,
+         relation => 'users',
+         links => [
+            Data::HAL::Link->new({
+               relation => 'self',
+               template => 0,
+               href => "/admin/users/${\$row->id}"
+            })
+         ]
+      })
+   ]);
 
-	if ($self->authenticate($json->{username}, $json->{password})) {
-		#For valid credentials respond 204 with empty body, this will set the auth cookie
-		$self->render(status => 204, data => '');
-	} else {
-		#For invalid credentials respond with a 401 and error message
-		$self->stash(
-			message => 'Invalid login'
-		)->render(
-			status => 401,
-			template => 'unauthorized',
-		);
-	}
+   $self->render(text => $result->as_json, format => 'haljson', status => 204);
+}
+
+sub delete {
+   my $self = shift;
+   my $row;
+   my $rs = $self->schema->resultset('User');
+
+   try {
+      $row = $rs->find($self->param('id'));
+
+      if ($row) {
+         $row->delete;
+         $self->render(data => '', status => 204);
+      } else {
+         return $self->reply->not_found;
+      }
+   } catch (DBIx::Error $err) {
+      $self->app->log->error($err->message);
+      return $self->reply->exception;
+   }
 }
 
 1;

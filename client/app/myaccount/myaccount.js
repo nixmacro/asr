@@ -5,7 +5,7 @@ angular.module('asrApp')
    $stateProvider
    .state('login', {
       url: '/login',
-      templateUrl: 'app/account/login/login.html',
+      templateUrl: 'app/myaccount/login/login.html',
       controller: 'LoginCtrl'
    })
    // .state('signup', {
@@ -15,7 +15,7 @@ angular.module('asrApp')
    // })
    .state('settings', {
       url: '/settings',
-      templateUrl: 'app/account/settings/settings.html',
+      templateUrl: 'app/myaccount/settings/settings.html',
       controller: 'SettingsCtrl as settingsVM',
       authenticate: true
    });

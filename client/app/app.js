@@ -6,22 +6,26 @@ angular.module('asrApp', [
    'ngSanitize',
    'ui.router',
    'ui.bootstrap',
+   'ui-notification',
    'angular-momentjs',
-   'angular-hal',
+   'hrCore',
+   'hrHal',
    'sprintf',
    'chart.js'
 ])
-.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $momentProvider) {
+.config(function ($urlRouterProvider, $locationProvider) {
    $urlRouterProvider.otherwise('/');
-   $momentProvider.asyncLoading(false);
    $locationProvider.hashPrefix('!');
+})
+.config(function ($httpProvider) {
    $httpProvider.interceptors.push('authInterceptor');
 })
-
+.config(function ($momentProvider) {
+   $momentProvider.asyncLoading(false);
+})
 .config(function (uibDatepickerConfig) {
    uibDatepickerConfig.showWeeks = false;
 })
-
 .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
    return {
       // Add authorization token to headers
@@ -47,7 +51,6 @@ angular.module('asrApp', [
       }
    };
 })
-
 .run(function ($rootScope, $location, Auth) {
    // Redirect to login if route requires auth and you're not logged in
    $rootScope.$on('$stateChangeStart', function (event, next) {

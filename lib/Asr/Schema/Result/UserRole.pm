@@ -1,7 +1,7 @@
 package Asr::Schema::Result::UserRole;
 
 use Modern::Perl;
-use base 'DBIx::Class::Core';
+use base 'Asr::Schema::Result';
 
 __PACKAGE__->table('user_role');
 __PACKAGE__->add_columns(
@@ -14,7 +14,7 @@ __PACKAGE__->add_columns(
       is_nullable => 0
    }
 );
-__PACKAGE__->set_primary_key(qw<user_id role_id>);
+__PACKAGE__->set_primary_key(qw/user_id role_id/);
 __PACKAGE__->belongs_to(user => 'Asr::Schema::Result::User',{'foreign.id' => 'self.user_id'});
 __PACKAGE__->belongs_to(role => 'Asr::Schema::Result::Role',{'foreign.id' => 'self.role_id'});
 

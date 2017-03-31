@@ -63,8 +63,9 @@
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/angular-ui-notification/dist/angular-ui-notification.js"></script>
       <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
-      <script src="bower_components/rfc6570/rfc6570.js"></script>
-      <script src="bower_components/angular-hal/angular-hal.js"></script>
+      <script src="bower_components/lodash/lodash.js"></script>
+      <script src="bower_components/hy-res/dist/hy-res.js"></script>
+      <script src="bower_components/angular-hy-res/dist/angular-hy-res-full.js"></script>
       <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/sprintf/src/sprintf.js"></script>
       <script src="bower_components/sprintf/src/angular-sprintf.js"></script>
@@ -76,20 +77,28 @@
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
-          <script src="app/account/account.js"></script>
-          <script src="app/account/login/login.controller.js"></script>
-          <script src="app/account/settings/settings.controller.js"></script>
-          <script src="app/account/signup/signup.controller.js"></script>
+          <script src="app/account/account.component.js"></script>
+          <script src="app/account/account.routes.js"></script>
+          <script src="app/account/edit/edit.component.js"></script>
+          <script src="app/account/edit/edit.controller.js"></script>
+          <script src="app/account/list/list.component.js"></script>
+          <script src="app/account/list/list.controller.js"></script>
           <script src="app/admin/admin.controller.js"></script>
           <script src="app/admin/admin.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
+          <script src="app/myaccount/login/login.controller.js"></script>
+          <script src="app/myaccount/myaccount.js"></script>
+          <script src="app/myaccount/settings/settings.controller.js"></script>
+          <script src="app/myaccount/signup/signup.controller.js"></script>
           <script src="app/sites/sites.controller.js"></script>
           <script src="app/sites/sites.js"></script>
           <script src="app/users/users.controller.js"></script>
           <script src="app/users/users.js"></script>
           <script src="components/auth/auth.service.js"></script>
           <script src="components/auth/user.service.js"></script>
+          <script src="components/datePickers/datePickers.component.js"></script>
+          <script src="components/datePickers/datePickers.controller.js"></script>
           <script src="components/exportPDF/exportPDF.service.js"></script>
           <script src="components/format/format.service.js"></script>
           <script src="components/modal/modal.service.js"></script>

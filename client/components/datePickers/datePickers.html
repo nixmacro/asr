@@ -1,0 +1,33 @@
+<form class="navbar-form navbar-left">
+    <div class="form-group has-feedback" data-ng-click="$ctrl.tooglePicker('startOpen')">
+        <input class="form-control"
+               type="text"
+               data-uib-datepicker-popup="yyyy-MM-dd"
+               data-show-button-bar="false"
+               data-ng-model="$ctrl.startDate"
+               data-is-open="$ctrl.startOpen"
+               data-max-date="$ctrl.endDate"
+               data-ng-change="$ctrl.applyDate()"/>
+        <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+    </div>
+    <div class="form-group has-feedback" data-ng-click="$ctrl.tooglePicker('endOpen')">
+        <input class="form-control"
+               type="text"
+               data-uib-datepicker-popup="yyyy-MM-dd"
+               data-show-button-bar="false"
+               data-ng-model="$ctrl.endDate"
+               data-is-open="$ctrl.endOpen"
+               data-max-date="$ctrl.maxDate"
+               data-min-date="$ctrl.startDate"
+               data-ng-change="$ctrl.applyDate()"/>
+        <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <select class="form-control has-feedback"
+                data-ng-model="$ctrl.tag"
+                data-ng-options="tag as tag.name for tag in $ctrl.tags track by tag.id"
+                data-ng-change="$ctrl.applyTag()"
+                tooltip-placement="top" uib-tooltip="{{$ctrl.tag.info}}" tooltip-trigger>
+        </select>
+    </div>
+</form>

@@ -53,7 +53,7 @@ sub change_password {
 }
 
 sub has_privilege {
-   # Not yet implemented.
+   # TODO: Not yet implemented.
    my ($self, $privilege) = @_;
 
    return 0;
@@ -61,21 +61,21 @@ sub has_privilege {
 
 
 sub has_role {
-   # Not yet implemented.
+   # TODO: Not yet implemented.
    my ($self, $role, $extradata) = @_;
 
    return grep { $role eq $_->name } $self->current_user->roles;
 }
 
 sub user_privileges {
-   # Not yet implemented.
+   # TODO: Not yet implemented.
    my ($self, $extradata) = @_;
 
    return;
 }
 
 sub user_roles {
-   # Not yet implemented.
+   # TODO: Not yet implemented.
    my ($self, $extradata) = @_;
 
    return;

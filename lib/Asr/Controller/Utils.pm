@@ -69,7 +69,7 @@ sub parse_sort_params {
       }
    }
 
-   return \%result;
+   return (\%result);
 }
 
 1;

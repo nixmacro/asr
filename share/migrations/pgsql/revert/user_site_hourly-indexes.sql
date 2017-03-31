@@ -3,6 +3,6 @@
 BEGIN;
 
 DROP INDEX "user_site_hourly-date_trunc-day-local_time";
-DROP INDEX "user_site_hourly-local_time-remote_user-site";
+DROP INDEX "user_site_hourly-tag_id-local_time-remote_user-site";
 
 COMMIT;

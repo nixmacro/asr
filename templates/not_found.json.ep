@@ -1,7 +1,7 @@
 % use DateTime;
 % my $message = stash('message') // 'Requested resource was not found.';
 {
-    "timestamp": "<%= DateTime->now %>",
-    "status": "<%= $status %>",
-    "message": "<%= $message %>"
+    "timestamp": "<%== DateTime->now %>",
+    "status": "<%== $status %>",
+    "message": "<%== $message %>"
 }

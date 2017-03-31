@@ -343,7 +343,7 @@ directory.
 We can now run the development server which will also expose the content of the
 I<public> directory as static resources
 
-        carton exec -- morbo scripts/asr
+        carton exec -- morbo script/asr
 
 Now the application should be accessible at L<http://localhost:3000/>
 
@@ -374,13 +374,9 @@ Write I<Front-End> tests.
 
 =item * Setup Travis CI
 
-=item * Use DBIx::Class
-
-Move to DBIx::Class from SQL-Abstract-More.
-
 =item * Bundle Carton
 
-Explore the possibility of bundling carton with the distribution  so it's not
+Explore the possibility of bundling carton with the distribution so it's not
 required to have it on the OS.
 
 =item * Support other RDBMS
@@ -389,17 +385,18 @@ Add support for B<MySQL> and B<SQLite>
 
 =item * Atomic Data Loading
 
-The loader could provide an option `-s|--safe` to run the data insertion inside
-a transaction to have all or nothing loading.
+The loader could provide an option `-s|--safe` to run the data insertion
+inside a transaction to have all or nothing loading.
 
 =item * Convert Loader to a Mojolicious Command
 
 Investigate pro/cons of moving the loader script to a mojo command.
 
-=item * Add support for DENIED lines
+=item * Add support for DENIED requests
 
 A new field should be added to the C<user_site_hourly> table to hold the
-L<SquidCode|http://wiki.squid-cache.org/SquidFaq/SquidLogs#Squid_result_codes>. This code should be taken into account when generating statistics.
+L<SquidCode|http://wiki.squid-cache.org/SquidFaq/SquidLogs#Squid_result_codes>.
+This code should be taken into account when generating statistics.
 Specifically, DENIED should not count towards the user or site stats. Instead
 it should have its own section. Also other codes should probably not be
 accounted and might deserve their own section as well.
@@ -431,6 +428,7 @@ use Mojo::Base 'Mojolicious';
 use Mojolicious::Plugin::Database;
 use Mojolicious::Plugin::Authentication;
 
+use DBIx::Error;
 use Asr::Core::Auth;
 use Asr::Schema;
 
@@ -507,12 +505,12 @@ sub startup {
    #Authentication Routes
    my $auth_routes = $self->routes->under('/auth');
    $auth_routes->get('/logout')->to('auth#ajax_logout');
-   $auth_routes->get('/me')
-      ->over(authenticated => 1)
-      ->to('auth#me');
    $auth_routes->post('/login')
       ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
       ->to('auth#ajax_login');
+   $auth_routes->get('/me')
+      ->over(authenticated => 1)
+      ->to('auth#me');
    $auth_routes->post('/passwd')
       ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
       ->over(authenticated => 1)
@@ -522,37 +520,111 @@ sub startup {
 #         ->over(headers => {'Content-type' => qr'^application/x-www-form-urlencoded$'i})
 #         ->to('auth#form_login');
 
-   #Admin Routes
-   my $admin_routes = $self->routes->under('/admin')->over(authenticated => 1);
-   $admin_routes->get('/')->to('admin#root')->name('root');
-
-   my $admin_users_routes = $admin_routes->get('/users')->name('users');
-   $admin_users_routes->get('/')->to('admin#users')->name('self');
-   $admin_users_routes->get(qr'/(\d+)')->to('admin#user')->name('user');
 
    #API Routes
    my $api_routes = $self->routes->under('/api')->over(authenticated => 1);
-   $api_routes->get('/')->to('api#root')->name('root');
+   $api_routes->get('/')->to('api#root')->name('api#root');
 
-   #API Admin Routes
-   my $api_admin_routes = $api_routes->get('/admin')->name('admin');
-   $api_admin_routes->get('/')->to('Admin#index')->name('self');
+   #API User Routes
+   $api_routes->get('/users')
+      ->to('api-users#list')
+      ->name('api-users#list');
+   $api_routes->get('/users/search')
+      ->to('api-users-search#root')
+      ->name('api-users-search#root');
+   $api_routes->get('/users/search/findBySite')
+      ->to('api-users-search#find_by_site')
+      ->name('api-users-search#find_by_site');
 
-   my $api_admin_users_routes = $api_admin_routes->get('/users')->name('users');
-   $api_admin_users_routes->get('/')->to('Admin::Users#list')->name('api_admin_users_get');
-   $api_admin_users_routes->get(qr'/users/(\d+)')->to('Admin::Users#read')->name('api_admin_user_get');
+   #API Site Routes
+   $api_routes->get('/sites')
+      ->to('api-sites#list')
+      ->name('api-sites#list');
+   $api_routes->get('/sites/search')
+      ->to('api-sites-search#root')
+      ->name('api-sites-search#root');
+   $api_routes->get('/sites/search/findByUser')
+      ->to('api-sites-search#find_by_user')
+      ->name('api-sites-search#find_by_user');
 
-   my $api_users_routes = $api_routes->get('/users')->name('users');
-   $api_users_routes->get('/')->to('api#users')->name('self');
-   $api_users_routes->get('/search')->to('api#users_search')->name('search');
-   $api_users_routes->get('/search/findBySite')->to('api#find_by_site')->name('findBySite');
-   $api_users_routes->get('/search/findUser')->to('api#find_user')->name('findUser');
+   #API Tag Route
+   $api_routes->get('/tags')
+      ->to('api-tags#list')
+      ->name('api-tags#list');
 
-   my $api_sites_routes = $api_routes->get('/sites')->name('sites');
-   $api_sites_routes->get('/')->to('api#sites')->name('self');
-   $api_sites_routes->get('/search')->to('api#sites_search')->name('search');
-   $api_sites_routes->get('/search/findByUser')->to('api#find_by_user')->name('findByUser');
-   $api_sites_routes->get('/search/findSite')->to('api#find_site')->name('findSite');
+   #Admin Routes
+   my $admin_routes = $api_routes->under('/admin');
+   $admin_routes->get('/')->to('admin#root')->name('admin#root');
+
+   #Admin User Routes
+   $admin_routes->get('/users')
+      ->to('admin-users#list')
+      ->name('admin-users#list');
+   $admin_routes->post('/users')
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-users#create')
+      ->name('admin-users#create');
+   $admin_routes->get('/users/:id' => [id => qr/\d+/])
+      ->to('admin-users#read')
+      ->name('admin-users#read');
+   $admin_routes->delete('/users/:id' => [id => qr/\d+/])
+      ->to('admin-users#delete')
+      ->name('admin-users#delete');
+   $admin_routes->put('/users/:id' => [id => qr/\d+/])
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-users#update')
+      ->name('admin-users#update');
+
+   #Admin Role Routes
+   $admin_routes->get('/roles')
+      ->to('admin-roles#list')
+      ->name('admin-roles#list');
+   $admin_routes->post('/roles')
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-roles#create')
+      ->name('admin-roles#create');
+   $admin_routes->get('/roles/:id' => [id => qr/\d+/])
+      ->to('admin-roles#read')
+      ->name('admin-roles#read');
+   $admin_routes->delete('/roles/:id' => [id => qr/\d+/])
+      ->to('admin-roles#delete')
+      ->name('admin-roles#delete');
+   $admin_routes->put('/roles/:id' => [id => qr/\d+/])
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-roles#update')
+      ->name('admin-roles#update');
+
+   #Admin Tag Routes
+   $admin_routes->get('/tags')
+      ->to('admin-tags#list')
+      ->name('admin-tags#list');
+   $admin_routes->post('/tags')
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-tags#create')
+      ->name('admin-tags#create');
+   $admin_routes->get('/tags/:id' => [id => qr/\d+/])
+      ->to('admin-tags#read')
+      ->name('admin-tags#read');
+   $admin_routes->delete('/tags/:id' => [id => qr/\d+/])
+      ->to('admin-tags#delete')
+      ->name('admin-tags#delete');
+   $admin_routes->put('/tags/:id' => [id => qr/\d+/])
+      ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
+      ->to('admin-tags#update')
+      ->name('admin-tags#update');
+
+
+   # my $api_users_routes = $api_routes->get('/users');
+   # $api_users_routes->get('/')->to('api#users')->name('api_users_root');
+   # $api_users_routes->get('/search')->to('api#users_search')->name('users_search');
+   # $api_users_routes->get('/search/findBySite')->to('api#find_by_site')->name('users_findBySite');
+   # $api_users_routes->get('/search/findUser')->to('api#find_user')->name('users_findUser');
+
+   # my $api_sites_routes = $api_routes->get('/sites');
+   # $api_sites_routes->get('/')->to('api#sites')->name('api_sites_root');
+   # $api_sites_routes->get('/search')->to('api#sites_search')->name('sites_search');
+   # $api_sites_routes->get('/search/findByUser')->to('api#find_by_user')->name('sites_findByUser');
+   # $api_sites_routes->get('/search/findSite')->to('api#find_site')->name('sites_findSite');
 }
 
 sub _get_connection_options {
@@ -582,6 +654,8 @@ sub _get_connection_options {
 
    $options{name_sep} = '.';
    $options{RaiseError} = 1;
+   $options{HandleError} = DBIx::Error->HandleError;
+   $options{unsafe} = 1;
    $result{username} = $conf->{db}{username};
    $result{password} = $conf->{db}{password};
    $result{options} = \%options;

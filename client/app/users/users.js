@@ -4,13 +4,14 @@ angular.module('asrApp')
 .config(function ($stateProvider) {
    $stateProvider
    .state('users', {
-      url: '/users?size&index&start&end&sort&site',
+      url: '/users?size&index&start&end&sort&site&tag',
       templateUrl: 'app/users/users.html',
-      controller: 'UsersCtrl as list',
+      controller: 'UsersCtrl as ctrl',
       params: {
          size: '10',
          index: '1',
-         sort: 'total_bytes.desc'
+         sort: 'bytes.desc',
+         tag: '0'
       },
       resolve: {
          usersResource: function($stateParams, RestService) {
@@ -21,7 +22,8 @@ angular.module('asrApp')
                   site: $stateParams.site,
                   sort: $stateParams.sort,
                   start: $stateParams.start,
-                  end: $stateParams.end
+                  end: $stateParams.end,
+                  tag: $stateParams.tag
                },
                'findBySite');
             } else {
@@ -30,7 +32,8 @@ angular.module('asrApp')
                   size: $stateParams.size,
                   sort: $stateParams.sort,
                   start: $stateParams.start,
-                  end: $stateParams.end
+                  end: $stateParams.end,
+                  tag: $stateParams.tag
                });
             }
          },
@@ -39,17 +42,19 @@ angular.module('asrApp')
                return RestService.search('users', {
                   site: $stateParams.site,
                   size: 3,
-                  sort: 'total_bytes.desc',
+                  sort: 'bytes.desc',
                   start: $stateParams.start,
-                  end: $stateParams.end
+                  end: $stateParams.end,
+                  tag: $stateParams.tag
                },
                'findBySite');
             } else {
                return RestService.fetch('users', {
                   size: 3,
-                  sort: 'total_bytes.desc',
+                  sort: 'bytes.desc',
                   start: $stateParams.start,
-                  end: $stateParams.end
+                  end: $stateParams.end,
+                  tag: $stateParams.tag
                });
             }
          },
@@ -58,17 +63,19 @@ angular.module('asrApp')
                return RestService.search('users', {
                   site: $stateParams.site,
                   size: 3,
-                  sort: 'total_time.desc',
+                  sort: 'time.desc',
                   start: $stateParams.start,
-                  end: $stateParams.end
+                  end: $stateParams.end,
+                  tag: $stateParams.tag
                },
                'findBySite');
             } else {
                return RestService.fetch('users', {
                   size: 3,
-                  sort: 'total_time.desc',
+                  sort: 'time.desc',
                   start: $stateParams.start,
-                  end: $stateParams.end
+                  end: $stateParams.end,
+                  tag: $stateParams.tag
                });
             }
          }

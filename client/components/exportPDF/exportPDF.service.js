@@ -40,11 +40,11 @@ angular.module('asrApp')
          pdf.setDrawColor(255, 255, 255);
 
          // Top bytes graph
-         pdf.addImage(bytesImg, 'PNG', -50, 140);
+         pdf.addImage(bytesImg, 'PNG', -40, 150, 300, 150);
          setGraphLabels(labelsBytes, 195);
 
          // Top time graph
-         pdf.addImage(timeImg, 'PNG', 220, 140);
+         pdf.addImage(timeImg, 'PNG', 230, 150, 300, 150);
          setGraphLabels(labelsTime, 465);
 
          // Row data for table, since hal+json can be an array of objects or just one object
@@ -57,7 +57,7 @@ angular.module('asrApp')
                      Format.formatBytes(rowData.bytes),
                      Format.formatPercent(rowData.bytes_percent),
                      Format.formatDurationInSeconds(rowData.seconds),
-                     Format.formatPercent(rowData.seconds_percent)
+                     Format.formatPercent(rowData.time_percent)
                      ]);
                   });
                } else {
@@ -66,7 +66,7 @@ angular.module('asrApp')
                      Format.formatBytes(data.bytes),
                      Format.formatPercent(data.bytes_percent),
                      Format.formatDurationInSeconds(data.seconds),
-                     Format.formatPercent(data.seconds_percent)
+                     Format.formatPercent(data.time_percent)
                      ]);
                   }
                });
