@@ -5,7 +5,8 @@ use v5.10;
 use strict;
 use warnings;
 
-use Mojo::Util 'slurp';
+use Encode qw(decode);
+use Mojo::File;
 use Mojo::JSON 'decode_json';
 use Data::Validate::IP qw(is_ipv4);
 use DateTime;
@@ -86,7 +87,7 @@ if (!$opts{'dry-run'}) {
         -exitval => 2,
         -msg => "Can't open configuration file $opts{'config-file'}"
     ) if (!-r $opts{'config-file'});
-    $config = decode_json slurp $opts{'config-file'};
+    $config = decode_json(Mojo::File->new($opts{'config-file'})->slurp);
     #Only connect to the db if not in dry run
     $dbh = DBI->connect(
         "DBI:Pg:dbname=$$config{db}{name};host=$$config{db}{host}",
@@ -109,8 +110,24 @@ if (!$opts{'dry-run'}) {
 #                                       ETA   => linear, });
 #}
 
-while ($line = <>) {
-    chomp($line);
+while (my $ln = <>) {
+    chomp($ln);
+
+    my $is_utf8 = eval {
+        $line = decode('UTF-8', $ln, Encode::FB_CROAK);
+    };
+
+    # Somtimes input data contains invalid characters
+    # skip those lines
+    unless($is_utf8) {
+        warn <<"EOF";
+Input line contains invalid characters, skipping
+    Raw: $ln
+
+EOF
+        next;
+    }
+
     @data = split(/\s+/,$line);
 
     if ($opts{'resume'} && !$opts{'dry-run'}) {
@@ -118,17 +135,22 @@ while ($line = <>) {
         next if ($tmp < $max_date);
     }
 
-    my $result = eval {
-        @fields = process_data(@data);
-        push(@fields, $opts{'tag'});
+    @fields = process_data(@data);
+    push(@fields, $opts{'tag'});
 
-        $dbh->pg_putcopydata(join("\t", @fields) . "\n") if (!$opts{'dry-run'});
-    };
+    # Sometimes input data contains invalid number of fields
+    # skip those lines. Most common case is username with spaces
+    unless(10 == scalar @data) {
+        warn <<"EOF";
+Input line contains invalid number of fields (not 10), skipping
+    Raw count=@{[scalar @data]}: $line
+    Parsed count=@{[scalar @fields]}: @{[join('|',@fields)]}
 
-    unless($result) {
-        print "Invalid line skipped\nLine: $line\nError: $@\n\n";
+EOF
+        next;
     }
 
+    $dbh->pg_putcopydata(join("\t", @fields) . "\n") if (!$opts{'dry-run'});
     @fields = ();
 }
 
