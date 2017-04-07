@@ -1,0 +1,14 @@
+.center-70 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+.identified-list-item {
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        @extend .bg-primary;
+    }
+}

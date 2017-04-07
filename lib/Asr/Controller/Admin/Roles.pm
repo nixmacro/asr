@@ -12,7 +12,7 @@ sub list {
    my ($page_size, $page_index, $rs, $order);
    my $result = Data::HAL->new();
    my $links = [
-      {relation => 'self', templated => 1, href => '/admin/roles', params => '{?size,index,sort}'}
+      {relation => 'self', templated => 1, href => '/api/admin/roles', params => '{?size,index,sort}'}
    ];
 
    &validate_paging_params($self, keys %{$self->schema->source('Role')->columns_info});
@@ -48,7 +48,7 @@ sub list {
    my @embedded = map {
       my $links = [{
          relation => 'self',
-         href => "/admin/roles/${\$_->id}",
+         href => "/api/admin/roles/${\$_->id}",
          templated => 0,
       }];
       Data::HAL->new(
@@ -79,7 +79,7 @@ sub read {
       return $self->reply->exception;
    }
 
-   # my $pattern = Mojolicious::Routes::Pattern->new('/admin/roles/:id');
+   # my $pattern = Mojolicious::Routes::Pattern->new('/api/admin/roles/:id');
    # say $pattern->render({id => $self->param('id')});
 
    $result->embedded([
@@ -90,7 +90,7 @@ sub read {
             Data::HAL::Link->new({
                relation => 'self',
                template => 0,
-               href => "/admin/roles/${\$row->id}"
+               href => "/api/admin/roles/${\$row->id}"
             })
          ]
       })
@@ -131,7 +131,7 @@ sub create {
             Data::HAL::Link->new({
                relation => 'self',
                templated => 0,
-               href => "/admin/roles/${\$row->id}"
+               href => "/api/admin/roles/${\$row->id}"
             })
          ]
       })
@@ -179,7 +179,7 @@ sub update {
             Data::HAL::Link->new({
                relation => 'self',
                template => 0,
-               href => "/admin/roles/${\$row->id}"
+               href => "/api/admin/roles/${\$row->id}"
             })
          ]
       })

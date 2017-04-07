@@ -504,17 +504,22 @@ sub startup {
 
    #Authentication Routes
    my $auth_routes = $self->routes->under('/auth');
-   $auth_routes->get('/logout')->to('auth#ajax_logout');
+   $auth_routes->get('/logout')
+      ->to('auth#ajax_logout')
+      ->name('auth#ajax_logout');
    $auth_routes->post('/login')
       ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
-      ->to('auth#ajax_login');
+      ->to('auth#ajax_login')
+      ->name('auth#ajax_login');
    $auth_routes->get('/me')
       ->over(authenticated => 1)
-      ->to('auth#me');
+      ->to('auth#me')
+      ->name('auth#me');
    $auth_routes->post('/passwd')
       ->over(headers => {'Content-type' => qr'^application/json(?:;charset=.*$)*'i})
       ->over(authenticated => 1)
-      ->to('auth#passwd');
+      ->to('auth#passwd')
+      ->name('auth#passwd');
 #    #Login route to handle form data instead of json
 #    $auth_routes->post('/login')
 #         ->over(headers => {'Content-type' => qr'^application/x-www-form-urlencoded$'i})

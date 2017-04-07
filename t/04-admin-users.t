@@ -22,7 +22,7 @@ ok $default_user->id eq 0, 'admin user id is correct';
 is $default_user->login, 'admin', "admin user login is correct";
 isnt $default_user->password, undef, 'admin user password is defined';
 
-$t->get_ok('/admin/users')
+$t->get_ok('/api/admin/users')
    ->status_is(401, 'got correct status code')
    ->json_has('/timestamp', 'got timestamp value')
    ->json_is('/status' => '401', 'got correct status value')
@@ -33,13 +33,13 @@ $t->post_ok('/auth/login', json => {username => $default_user->login, password =
    ->header_like('Set-Cookie' => qr/^mojolicious=.*$/, 'got session cookie')
    ->content_is('', 'got correct content value');
 
-$t->post_ok('/admin/users', json => {login => $test_user_login, invalid => 'invalid'})
+$t->post_ok('/api/admin/users', json => {login => $test_user_login, invalid => 'invalid'})
    ->status_is(400, 'got correct status code')
    ->json_has('/timestamp', 'got timestamp value')
    ->json_is('/status' => '400', 'got correct status value')
    ->json_is('/message' => "Invalid field 'invalid'.", 'got correct message value');
 
-$t->post_ok('/admin/users', json => {
+$t->post_ok('/api/admin/users', json => {
       login => $test_user_login,
       name => $test_user_name,
       password => 'testsecret'
@@ -51,7 +51,7 @@ $t->post_ok('/admin/users', json => {
    ->json_is('/_embedded/users/login' => $test_user_login, 'test user login is correct')
    ->json_is('/_embedded/users/name' => $test_user_name, 'test role name is correct');
 
-$t->get_ok('/admin/users')
+$t->get_ok('/api/admin/users')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -65,7 +65,7 @@ $t->get_ok('/admin/users')
    ->json_has('/page/totalItems')
    ->json_like('/page/totalItems', qr/^\d+$/);
 
-$t->get_ok('/admin/users?sort=id.desc')
+$t->get_ok('/api/admin/users?sort=id.desc')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -86,7 +86,7 @@ $t->get_ok('/admin/users?sort=id.desc')
    ->json_has('/page/totalItems')
    ->json_like('/page/totalItems', qr/^\d+$/);
 
-$t->get_ok('/admin/users?sort=login.desc')
+$t->get_ok('/api/admin/users?sort=login.desc')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -107,13 +107,13 @@ $t->get_ok('/admin/users?sort=login.desc')
    ->json_has('/page/totalItems')
    ->json_like('/page/totalItems', qr/^\d+$/);
 
-$t->get_ok('/admin/users?sort=invalid.desc')
+$t->get_ok('/api/admin/users?sort=invalid.desc')
    ->status_is(400, 'should get invalid request due to invalid column')
    ->json_has('/status')
    ->json_has('/message')
    ->json_has('/timestamp');
 
-$t->get_ok('/admin/users?sort=login.desc&size=1&index=1')
+$t->get_ok('/api/admin/users?sort=login.desc&size=1&index=1')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -130,7 +130,7 @@ $t->get_ok('/admin/users?sort=login.desc&size=1&index=1')
    ->json_has('/page/totalItems')
    ->json_is('/page/totalItems' => 2);
 
-$t->get_ok('/admin/users?sort=login.desc&size=1&index=2')
+$t->get_ok('/api/admin/users?sort=login.desc&size=1&index=2')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -147,13 +147,13 @@ $t->get_ok('/admin/users?sort=login.desc&size=1&index=2')
    ->json_has('/page/totalItems')
    ->json_is('/page/totalItems' => 2);
 
-$t->get_ok('/admin/users?size=invalid')
+$t->get_ok('/api/admin/users?size=invalid')
    ->status_is(400, 'should get invalid request due to invalid column')
    ->json_has('/status')
    ->json_has('/message')
    ->json_has('/timestamp');
 
-$t->get_ok('/admin/users?index=invalid')
+$t->get_ok('/api/admin/users?index=invalid')
    ->status_is(400, 'should get invalid request due to invalid column')
    ->json_has('/status')
    ->json_has('/message')

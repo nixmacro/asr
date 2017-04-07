@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('asrApp', [
+   'components.account',
    'ngCookies',
    'ngResource',
    'ngSanitize',
    'ui.router',
    'ui.bootstrap',
-   'ui-notification',
    'angular-momentjs',
    'hrCore',
    'hrHal',

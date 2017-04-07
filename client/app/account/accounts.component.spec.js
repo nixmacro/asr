@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: AccountComponent', function() {
+describe('Component: AccountsComponent', function() {
   // load the controller's module
   beforeEach(module('asrApp'));
 
@@ -8,7 +8,7 @@ describe('Component: AccountComponent', function() {
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function($componentController) {
-    AccountComponent = $componentController('account', {});
+    AccountsComponent = $componentController('account', {});
   }));
 
   it('should ...', function() {

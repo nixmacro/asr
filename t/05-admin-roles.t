@@ -22,7 +22,7 @@ ok $default_role->id eq 0, 'admin role id is correct';
 is $default_role->name, 'admin', 'admin role name is correct';
 is $default_role->description, 'Administrator Role', 'admin role description is correct';
 
-$t->get_ok('/admin/roles')
+$t->get_ok('/api/admin/roles')
    ->status_is(401, 'got correct status code')
    ->json_has('/timestamp', 'got timestamp value')
    ->json_is('/status' => '401', 'got correct status value')
@@ -33,13 +33,13 @@ $t->post_ok('/auth/login', json => {username => 'admin', password => 'secret'})
    ->header_like('Set-Cookie' => qr/^mojolicious=.*$/, 'got session cookie')
    ->content_is('', 'got correct content value');
 
-$t->post_ok('/admin/roles', json => {name => $test_role_name, invalid => 'invalid'})
+$t->post_ok('/api/admin/roles', json => {name => $test_role_name, invalid => 'invalid'})
    ->status_is(400, 'got correct status code')
    ->json_has('/timestamp', 'got timestamp value')
    ->json_is('/status' => '400', 'got correct status value')
    ->json_is('/message' => "Invalid field 'invalid'.", 'got correct message value');
 
-$t->post_ok('/admin/roles', json => {name => $test_role_name, description => $test_role_description})
+$t->post_ok('/api/admin/roles', json => {name => $test_role_name, description => $test_role_description})
    ->status_is(201, 'got correct status code')
    # ->json_has('/_links/self/href', 'has a self link')
    # ->json_is('/_links/self/templated' => Mojo::JSON::false, 'self link is not templated')
@@ -47,7 +47,7 @@ $t->post_ok('/admin/roles', json => {name => $test_role_name, description => $te
    ->json_is('/_embedded/roles/name' => $test_role_name, 'test role name is correct')
    ->json_is('/_embedded/roles/description' => $test_role_description, 'test role description is correct');
 
-$t->get_ok('/admin/roles')
+$t->get_ok('/api/admin/roles')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -61,7 +61,7 @@ $t->get_ok('/admin/roles')
    ->json_has('/page/totalItems')
    ->json_like('/page/totalItems', qr/^\d+$/);
 
-$t->get_ok('/admin/roles?sort=id.desc')
+$t->get_ok('/api/admin/roles?sort=id.desc')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -82,7 +82,7 @@ $t->get_ok('/admin/roles?sort=id.desc')
    ->json_has('/page/totalItems')
    ->json_like('/page/totalItems', qr/^\d+$/);
 
-$t->get_ok('/admin/roles?sort=name.desc')
+$t->get_ok('/api/admin/roles?sort=name.desc')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -103,13 +103,13 @@ $t->get_ok('/admin/roles?sort=name.desc')
    ->json_has('/page/totalItems')
    ->json_like('/page/totalItems', qr/^\d+$/);
 
-$t->get_ok('/admin/roles?sort=invalid.desc')
+$t->get_ok('/api/admin/roles?sort=invalid.desc')
    ->status_is(400, 'should get invalid request due to invalid column')
    ->json_has('/status')
    ->json_has('/message')
    ->json_has('/timestamp');
 
-$t->get_ok('/admin/roles?sort=name.desc&size=1&index=1')
+$t->get_ok('/api/admin/roles?sort=name.desc&size=1&index=1')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -126,7 +126,7 @@ $t->get_ok('/admin/roles?sort=name.desc&size=1&index=1')
    ->json_has('/page/totalItems')
    ->json_is('/page/totalItems' => 2);
 
-$t->get_ok('/admin/roles?sort=name.desc&size=1&index=2')
+$t->get_ok('/api/admin/roles?sort=name.desc&size=1&index=2')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::true)
@@ -143,13 +143,13 @@ $t->get_ok('/admin/roles?sort=name.desc&size=1&index=2')
    ->json_has('/page/totalItems')
    ->json_is('/page/totalItems' => 2);
 
-$t->get_ok('/admin/roles?size=invalid')
+$t->get_ok('/api/admin/roles?size=invalid')
    ->status_is(400, 'should get invalid request due to invalid column')
    ->json_has('/status')
    ->json_has('/message')
    ->json_has('/timestamp');
 
-$t->get_ok('/admin/roles?index=invalid')
+$t->get_ok('/api/admin/roles?index=invalid')
    ->status_is(400, 'should get invalid request due to invalid column')
    ->json_has('/status')
    ->json_has('/message')

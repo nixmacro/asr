@@ -1,14 +1,14 @@
 'use strict';
 
-describe('Controller: AccountEditComponent', function() {
+describe('Controller: AccountDetailComponent', function() {
   // load the controller's module
   beforeEach(module('asrApp'));
 
-  var AccountEditComponent;
+  var AccountDetailComponent;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function($controller) {
-    AccountEditComponent = $controller('AccountEditComponent', {});
+    AccountDetailComponent = $controller('AccountDetailComponent', {});
   }));
 
   it('should ...', function() {

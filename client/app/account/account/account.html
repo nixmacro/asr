@@ -1,0 +1,25 @@
+<strong>{{"%(name)s &lt;%(login)s&gt;" | fmt:$ctrl.account }}</strong>
+<div class="btn-group pull-right" role="group">
+      <button class="btn btn-danger" 
+            type="button" 
+            data-ng-disabled="account.login === 'admin'" 
+            data-ng-click="$ctrl.select()" 
+            aria-label="delete"
+            tooltip-placement="left-top" uib-tooltip="Delete Account" tooltip-trigger>
+         <span class="fa fa-chain-broken" aria-hidden="true"
+            data-ng-class="{
+                  'fa-chain-broken': !$ctrl.working,
+                  'fa-spinner fa-pulse': $ctrl.working
+            }">
+         </span>
+      </button>
+      <button class="btn btn-primary" 
+            type="button" 
+            data-ng-click="$ctrl.select('edit')" 
+            aria-label="edit"
+            tooltip-placement="right" uib-tooltip="Edit Account" tooltip-trigger>
+         <span class="fa fa-pencil" aria-hidden="true"></span>
+      </button>
+</div>
+<br/>
+<span>{{$ctrl.account.login}}</span>

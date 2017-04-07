@@ -1,0 +1,11 @@
+form .form-control-feedback {
+    right: 15px;
+}
+
+form select ~ .form-control-feedback {
+    right: 25px;
+}
+
+.fieldset-header {
+    font-size: 2.5rem;
+}

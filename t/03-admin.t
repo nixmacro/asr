@@ -27,7 +27,7 @@ ok $dadmin->id eq 0, 'default admin has uid 0';
 is $dadmin->login, 'admin', 'got a login';
 isnt $dadmin->password, undef, 'got a password';
 
-$t->get_ok('/admin')
+$t->get_ok('/api/admin')
    ->status_is(401, 'got correct status code')
    ->json_has('/timestamp', 'got timestamp value')
    ->json_is('/status' => '401', 'got correct status value')
@@ -38,7 +38,7 @@ $t->post_ok('/auth/login', json => {username => $dadmin->login, password => 'sec
    ->header_like('Set-Cookie' => qr/^mojolicious=.*$/, 'got session cookie')
    ->content_is('', 'got correct content value');
 
-$t->get_ok('/admin')
+$t->get_ok('/api/admin')
    ->status_is(200, 'got correct status code')
    ->json_has('/_links/self/href')
    ->json_is('/_links/self/templated' => Mojo::JSON::false)

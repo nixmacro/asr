@@ -12,8 +12,7 @@ angular.module('asrApp')
 
    $scope.adminMenu = [{
        'title': 'Accounts',
-       'parent': 'account',
-       'target': 'account.list'
+       'target': 'list'
    }];
    
    $scope.endDate = $stateParams.end;
