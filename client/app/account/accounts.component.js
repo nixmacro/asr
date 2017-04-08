@@ -18,17 +18,13 @@ angular
             url: '/accounts?size&index',
             component: 'accounts',
             params: {
-                index: '1',
-                size: '10'
+               index: '1',
+               size: '10'
             },
             resolve: {
-                accountsResource: function($stateParams, RestService) {
-                  return RestService.fetch('users', {
-                      page: $stateParams.index,
-                      size: $stateParams.size,
-                  },
-                  '/admin');
-              }
+               accountsResource: function ($stateParams, Account) {
+                  return Account.query().$promise;
+               }
             }
          })
    });

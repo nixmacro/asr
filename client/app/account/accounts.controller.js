@@ -18,8 +18,12 @@ function AccountsComponent(
     ctrl.accounts = [];
     ctrl.working = false;
 
-    if (this.accountsResource.$has('users')) {
-        ctrl.accounts = ctrl.accountsResource.$subs('users');
+    if (this.accountsResource._embedded.users) {
+       if (Array.isArray(this.accountsResource._embedded.users)) {
+         ctrl.accounts = this.accountsResource._embedded.users;
+       } else {
+          ctrl.accounts.push(this.accountsResource._embedded.users);
+       }
     } else {
         $log.debug('Account resource not found in server response.');
         Notification.error({
