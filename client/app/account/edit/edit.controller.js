@@ -9,16 +9,16 @@ function AccountEditComponent (
     Notification) {
 
     var ctrl = this;
-    
+
     // True if we are editing an account, false otherwise.
-    ctrl.editing = !!$stateParams.accountResource;
+    ctrl.editing = !!$stateParams.id;
 
     // True when a background task (e.g. backend communication) is active.
     ctrl.saving = false;
 
     if (ctrl.editing) {
         // Prepare for editing
-        ctrl.accountResource = $stateParams.accountResource;
+      //   ctrl.accountResource = $stateParams.accountResource;
         ctrl.account = angular.copy(ctrl.accountResource);
     } else {
         // Prepare for creating

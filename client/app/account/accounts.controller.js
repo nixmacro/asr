@@ -37,7 +37,7 @@ function AccountsComponent(
         goToPage($stateParams.size, ctrl.index);
     };
 
-    ctrl.delete = function (event) {
+    ctrl.onDelete = function (event) {
         ctrl.working = true;
         event.account.$delete()
             .$promise
@@ -64,11 +64,10 @@ function AccountsComponent(
             });
     };
 
-    ctrl.edit = function (event) {
+    ctrl.onEdit = function (event) {
         $state.go('edit', {
-            size: $stateParams.size,
-            index: $stateParams.index,
-            accountResource: event.account
+            id: event.account.id,
+            account: event.account,
         });
     };
 }

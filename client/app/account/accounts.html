@@ -6,11 +6,10 @@
             <div class="row">
                 <span class="h1 col-sm-6">Account List</span>
                 <span class="h1 col-sm-2 col-sm-offset-4">
-                    <a class="btn btn-lg btn-primary hint--rounded hint--right"
-                       data-hint="Create Account"
-                       ui-sref="create">Create
+                    <button class="btn btn-lg btn-primary" ui-sref="create">
+                       Create
                        <span class="fa fa-plus-circle"></span>
-                    </a>
+                    </button>
                 </span>
             </div>
             <br/>
@@ -19,8 +18,8 @@
                     <li class="list-group-item identified-list-item" data-ng-repeat="account in $ctrl.accounts">
                         <account
                            account="account"
-                           on-edit="$ctrl.edit($event);"
-                           on-delete="$ctrl.delete($event);">
+                           on-edit="$ctrl.onEdit($event);"
+                           on-delete="$ctrl.onDelete($event);">
                         </account>
                     </li>
                 </ul>
