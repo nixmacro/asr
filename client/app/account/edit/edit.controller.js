@@ -1,63 +1,79 @@
 'use strict';
 
-function AccountEditComponent (
-    $log,
-    $state,
-    $stateParams,
-    $window,
-    RestService,
-    Notification) {
+function AccountEditComponent(
+   $log,
+   $state,
+   $stateParams,
+   $window,
+   RestService,
+   Notification) {
 
-    var ctrl = this;
+   var ctrl = this;
 
-    // True if we are editing an account, false otherwise.
-    ctrl.editing = !!$stateParams.id;
+   // True if we are editing an account, false otherwise.
+   ctrl.editing = !!$stateParams.id;
 
-    // True when a background task (e.g. backend communication) is active.
-    ctrl.saving = false;
+   // True when a background task (e.g. backend communication) is active.
+   ctrl.working = false;
 
-    if (ctrl.editing) {
-        // Prepare for editing
-      //   ctrl.accountResource = $stateParams.accountResource;
-        ctrl.account = angular.copy(ctrl.accountResource);
-    } else {
-        // Prepare for creating
-        ctrl.account = {};
-    }
+   // Default tag
+   ctrl.roles = ctrl.rolesResource.$subs('roles');
+   ctrl.role = ctrl.roles[0];
 
-    // Save account to the backend
-    ctrl.create = function create(event) {
-        RestService.create('addUser', event.account)
-        .then(function () {
-            $log.debug('Account created.');
-            Notification.success({
-                title: 'Success',
-                message: 'The account was created.',
+   if (ctrl.editing) {
+      // Prepare for editing
+      ctrl.account = angular.copy(ctrl.accountResource);
+      ctrl.currentAction = 'Edit';
+   } else {
+      // Prepare for creating
+      ctrl.account = {};
+      ctrl.currentAction = 'Create';
+   }
+
+   ctrl.save = function save() {
+      ctrl.working = true;
+
+      if (ctrl.editing) {
+         var delta = {};
+
+         // Save the changed fields to the delta object
+         Object.keys(ctrl.account).forEach(function (key) {
+            if (ctrl.accountForm[key] && ctrl.accountForm[key].$dirty) {
+               delta[key] = ctrl.account[key];
+            }
+         });
+
+         //Update account to the backend
+         RestService.update(ctrl.accountResource, delta)
+            .then(function () {
+               $log.debug('Account updated.');
+               Notification.success({
+                  title: 'Success',
+                  message: 'The account was updated.',
+               });
+               $state.go('list');
+            })
+            .catch(restServiceErrorHandler)
+            .finally(function () {
+               ctrl.working = false;
             });
-            $state.go('list');
-        })
-        .catch(restServiceErrorHandler)
-        .finally(function () {
-            ctrl.saving = false;
-        });
-    };
-
-    //Update account to the backend
-    ctrl.update = function update(event) {
-        RestService.update(ctrl.accountResource, event.account)
-        .then(function () {
-            $log.debug('Account updated.');
-            Notification.success({
-                title: 'Success',
-                message: 'The account was updated.',
+      } else {
+         // Save account to the backend
+         RestService.create('addUser', ctrl.account)
+            .then(function () {
+               $log.debug('Account created.');
+               Notification.success({
+                  title: 'Success',
+                  message: 'The account was created.',
+               });
+               $state.go('list');
+            })
+            .catch(restServiceErrorHandler)
+            .finally(function () {
+               ctrl.working = false;
             });
-            $state.go('list');
-        })
-        .catch(restServiceErrorHandler)
-        .finally(function () {
-            ctrl.saving = false;
-        });
-    };
+      }
+   };
 }
 
 angular

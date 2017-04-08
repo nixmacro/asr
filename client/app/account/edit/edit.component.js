@@ -2,6 +2,7 @@
 
 var edit = {
    bindings: {
+      rolesResource: '<',
       accountResource: '<'
    },
    templateUrl: 'app/account/edit/edit.html',
@@ -21,12 +22,18 @@ angular.module('components.account')
                id: null,
             },
             resolve: {
-               accountResource: function ($stateParams) {
+               accountResource: function editAccountResource($stateParams) {
                   if ($stateParams.account) {
                      return $stateParams.account;
                   } else {
                      return {};
                   }
+               },
+               rolesResource: function rolesResource(RestService) {
+                  return RestService.fetch('roles', {
+                     size: '10', index: '1'
+                  },
+                  '/admin')
                }
             }
          })
@@ -36,6 +43,14 @@ angular.module('components.account')
             component: 'edit',
             params: {
                accountResource: null
+            },
+            resolve: {
+               rolesResource: function rolesResource(RestService) {
+                  return RestService.fetch('roles', {
+                     size: '10', index: '1'
+                  },
+                  '/admin')
+               }
             }
          })
    });
