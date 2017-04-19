@@ -21,6 +21,6 @@ function AdminResourceBuilder(collection) {
 }
 
 angular
-   .module('components.account')
+   .module('components.admin.management')
    .factory('Account', AdminResourceBuilder('users'))
    .factory('Role', AdminResourceBuilder('roles'));

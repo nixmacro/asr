@@ -5,7 +5,7 @@ function AccountEditComponent(
    $state,
    $stateParams,
    $window,
-   RestService,
+   Account,
    Notification) {
 
    var ctrl = this;
@@ -16,17 +16,36 @@ function AccountEditComponent(
    // True when a background task (e.g. backend communication) is active.
    ctrl.working = false;
 
-   // Default tag
-   ctrl.roles = ctrl.rolesResource.$subs('roles');
-   ctrl.role = ctrl.roles[0];
+   ctrl.roles = [];
+
+   if (ctrl.rolesResource._embedded.roles) {
+      if (Array.isArray(ctrl.rolesResource._embedded.roles)) {
+         ctrl.roles = ctrl.rolesResource._embedded.roles;
+      } else {
+         ctrl.roles.push(ctrl.rolesResource._embedded.roles);
+      }
+      // Default tag
+      ctrl.role = ctrl.roles[0];
+   } else {
+      $log.debug('Role resource not found in server response.');
+      Notification.error({
+         title: 'Server Error',
+         message: 'Error found while talking to server. Details logged to the console.'
+      });
+      return;
+   }
 
    if (ctrl.editing) {
       // Prepare for editing
-      ctrl.account = angular.copy(ctrl.accountResource);
+      if (ctrl.accountResource._embedded) {
+         ctrl.account = ctrl.accountResource._embedded.users;
+      } else {
+         ctrl.account = angular.copy(ctrl.accountResource);
+      }
       ctrl.currentAction = 'Edit';
    } else {
       // Prepare for creating
-      ctrl.account = {};
+      ctrl.account = new Account();
       ctrl.currentAction = 'Create';
    }
 
@@ -34,41 +53,45 @@ function AccountEditComponent(
       ctrl.working = true;
 
       if (ctrl.editing) {
-         var delta = {};
-
-         // Save the changed fields to the delta object
-         Object.keys(ctrl.account).forEach(function (key) {
-            if (ctrl.accountForm[key] && ctrl.accountForm[key].$dirty) {
-               delta[key] = ctrl.account[key];
-            }
-         });
-
          //Update account to the backend
-         RestService.update(ctrl.accountResource, delta)
+         delete ctrl.account._links;
+         new Account(ctrl.account).$update()
             .then(function () {
                $log.debug('Account updated.');
                Notification.success({
                   title: 'Success',
                   message: 'The account was updated.',
                });
-               $state.go('list');
+               $state.go('admin.list');
             })
-            .catch(restServiceErrorHandler)
+            .catch(function (error) {
+               $log.debug(error);
+               Notification.error({
+                  title: 'Server Error',
+                  message: 'Error found while talking to server. Details logged to the console.'
+               });
+            })
             .finally(function () {
                ctrl.working = false;
             });
       } else {
          // Save account to the backend
-         RestService.create('addUser', ctrl.account)
+         ctrl.account.$save()
             .then(function () {
                $log.debug('Account created.');
                Notification.success({
                   title: 'Success',
                   message: 'The account was created.',
                });
-               $state.go('list');
+               $state.go('admin.list');
             })
-            .catch(restServiceErrorHandler)
+            .catch(function (error) {
+               $log.debug(error);
+               Notification.error({
+                  title: 'Server Error',
+                  message: 'Error found while talking to server. Details logged to the console.'
+               });
+            })
             .finally(function () {
                ctrl.working = false;
             });
@@ -77,5 +100,5 @@ function AccountEditComponent(
 }
 
 angular
-   .module('components.account')
+   .module('components.admin.management')
    .controller('AccountEditComponent', AccountEditComponent);

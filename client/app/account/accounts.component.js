@@ -9,11 +9,17 @@ var accounts = {
 };
 
 angular
-   .module('components.account')
+   .module('components.admin.management')
    .component('accounts', accounts)
    .config(function ($stateProvider) {
       $stateProvider
-         .state('list', {
+         .state('admin', {
+            abstract: 'true',
+            url: '/admin',
+            template: "<div data-ng-include=\"'components/navbar/navbar.html'\"></div>"
+                     + "<div ui-view></div>"
+         })
+         .state('admin.list', {
             authenticate: true,
             url: '/accounts?size&index',
             component: 'accounts',
@@ -22,7 +28,7 @@ angular
                size: '10'
             },
             resolve: {
-               accountsResource: function ($stateParams, Account) {
+               accountsResource: function accountsResource($stateParams, Account) {
                   return Account.query().$promise;
                }
             }

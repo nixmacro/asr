@@ -8,7 +8,7 @@ describe('Component: AccountsComponent', function() {
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function($componentController) {
-    AccountsComponent = $componentController('account', {});
+    AccountsComponent = $componentController('AccountsComponent', {});
   }));
 
   it('should ...', function() {

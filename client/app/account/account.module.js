@@ -1,22 +1,23 @@
 /**
  *
  * @ngdoc module
- * @name components.account
+ * @name components.admin.management
  *
  * @requires ui.router
  * @requires ui-notification
  * @requires ui.bootstrap
  * @requires ngMessages
+ * @requires ngResource
  *
  * @description
  *
- * This is the account module. It includes all the components for the account management feature.
+ * This is the admin management module. It includes all the components for the admin management feature.
  *
  */
 'use strict';
 
 angular
-   .module('components.account', [
+   .module('components.admin.management', [
       'ui.router',
       'ui-notification',
       'ui.bootstrap',

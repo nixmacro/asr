@@ -11,5 +11,5 @@ var account = {
 };
 
 angular
-   .module('components.account')
+   .module('components.admin.management')
    .component('account', account);

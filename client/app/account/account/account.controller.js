@@ -1,7 +1,7 @@
 function AccountComponent() {
    var ctrl = this;
 
-   ctrl.select = function(action) {
+   ctrl.select = function select(action) {
       var event = {
          $event: {
             account: ctrl.account
@@ -16,5 +16,5 @@ function AccountComponent() {
 }
 
 angular
-   .module('components.account')
+   .module('components.admin.management')
    .controller('AccountComponent', AccountComponent)

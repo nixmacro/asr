@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asrApp', [
-   'components.account',
+   'components.admin.management',
    'ngCookies',
    'ngResource',
    'ngSanitize',

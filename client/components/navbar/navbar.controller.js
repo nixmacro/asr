@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asrApp')
-.controller('NavbarCtrl', function ($scope, $location, Auth, $state, $stateParams, $moment, RestService) {
+.controller('NavbarCtrl', function ($scope, $location, Auth, $stateParams, $moment, RestService) {
    $scope.menu = [{
       'title': 'Users',
       'link': 'users'
@@ -12,9 +12,10 @@ angular.module('asrApp')
 
    $scope.adminMenu = [{
        'title': 'Accounts',
-       'target': 'list'
+       'parent': 'admin',
+       'target': 'admin.list'
    }];
-   
+
    $scope.endDate = $stateParams.end;
    $scope.startDate = $stateParams.start;
    $scope.tag = $stateParams.tag;
@@ -31,5 +32,5 @@ angular.module('asrApp')
 
    $scope.isActive = function(route) {
       return route === $location.path();
-   };   
+   };
 });

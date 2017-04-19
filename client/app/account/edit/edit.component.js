@@ -9,47 +9,41 @@ var edit = {
    controller: 'AccountEditComponent'
 };
 
-angular.module('components.account')
+angular.module('components.admin.management')
    .component('edit', edit)
    .config(function ($stateProvider) {
       $stateProvider
-         .state('edit', {
+         .state('admin.edit', {
             authenticate: true,
-            url: '/edit/:id',
+            url: '/accounts/:id/edit',
             component: 'edit',
             params: {
                account: null,
                id: null,
             },
             resolve: {
-               accountResource: function editAccountResource($stateParams) {
+               accountResource: function editAccountResource($stateParams, Account) {
                   if ($stateParams.account) {
                      return $stateParams.account;
                   } else {
-                     return {};
+                     return Account.get({ id: $stateParams.id}).$promise;
                   }
                },
-               rolesResource: function rolesResource(RestService) {
-                  return RestService.fetch('roles', {
-                     size: '10', index: '1'
-                  },
-                  '/admin')
+               rolesResource: function rolesResource(Role) {
+                  return Role.query().$promise;
                }
             }
          })
-         .state('create', {
+         .state('admin.create', {
             authenticate: true,
-            url: '/create',
+            url: '/accounts/new',
             component: 'edit',
             params: {
                accountResource: null
             },
             resolve: {
-               rolesResource: function rolesResource(RestService) {
-                  return RestService.fetch('roles', {
-                     size: '10', index: '1'
-                  },
-                  '/admin')
+               rolesResource: function rolesResource(Role) {
+                  return Role.query().$promise;
                }
             }
          })
