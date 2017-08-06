@@ -38,7 +38,7 @@
                <tr data-ng-repeat="user in ctrl.users">
                   <td data-ng-repeat="column in ctrl.columnNames">
                      <span data-ng-if="column === 'remote_user'">
-                        <a data-ui-sref="sites({user: user[column], start: ctrl.startDate, end: ctrl.endDate})"
+                        <a data-ui-sref="sites({user: user[column], start: ctrl.startDate, end: ctrl.endDate, tag: ctrl.tag})"
                            tooltip-placement="top" uib-tooltip="View user detail" tooltip-trigger>
                            <span class="fa fa-info-circle"></span>
                         </a>

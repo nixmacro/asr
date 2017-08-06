@@ -15,6 +15,7 @@ angular.module('asrApp')
       var self = this;
       self.startDate = $stateParams.start;
       self.endDate = $stateParams.end;
+      self.tag = $stateParams.tag;
       self.sort = $stateParams.sort;
       self.index = $stateParams.index;
       self.size = $stateParams.size;

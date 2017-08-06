@@ -38,7 +38,7 @@
                <tr data-ng-repeat="site in ctrl.sites">
                   <td data-ng-repeat="column in ctrl.columnNames">
                      <span data-ng-if="column === 'site'">
-                        <a data-ui-sref="users({site: site[column], start: ctrl.startDate, end: ctrl.endDate})"
+                        <a data-ui-sref="users({site: site[column], start: ctrl.startDate, end: ctrl.endDate, tag: ctrl.tag})"
                            tooltip-placement="top" uib-tooltip="View site detail" tooltip-trigger>
                            <span class="fa fa-info-circle"></span>
                         </a>
