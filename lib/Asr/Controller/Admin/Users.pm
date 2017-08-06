@@ -104,9 +104,14 @@ sub create {
    my $row;
    my $result = Data::HAL->new();
    my $rs = $self->schema->resultset('User');
+   my $role_rs = $self->schema->resultset('UserRole');
 
    try {
       $row = $rs->create($self->req->json);
+      $role_rs->create({
+         user_id => $row->id,
+         role_id => 0
+      });
    } catch (DBIx::Error::UniqueViolation $err) {
       $self->app->log->warn($err->message);
       return $self
@@ -150,7 +155,13 @@ sub update {
       $row = $rs->find($self->param('id'));
 
       if ($row) {
-         $row->set_columns($self->req->json);
+         $row->set_inflated_columns($self->req->json);
+
+         # Explicitly use the accessor so the password gets hashed
+         if ($self->req->json->{password}) {
+            $row->password($self->req->json->{password});
+         }
+
          $row->update;
       } else {
          return $self->reply->not_found;

@@ -5,6 +5,12 @@ use base 'Asr::Schema::Result';
 
 use Data::FormValidator;
 
+my $pbkdf2 = Crypt::PBKDF2->new(
+   encoding => 'crypt',
+   iterations => 10000,
+   salt_len => 5
+);
+
 __PACKAGE__->load_components(qw/
    Helper::Row::ToJSON
    Validation
@@ -64,13 +70,17 @@ __PACKAGE__->add_unique_constraints(
 __PACKAGE__->has_many(user_roles => 'Asr::Schema::Result::UserRole',{'foreign.user_id' => 'self.id'});
 __PACKAGE__->many_to_many(roles => 'user_roles', 'role');
 
+sub new {
+   my ($class, $attrs) = @_;
+
+   $attrs->{password} = $pbkdf2->generate($attrs->{password})
+      if exists $attrs->{password};
+
+   my $new = $class->next::method($attrs);
+}
+
 sub password {
    my $self = shift;
-   my $pbkdf2 = Crypt::PBKDF2->new(
-      encoding => 'crypt',
-      iterations => 10000,
-      salt_len => 5
-   );
 
    return $self->_password($pbkdf2->generate(shift)) if @_;
 
