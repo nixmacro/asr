@@ -1,6 +1,6 @@
 requires 'perl', '5.10.0';
 requires 'TryCatch', '1';
-requires 'App::Sqitch', '0.9994';
+requires 'App::Sqitch', '0';
 requires 'Crypt::PBKDF2', '0.161520',
 requires 'Data::FormValidator', '4.81';
 requires 'Data::Validate::IP', '0.26';
@@ -9,7 +9,7 @@ requires 'DateTime::Format::Pg', '0.16012';
 requires 'DBI', '1.636';
 requires 'DBIx::Error', '1.0.1';
 requires 'DBIx::Class', '0.082840';
-requires 'DBIx::Class::Helpers', '2.033000';
+requires 'DBIx::Class::Helpers', '2';
 requires 'DBIx::Class::Validation', '0.02005';
 requires 'DBD::Pg', '3.5.3';
 requires 'Data::HAL', '1.00';
