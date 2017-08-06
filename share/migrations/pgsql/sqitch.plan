@@ -16,3 +16,4 @@ tag-data [tag-table] 2016-08-08T16:10:27Z Carlos Ramos <carragom@gmail.com> # In
 user_site_hourly-table [tag-table] 2016-08-08T16:10:27Z Carlos Ramos <carragom@gmail.com> # Create user_site_hourly table.
 user_site_hourly-indexes [user_site_hourly-table] 2016-08-08T16:10:27Z Carlos Ramos <carragom@gmail.com> # Create user_site_hourly indexes.
 materialize_user_site_hourly-procedure [user_site_hourly-table access_log-table] 2016-08-08T16:10:27Z Carlos Ramos <carragom@gmail.com> # Create materialize_user_site_hourly procedure.
+alter-access_log-table [access_log-table] 2017-08-06T16:10:31Z Carlos Ramos,,, <cramos@athena-vm> # Drops not null constraint on access_log table.

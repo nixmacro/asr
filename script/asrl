@@ -8,6 +8,7 @@ use warnings;
 use Encode qw(decode);
 use Mojo::File;
 use Mojo::JSON 'decode_json';
+use Mojo::URL;
 use Data::Validate::IP qw(is_ipv4);
 use DateTime;
 use DateTime::Format::Pg;
@@ -142,7 +143,7 @@ EOF
     # skip those lines. Most common case is username with spaces
     unless(10 == scalar @data) {
         warn <<"EOF";
-Input line contains invalid number of fields (not 10), skipping
+Input line $. contains invalid number of fields (not 10), skipping
     Raw count=@{[scalar @data]}: $line
     Parsed count=@{[scalar @fields]}: @{[join('|',@fields)]}
 
@@ -159,7 +160,7 @@ $dbh->pg_putcopyend if (!$opts{'dry-run'});
 if ($opts{'materialize'} && !$opts{'dry-run'}) {
     my $yesterday = DateTime->now->subtract( days => 1 );
     $sth = $dbh->prepare('SELECT materialize_user_site_hourly(?,?)');
-    $sth->execute($opts{'keep-detail'},DateTime::Format::Pg->format_datetime($yesterday));
+    $sth->execute($opts{'keep-detail'}, DateTime::Format::Pg->format_datetime($yesterday));
     $sth->finish;
 }
 
@@ -168,7 +169,11 @@ $dbh->disconnect;
 sub process_data {
     my @data = @_;
     my @fields;
-    my ($host, $protocol, $port, $status);
+    my ($url, $s_url, $host, $status);
+    my %default_ports = (
+       'http' => 80,
+       'https' => 443,
+    );
 
     for (0 .. $#data) {
 
@@ -189,12 +194,14 @@ sub process_data {
         push(@fields,split(/\//,$data[$_])) and next if $_ == 3;
 
         if ($_ == 6) {
-            ($host, $protocol, $port) = &get_url_parts($data[5], $data[$_]);
-            push(@fields,$protocol);
-            push(@fields,$host);
-            push(@fields,&get_site($host));
-            push(@fields,$port);
-            push(@fields,$data[$_]);
+            # ($host, $protocol, $port) = &get_url_parts($data[5], $data[$_]);
+            $s_url = $fields[6] eq 'CONNECT' ? "https://$data[6]" : $data[6];
+            $url = Mojo::URL->new($s_url);
+            push(@fields, $url->protocol || '\N');
+            push(@fields, $url->host // '\N');
+            push(@fields, &get_site($url->host) // '\N');
+            push(@fields, $url->port // $default_ports{$url->protocol} // '\N');
+            push(@fields, $data[$_]);
             next;
         }
 
@@ -218,7 +225,7 @@ sub process_data {
 #separete the domain from the hostname this function is an educated guess, but it should
 #always return the same value for the same hostname
 sub get_site {
-    my $host = shift @_;
+    my $host = shift @_ // return undef;
     my @pieces = split(/\./, $host);
     my $num_pieces = @pieces;
     my @result;
@@ -292,8 +299,10 @@ sub get_url_parts {
         $protocol = $1;
         $tmp = $2;
         if ($tmp =~ /(.+?):(.+?)@(.+)/) {
+            #user:pass@host:port
             ($host, $port) = split(':',$3);
         } elsif ($tmp =~ /(.+):(\d+)/) {
+            #host:port
             ($host, $port) = split(':',$tmp);
         } else {
             $host = $tmp;
@@ -339,6 +348,10 @@ Prints help and exit.
 =item B<--safe|-s>
 
 Single database transaction. I<UNIMPLEMEMNTED>
+
+=item B<--tag|-t>
+
+Tag to associate this data to. Useful to separate different data source. For example when loading data from multiple servers.
 
 =item B<--progress|-p>
 
