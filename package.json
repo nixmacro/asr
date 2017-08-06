@@ -1,11 +1,10 @@
 {
   "name": "asr",
   "version": "2.0.0-beta1",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^6.0.0",
-    "grunt": "^1",
+    "grunt": "^1.0.1",
     "grunt-wiredep": "^3",
     "grunt-concurrent": "^2",
     "grunt-connect-proxy": "^0.2.0",
@@ -61,6 +60,7 @@
     "jasmine-core": "^2.3.4",
     "jasmine-spec-reporter": "^3.2.0",
     "phantomjs-prebuilt": "^2.1.4",
+    "eslint": "^4.4.0",
     "supertest": "^3.0.0"
   },
   "repository": {
