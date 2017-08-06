@@ -9,10 +9,17 @@ angular.module('asrApp')
 
       var self = this;
 
-      RestService.fetch('tags', { size: '10', index: '1' })
+      RestService.fetch('tags', { size: '25', index: '1' })
          .then(function (resource) {
             self.tags = resource.$subs('tags');
-            self.tag = $stateParams.tag ? self.tags[$stateParams.tag] : self.tags[0];
+
+            if ($stateParams.tag !== undefined) {
+                self.tag = self.tags.filter(function(tag) {
+                    return tag.id == $stateParams.tag;
+                })[0];
+            } else {
+                self.tag = self.tags[0];
+            }
          });
 
       self.endDate = $stateParams.end ? $moment($stateParams.end).toDate() :
