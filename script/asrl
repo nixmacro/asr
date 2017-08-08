@@ -158,7 +158,7 @@ EOF
 $dbh->pg_putcopyend if (!$opts{'dry-run'});
 
 if ($opts{'materialize'} && !$opts{'dry-run'}) {
-    my $yesterday = DateTime->now->subtract( days => 1 );
+    my $yesterday = DateTime->now(time_zone => 'local')->subtract(days => 1);
     $sth = $dbh->prepare('SELECT materialize_user_site_hourly(?,?)');
     $sth->execute($opts{'keep-detail'}, DateTime::Format::Pg->format_datetime($yesterday));
     $sth->finish;
