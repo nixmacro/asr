@@ -11,7 +11,7 @@ MYMETA*
 /pm_to_blib
 /.DS_Store
 /node_modules
-/public/*
+public/.htaccess
 /.tmp
 /.sass-cache
 /client/bower_components

@@ -1,0 +1,28 @@
+{
+  "name": "angular-hy-res",
+  "version": "0.0.34",
+  "keywords": [
+    "angular",
+    "hypermedia",
+    "hal"
+  ],
+  "main": [
+    "dist/angular-hy-res-full.js"
+  ],
+  "ignore": [],
+  "dependencies": {
+    "angular": "latest",
+    "hy-res": "0.0.26"
+  },
+  "devDependencies": {},
+  "homepage": "https://github.com/petejohanson/angular-hy-res",
+  "_release": "0.0.34",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.34",
+    "commit": "8e8557cf7b64566f0baf1b83c60abb8581e84112"
+  },
+  "_source": "https://github.com/petejohanson/angular-hy-res.git",
+  "_target": "^0.0.34",
+  "_originalSource": "angular-hy-res"
+}
